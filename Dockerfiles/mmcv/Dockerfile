@@ -29,8 +29,9 @@ COPY petrel-oss-python-sdk /tmp
 WORKDIR /tmp
 RUN python setup.py develop
 ADD openmmlab-ci/Dockerfiles/petreloss.conf /root/
+RUN rm -rf petrel-oss-python-sdk
 
 WORKDIR /opt/mmcv
 COPY . /opt/mmcv
 
-RUN MCV_WITH_ORT=1 MMCV_WITH_OPS=1 MMCV_WITH_TRT=1 python -m pip install --no-cache-dir -e .
+RUN MCV_WITH_ORT=1 MMCV_WITH_OPS=1 python -m pip install --no-cache-dir -e .
