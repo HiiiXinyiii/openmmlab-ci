@@ -25,11 +25,10 @@ RUN apt-get clean && apt-get remove --purge -y \
 RUN python -m pip install psutil protobuf Pillow==6.2.2
 
 # Install petrel oss sdk and petrel config file
-COPY /mnt/data1/jenkins/petrel-oss-python-sdk .
-WORKDIR /tmp/petrel-oss-python-sdk
-RUN python setup.py develop \
-    && rm -rf /tmp/petrel-oss-python-sdk
-ADD /mnt/data1/jenkins/petreloss.conf /
+COPY petrel-oss-python-sdk .
+RUN cd petrel-oss-python-sdk && python setup.py develop
+RUN rm -rf petrel-oss-python-sdk
+ADD Dockerfiles/petreloss.conf /
 
 WORKDIR /opt/mmcv
 COPY . /opt/mmcv
