@@ -24,11 +24,10 @@ RUN apt-get clean && apt-get remove --purge -y \
 # RUN python -m pip install torch==${TORCH} torchvision==${TORCHVERSION} -f https://download.pytorch.org/whl/torch_stable.html
 RUN python -m pip install psutil protobuf Pillow==6.2.2
 
-# Install petrel oss sdk and petrel config file
-COPY petrel-oss-python-sdk .
-RUN cd petrel-oss-python-sdk && python setup.py develop
-RUN rm -rf petrel-oss-python-sdk
-ADD Dockerfiles/petreloss.conf /
+# Install petrel oss sdk and petrel config file, make sure petrel-oss-python-sdk & openmmlab-ci exists
+COPY petrel-oss-python-sdk /tmp
+RUN python setup.py develop && rm -rf .
+ADD openmmlab-ci/Dockerfiles/petreloss.conf /
 
 WORKDIR /opt/mmcv
 COPY . /opt/mmcv
