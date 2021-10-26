@@ -2,8 +2,11 @@ ARG MMCV="ubuntu_1804_py_37_cuda_101_cudnn_7_torch_160"
 ARG MMCV_VERSION="v1.3.15"
 
 FROM ${MMCV}:${MMCV_VERSION}
+ARG HTTP_PROXY="http://172.16.1.135:3128"
 
 ENV TORCH_CUDA_ARCH_LIST="7.0"
+ENV HTTP_PROXY="HTTP_PROXY"
+ENV HTTPS_PROXY="$HTTP_PROXY"
 
 RUN apt-get clean && apt-get remove --purge -y \
     && rm -rf /var/lib/apt/lists/*
