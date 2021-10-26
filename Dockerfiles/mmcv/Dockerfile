@@ -24,6 +24,13 @@ RUN apt-get clean && apt-get remove --purge -y \
 # RUN python -m pip install torch==${TORCH} torchvision==${TORCHVERSION} -f https://download.pytorch.org/whl/torch_stable.html
 RUN python -m pip install psutil protobuf Pillow==6.2.2
 
+# Install petrel oss sdk and petrel config file
+COPY /mnt/data1/jenkins/petrel-oss-python-sdk .
+WORKDIR /tmp/petrel-oss-python-sdk
+RUN python setup.py develop \
+    && rm -rf /tmp/petrel-oss-python-sdk
+ADD /mnt/data1/jenkins/petreloss.conf /
+
 WORKDIR /opt/mmcv
 COPY . /opt/mmcv
 
