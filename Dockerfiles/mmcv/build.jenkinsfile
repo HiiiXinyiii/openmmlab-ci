@@ -1,0 +1,78 @@
+pipeline {
+    agent {
+        label 'kind=build'
+    }
+    
+    options {
+        timestamps()
+    }
+    
+    parameters{
+        string defaultValue: 'main', description: 'test repo branch <eg. master>', name: 'TEST_GIT_BRANCH', trim: true
+        choice choices: ['branch', 'tag'], description: 'git branch or git tag version to build', name: 'GIT_KEY'
+        string defaultValue: 'master', description: 'repo branch <eg. master> or git tag veresion value <eg. v1.3.16>', name: 'GIT_VALUE', trim: true
+    }
+    
+    environment {
+        HTTP_PROXY = "http://172.16.1.135:3128/"
+        HTTPS_PROXY = "http://172.16.1.135:3128/"
+        REGISTRY_NAME = "registry.sensetime.com"
+        REPO_NAME = "mmcv"
+        RELEASE_IMAGE_TYPE = "release"
+        IMAGE_1 = "ubuntu_1804_py_37_cuda_101_cudnn_7_torch_160"
+        IMAGE_2 = "ubuntu_1804_py_39_cuda_111_cudnn_8_torch_190"
+        SDK_NAME = "petrel-oss-python-sdk"
+        CI_NAME = "openmmlab-ci"
+    }
+    
+    stages {
+        stage('Git checkout') {
+            steps {
+                dir('mmcv') {
+                    retry(3) {
+                        script {
+                            def value = "${params.GIT_VALUE}"
+                            if ("${params.GIT_KEY}" == "tag") {
+                                value = "refs/tags/${params.GIT_VALUE}"
+                            }
+                            checkout([$class: 'GitSCM', branches: [[name: "$value"]], extensions: [[$class: 'CloneOption', shallow: false, depth: 0, reference: '']], userRemoteConfigs: [[credentialsId: 'github', url: 'https://github.com/open-mmlab/mmcv.git']]])
+                            checkout([$class: 'GitSCM', branches: [[name: "${params.TEST_GIT_BRANCH}"]], extensions: [[$class: 'CloneOption', shallow: false, depth: 0, reference: ''], [$class: 'RelativeTargetDirectory', relativeTargetDir: "${CI_NAME}"]], userRemoteConfigs: [[credentialsId: 'github', url: 'https://github.com/del-zhenwu/openmmlab-ci.git']]])
+                            sh 'cp -r $ROOT_PATH/$SDK_NAME .'
+                        }
+                    }
+                }
+            }
+        }
+        stage('Build image') {
+            steps {
+                dir('mmcv') {
+                    script {
+                        sh 'cp ${CI_NAME}/Dockerfiles/${REPO_NAME}/Dockerfile Dockerfile'
+                        sh """
+                            docker build -t ${IMAGE_1} --build-arg PYTORCH=1.6.0 .
+                            docker build -t ${IMAGE_2} --build-arg PYTORCH=1.9.0 --build-arg CUDA=11.1 --build-arg CUDNN=8 --build-arg PYTHON=3.9 .
+                        """
+                    }
+                }
+            }
+        }
+        stage('Publish image') {
+            steps {
+                dir('mmcv') {
+                    script {
+                        def date = sh(returnStdout: true, script: 'date +%Y%m%d').trim()
+                        def image_name = "$REGISTRY_NAME/$REPO_NAME"
+                        def post_tag = "_${params.GIT_VALUE}:$date"
+                        if ("${params.GIT_KEY}" == "tag") {
+                            post_tag = "_release:${params.GIT_VALUE}"
+                        }
+                        sh """
+                            docker tag ${IMAGE_1} ${image_name}/${IMAGE_1}${post_tag} && docker push ${image_name}/${IMAGE_1}${post_tag}
+                            docker tag ${IMAGE_2} ${image_name}/${IMAGE_2}${post_tag} && docker push ${image_name}/${IMAGE_2}${post_tag}
+                        """
+                    }
+                }
+            }
+        }
+    }
+}
