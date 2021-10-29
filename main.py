@@ -152,7 +152,7 @@ if __name__ == '__main__':
     args = arg_parser.parse_args()
 
     job_yaml = args.job_yaml
-    job_name = args.job_name
+    job_name = args.job_name.replace("_", "-")
     namespace = args.namespace
     image_name = args.image_name
     cmd = args.cmd
