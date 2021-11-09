@@ -1,0 +1,53 @@
+pipeline {
+    agent {
+        label 'kind=windows'
+    }
+    
+    options {
+        timestamps()
+        ansiColor('xterm')
+    }
+    
+    parameters{
+        string defaultValue: 'main', description: 'test repo branch <eg. master>', name: 'TEST_GIT_BRANCH', trim: true
+        string defaultValue: 'v1.3.16', description: 'repo tag', name: 'REPO_TAG', trim: true
+        string defaultValue: 'cuda102', description: 'cuda version', name: 'CUDA', trim: true
+        string defaultValue: 'py38', description: 'python version', name: 'PYTHON', trim: true
+    }
+    
+    environment {
+        REGISTRY_NAME = "registry.sensetime.com"
+        REPO_NAME = "mmcv"
+        IMAGE_TYPE = "release"
+        CI_NAME = "openmmlab-ci"
+    }
+    
+    stages {
+        stage('Git checkout') {
+            steps {
+                dir('mmcv') {
+                    script {
+                        checkout([$class: 'GitSCM', branches: [[name: "refs/tags/${params.REPO_TAG}"]], extensions: [[$class: 'CloneOption', shallow: false, depth: 0, reference: '']], userRemoteConfigs: [[credentialsId: 'github', url: 'https://github.com/open-mmlab/mmcv.git']]])
+                        checkout([$class: 'GitSCM', branches: [[name: "${params.TEST_GIT_BRANCH}"]], extensions: [[$class: 'CloneOption', shallow: false, depth: 0, reference: ''], [$class: 'RelativeTargetDirectory', relativeTargetDir: "${CI_NAME}"]], userRemoteConfigs: [[credentialsId: 'github', url: 'https://github.com/del-zhenwu/openmmlab-ci.git']]])
+                    }
+                }
+            }
+        } 
+        
+        stage('Build mmcv') {
+            steps {
+                dir('mmcv') {
+                    script {
+                        powershell returnStatus: true, script: '.\\openmmlab-ci\\Windows\\mmcv\\build.ps1 -cuda $CUDA -python $PYTHON'
+                    }
+                }
+            }
+        }
+    }
+    
+    post {
+        always {
+            cleanWs()
+        }
+    }
+}
