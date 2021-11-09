@@ -1,11 +1,17 @@
 param($cuda)
 
 conda activate $cuda
+if ($LASTEXITCODE -ne 0) {
+    return $LASTEXITCODE
+}
 pip install -r requirements.txt
+if ($LASTEXITCODE -ne 0) {
+    return $LASTEXITCODE
+}
 $cuda_home = "v10.2"
-if('101' -eq $cuda) {
+if ('101' -eq $cuda) {
     $cuda_home = "v10.1"
-} else if ('111' -eq $cuda) {
+} elseif ('111' -eq $cuda) {
     $cuda_home = "v11.1"
 }
 $env:CUDA_HOME = "C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\$cuda_home"
@@ -15,3 +21,6 @@ $env:TORCH_CUDA_ARCH_LIST="6.1"
 python setup.py build_ext
 python setup.py develop
 pip list
+if ($LASTEXITCODE -ne 0) {
+    return $LASTEXITCODE
+}
