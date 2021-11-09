@@ -1,6 +1,6 @@
-param($cuda)
+param($cuda, $python)
 
-conda activate $cuda
+conda activate $cuda_$python
 if ($LASTEXITCODE -ne 0) {
     return $LASTEXITCODE
 }
