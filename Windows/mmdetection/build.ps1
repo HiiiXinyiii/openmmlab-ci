@@ -14,7 +14,7 @@ function Get-MMCV() {
     try {
         $cur_mmcv = [regex]::split($cur_mmcv_line, ",|\s+")[1]
         Write-Host $cur_mmcv
-        if ($cur_mmcv -ne $mmcv) {
+        if ("v"$cur_mmcv -ne $mmcv) {
             Write-Host "$cur_mmcv is not euqal to $mmcv"
         }
         return $cur_mmcv
