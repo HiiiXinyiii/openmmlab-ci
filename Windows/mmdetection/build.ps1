@@ -1,7 +1,7 @@
 param($cuda, $python, $mmcv)
 Write-Host "$cuda, $python, $mmcv"
 
-conda activate $cuda_$python
+conda activate "$cuda_$python"
 if ($LASTEXITCODE -ne 0) {
     return $LASTEXITCODE
 }
