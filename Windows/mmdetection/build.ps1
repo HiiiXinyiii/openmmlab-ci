@@ -35,3 +35,4 @@ function InstallPackage() {
 
 Get-MMCV $mmcv
 InstallPackage
+return $LASTEXITCODE
