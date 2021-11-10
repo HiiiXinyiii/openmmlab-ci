@@ -1,6 +1,7 @@
 param($cuda, $python)
 
-conda activate $cuda_$python
+$conda_env = $cuda+"_"+$python
+conda activate $conda_env
 if ($LASTEXITCODE -ne 0) {
     return $LASTEXITCODE
 }
