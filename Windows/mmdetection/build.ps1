@@ -39,6 +39,7 @@ function Get-MMCV() {
 
 function InstallPackage() {
     pip uninstall -y mmdet
+    pip install ninja
     pip install -r .\requirements\/build.txt
     if ($LASTEXITCODE -ne 0) {
         Write-Host "Install package failed"
