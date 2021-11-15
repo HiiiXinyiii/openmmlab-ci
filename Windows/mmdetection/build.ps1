@@ -41,7 +41,7 @@ function Get-MMCV() {
         return $cur_mmcv
     }
     catch {
-        Write-Host "Get mmcv version failed"
+        Write-Host "Get mmcv version failed."
         # TODO: Install mmcv
         throw;
     }
@@ -58,12 +58,22 @@ function InstallPackage() {
     Write-Host "Install build.txt successfully."
     python .\setup.py develop
     if ($LASTEXITCODE -ne 0) {
-        Write-Host "Install package failed"
+        Write-Host "Install package failed."
         throw;
     }
+    Write-Host "Install package successfully."
     pip list
+}
+
+function Verify() {
+    ptyhon verify.py
+    if ($LASTEXITCODE -ne 0) {
+        Write-Host "Verify failed."
+        throw;
+    }
 }
 
 Get-MMCV $mmcv
 InstallPackage
+Verify
 return $LASTEXITCODE
