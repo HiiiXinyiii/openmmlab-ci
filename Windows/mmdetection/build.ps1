@@ -66,8 +66,8 @@ function InstallPackage() {
 }
 
 function Verify() {
-    Set-Location -Path $MyInvocation.MyCommand.Path
-    python .\verify.py
+    $path = (Get-Item .).FullName
+    python "$path\verify.py"
     if ($LASTEXITCODE -ne 0) {
         Write-Host "Verify failed."
         throw;
