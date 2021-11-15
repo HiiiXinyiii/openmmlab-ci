@@ -2,9 +2,17 @@ param($cuda, $python, $mmcv)
 Write-Host "$cuda, $python, $mmcv"
 
 $conda_env = $cuda+"_"+$python
-conda activate $conda_env
+# conda activate $conda_env
+$tmp_env = "mmdet_tmp_"+$conda_env
+
+conda create -n $tmp_env --clone $tmp_env
+conda activate tmp_env
 if ($LASTEXITCODE -ne 0) {
     return $LASTEXITCODE
+}
+
+function tearDownWithFail() {
+    conda env remove -n $tmp_env
 }
 
 function Get-MMCV() {
@@ -32,6 +40,10 @@ function Get-MMCV() {
 function InstallPackage() {
     pip uninstall -y mmdet
     pip install -r .\requirements\/build.txt
+    if ($LASTEXITCODE -ne 0) {
+        Write-Host "Install package failed"
+        throw;
+    }
     python .\setup.py develop
     if ($LASTEXITCODE -ne 0) {
         Write-Host "Install package failed"
