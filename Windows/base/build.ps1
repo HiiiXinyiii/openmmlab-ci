@@ -1,7 +1,16 @@
 param($cuda, $python, $torch)
 
-$conda_env = $cuda+"_"+$python+"_torch"+$torch
 Write-Host "$cuda, $python, $torch"
+$conda_env = SetCondaEnvName $cuda, $python, $torch
+
+function SetCondaEnvName() {
+    param (
+        [string] $cuda,
+        [string] $python,
+        [string] $torch
+    )
+    return $cuda+"_"+$python+"_torch"+$torch
+}
 
 function GetTorchVision() {
     param (
@@ -69,13 +78,13 @@ function InstallTorch () {
 function CondaInstall() {
     $torchVision = GetTorchVision $torch
     $cudaValue = GetCudaValue $cuda
-    $cuda_home = "v"+$cudaValue
+    $cudaHome = "v"+$cudaValue
     conda create -y -n $conda_env
     conda activate $conda_env
     if ($LASTEXITCODE -ne 0) {
         return $LASTEXITCODE
     }
-    $env:CUDA_HOME = "C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\$cuda_home"
+    $env:CUDA_HOME = "C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\$cudaHome"
     $env:MMCV_WITH_OPS = 1
     $env:MAX_JOBS = 8
     $env:TORCH_CUDA_ARCH_LIST="6.1"
