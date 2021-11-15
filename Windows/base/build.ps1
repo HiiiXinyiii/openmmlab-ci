@@ -56,12 +56,12 @@ function InstallTorch () {
         [string] $torchVision
     )
     if ("cpu" -ne $cuda) {
-        conda install -y torch==$torch torchvision=$torchVision cudatoolkit=$cudaValue -c torch
+        conda install -y pytorch==$torch torchvision=$torchVision cudatoolkit=$cudaValue -c torch
     } else {
-        conda install -y torch==$torch torchvision=$torchVision cpuonly -c torch
+        conda install -y pytorch==$torch torchvision=$torchVision cpuonly -c torch
     }
     if ($LASTEXITCODE -ne 0) {
-        Write-Host "torch install failed."
+        Write-Host "Torch install failed."
         throw;
     }
 }
