@@ -1,6 +1,6 @@
 param($cuda, $python, $torch)
 
-$conda_env = $cuda+"_"+$python+"_"+$torch
+$conda_env = $cuda+"_"+$python+"_torch"+$torch
 Write-Host "$cuda, $python, $torch"
 
 function GetTorchVision() {
@@ -52,10 +52,11 @@ function GetCudaValue() {
 function InstallTorch () {
     param (
         [string] $cuda,
+        [string] $cudaValue,
         [string] $torchVision
     )
     if ("cpu" -ne $cuda) {
-        conda install -y torch==$torch torchvision=$torchVision cudatoolkit=$cuda -c torch
+        conda install -y torch==$torch torchvision=$torchVision cudatoolkit=$cudaValue -c torch
     } else {
         conda install -y torch==$torch torchvision=$torchVision cpuonly -c torch
     }
@@ -78,7 +79,7 @@ function CondaInstall() {
     $env:MMCV_WITH_OPS = 1
     $env:MAX_JOBS = 8
     $env:TORCH_CUDA_ARCH_LIST="6.1"
-    InstallTorch $cuda, $torchVision
+    InstallTorch $cuda, $cudaValue, $torchVision
     pip install -y "$PSScriptRoot\requirements.txt"
     conda deactivate $conda_env
 }
