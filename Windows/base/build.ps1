@@ -29,7 +29,7 @@ function GetCudaValue() {
     if ('cuda100' -eq $cuda) {
         $cudaValue = "10.0"
     } elseif ('cuda101' -eq $cuda) {
-        $cuda$cudaValue = "10.1"
+        $cudaValue = "10.1"
     } elseif ('cuda102' -eq $cuda) {
         $cudaValue = "10.2"
     } elseif ('cuda110' -eq $cuda) {
