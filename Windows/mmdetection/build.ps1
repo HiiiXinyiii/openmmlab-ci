@@ -1,9 +1,9 @@
-param($cuda, $python, $mmcv)
-Write-Host "$cuda, $python, $mmcv"
+param($cuda, $python, $mmcv, $mmdetection)
+Write-Host "$cuda, $python, $mmcv, $mmdetection"
 
 $conda_env = $cuda+"_"+$python
 # conda activate $conda_env
-$tmp_env = "mmdet_tmp_"+$conda_env
+$tmp_env = $mmdetection+"_"+$conda_env
 
 conda create -y -n $tmp_env --clone $conda_env
 conda activate $tmp_env
