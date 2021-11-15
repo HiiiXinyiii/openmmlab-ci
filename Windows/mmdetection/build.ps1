@@ -12,7 +12,7 @@ if ($LASTEXITCODE -ne 0) {
 }
 
 function tearDownWithFail() {
-    conda env remove -n $tmp_env
+    conda env remove -n $tmp_env -y
 }
 
 function Get-MMCV() {
