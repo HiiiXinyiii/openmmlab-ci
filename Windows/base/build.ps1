@@ -81,7 +81,7 @@ function CondaInstall() {
     $env:TORCH_CUDA_ARCH_LIST="6.1"
     InstallTorch $cuda, $cudaValue, $torchVision
     pip install -r "$PSScriptRoot\requirements.txt"
-    conda deactivate $conda_env
+    conda deactivate
 }
 
 CondaInstall
