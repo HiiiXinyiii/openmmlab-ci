@@ -80,7 +80,7 @@ function CondaInstall() {
     $env:MAX_JOBS = 8
     $env:TORCH_CUDA_ARCH_LIST="6.1"
     InstallTorch $cuda, $cudaValue, $torchVision
-    pip install -y "$PSScriptRoot\requirements.txt"
+    pip install -r "$PSScriptRoot\requirements.txt"
     conda deactivate $conda_env
 }
 
