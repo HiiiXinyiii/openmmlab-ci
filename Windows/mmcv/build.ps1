@@ -1,6 +1,7 @@
 param($cuda, $python, $torch, $mmcv)
 Write-Host "$cuda, $python, $torch, $mmcv"
-. ".\base\build.ps1"
+$script = "$PSScriptRoot\..\base\build.ps1"
+. "$script"
 
 $baseCondaEnv = SetCondaEnvName $cuda, $python, $torch
 $tmpEnv = "mmcv"+$mmcv+"_"+$baseCondaEnv
