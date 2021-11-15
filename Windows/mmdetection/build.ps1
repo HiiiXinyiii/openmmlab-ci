@@ -66,7 +66,7 @@ function InstallPackage() {
 }
 
 function Verify() {
-    ptyhon verify.py
+    python verify.py
     if ($LASTEXITCODE -ne 0) {
         Write-Host "Verify failed."
         throw;
