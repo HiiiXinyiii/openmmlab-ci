@@ -14,4 +14,4 @@ device = 'cuda:0'
 # init a detector
 model = init_detector(config_file, checkpoint_file, device=device)
 # inference the demo image
-inference_detector(model, 'demo/demo.jpg')
+print(inference_detector(model, 'demo/demo.jpg'))
