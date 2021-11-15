@@ -16,6 +16,10 @@ function GetTorchVersion() {
         $torchVersion = "0.8.2"
     } elseif ('1.8.0' -eq $torch) {
         $torchVersion = "0.9.0"
+    } elseif ('1.9.0' -eq $torch) {
+        $torchVersion = "0.10.0"
+    } elseif ('1.10.0' -eq $torch) {
+        $torchVersion = "0.11.1"
     } else {
         Write-Host "Not supported"
         throw;
