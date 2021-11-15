@@ -3,9 +3,9 @@ param($cuda, $python, $pytorch)
 $conda_env = $cuda+"_"+$python+"_"+$pytorch
 Write-Host "$cuda, $python, $pytorch"
 
-function GetTorchVersion(
+function GetTorchVersion() {
     param [string] $pytorch
-) {
+
     $pytorchVersion = "0.7.0"
     if ('1.6.0' -eq $pytorch) {
         $pytorchVersion = "0.7.0"
@@ -22,9 +22,9 @@ function GetTorchVersion(
     return $pytorchVersion
 }
 
-function GetCudaValue(
+function GetCudaValue() {
     param [string] $cuda
-) {
+
     $cudaValue = ""
     if ('cuda100' -eq $cuda) {
         $cudaValue = "10.0"
@@ -43,9 +43,9 @@ function GetCudaValue(
     return $cudaValue
 }
 
-function InstallPytorch (
+function InstallPytorch () {
     param [string] $cudaValue
-) {
+
     if ("cpu" -ne $cudaValue) {
         conda install -y pytorch==$pytorch pytorchvision=$pytorchVersion cudatoolkit=$cudaValue -c pytorch
     } else {
