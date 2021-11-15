@@ -32,6 +32,10 @@ function Get-MMCV() {
 function InstallPackage() {
     pip install -r .\requirements\/build.txt
     python .\setup.py develop
+    if ($LASTEXITCODE -ne 0) {
+        Write-Host "Install package failed"
+        throw;
+    }
     pip list
 }
 
