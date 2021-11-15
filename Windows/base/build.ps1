@@ -1,26 +1,26 @@
-param($cuda, $python, $pytorch)
+param($cuda, $python, $torch)
 
-$conda_env = $cuda+"_"+$python+"_"+$pytorch
-Write-Host "$cuda, $python, $pytorch"
+$conda_env = $cuda+"_"+$python+"_"+$torch
+Write-Host "$cuda, $python, $torch"
 
 function GetTorchVersion() {
     param (
-        [string] $pytorch
+        [string] $torch
     )
-    $pytorchVersion = "0.7.0"
-    if ('1.6.0' -eq $pytorch) {
-        $pytorchVersion = "0.7.0"
-    } elseif ('1.7.0' -eq $pytorch) {
-        $pytorchVersion = "0.8.0"
-    } elseif ('1.7.1' -eq $pytorch) {
-        $pytorchVersion = "0.8.2"
-    } elseif ('1.8.0' -eq $pytorch) {
-        $pytorchVersion = "0.9.0"
+    $torchVersion = "0.7.0"
+    if ('1.6.0' -eq $torch) {
+        $torchVersion = "0.7.0"
+    } elseif ('1.7.0' -eq $torch) {
+        $torchVersion = "0.8.0"
+    } elseif ('1.7.1' -eq $torch) {
+        $torchVersion = "0.8.2"
+    } elseif ('1.8.0' -eq $torch) {
+        $torchVersion = "0.9.0"
     } else {
         Write-Host "Not supported"
         throw;
     }
-    return $pytorchVersion
+    return $torchVersion
 }
 
 function GetCudaValue() {
@@ -45,17 +45,17 @@ function GetCudaValue() {
     return $cudaValue
 }
 
-function InstallPytorch () {
+function Installtorch () {
     param (
         [string] $cudaValue
     )
     if ("cpu" -ne $cudaValue) {
-        conda install -y pytorch==$pytorch pytorchvision=$pytorchVersion cudatoolkit=$cudaValue -c pytorch
+        conda install -y torch==$torch torchvision=$torchVersion cudatoolkit=$cudaValue -c torch
     } else {
-        conda install -y pytorch==$pytorch pytorchvision=$pytorchVersion cpuonly -c pytorch
+        conda install -y torch==$torch torchvision=$torchVersion cpuonly -c torch
     }
     if ($LASTEXITCODE -ne 0) {
-        Write-Host "Pytorch install failed."
+        Write-Host "torch install failed."
         throw;
     }
 }
@@ -68,7 +68,7 @@ function CondaInstall() {
     if ($LASTEXITCODE -ne 0) {
         return $LASTEXITCODE
     }
-    $pytorchVersion = GetTorchVersion $cudaValue
+    $torchVersion = GetTorchVersion $cudaValue
     $env:CUDA_HOME = "C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\$cuda_home"
     $env:MMCV_WITH_OPS = 1
     $env:MAX_JOBS = 8
