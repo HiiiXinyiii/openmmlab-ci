@@ -30,6 +30,7 @@ function Get-MMCV() {
 }
 
 function InstallPackage() {
+    pip uninstall -y mmdet
     pip install -r .\requirements\/build.txt
     python .\setup.py develop
     if ($LASTEXITCODE -ne 0) {
