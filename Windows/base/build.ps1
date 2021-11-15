@@ -51,7 +51,7 @@ function GetCudaValue() {
 
 function InstallTorch () {
     param (
-        [string] $cuda
+        [string] $cuda,
         [string] $torchVision
     )
     if ("cpu" -ne $cuda) {
