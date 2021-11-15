@@ -66,8 +66,8 @@ function InstallPackage() {
 }
 
 function Verify() {
-    $path = (Get-Item .).FullName
-    python "$path\verify.py"
+    # $path = (Get-Item .).FullName
+    python "$PSScriptRoot\verify.py"
     if ($LASTEXITCODE -ne 0) {
         Write-Host "Verify failed."
         throw;

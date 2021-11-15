@@ -8,6 +8,7 @@ checkpoint_file = "faster_rcnn_r50_fpn_1x_coco_20200130-047c8118.pth"
 url = "https://download.openmmlab.com/mmdetection/v2.0/faster_rcnn/faster_rcnn_r50_fpn_1x_coco/"+checkpoint_file
 if not os.path.exists(checkpoint_file):
     r = requests.get(url)
+    print("Start downloading checkpoint file")
     open(checkpoint_file, 'wb').write(r.content)
 device = 'cuda:0'
 # init a detector
