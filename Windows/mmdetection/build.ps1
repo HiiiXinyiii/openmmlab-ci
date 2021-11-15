@@ -5,7 +5,7 @@ $conda_env = $cuda+"_"+$python
 # conda activate $conda_env
 $tmp_env = "mmdet_tmp_"+$conda_env
 
-conda create -n $tmp_env --clone $tmp_env
+conda create -n $tmp_env --clone $conda_env
 conda activate tmp_env
 if ($LASTEXITCODE -ne 0) {
     return $LASTEXITCODE
