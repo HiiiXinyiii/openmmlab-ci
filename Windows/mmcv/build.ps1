@@ -1,6 +1,6 @@
 param($cuda, $python, $torch, $mmcv)
 Write-Host "$cuda, $python, $torch, $mmcv"
-. "..\base\build.ps1"
+. ".\base\build.ps1"
 
 $baseCondaEnv = SetCondaEnvName $cuda, $python, $torch
 $tmpEnv = "mmcv"+$mmcv+"_"+$baseCondaEnv
