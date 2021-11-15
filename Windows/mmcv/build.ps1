@@ -10,9 +10,9 @@ if ($LASTEXITCODE -ne 0) {
     return $LASTEXITCODE
 }
 $cuda_home = "v10.2"
-if ('101' -eq $cuda) {
+if ('cuda101' -eq $cuda) {
     $cuda_home = "v10.1"
-} elseif ('111' -eq $cuda) {
+} elseif ('cuda111' -eq $cuda) {
     $cuda_home = "v11.1"
 }
 $env:CUDA_HOME = "C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\$cuda_home"
