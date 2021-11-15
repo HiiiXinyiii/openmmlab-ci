@@ -44,6 +44,7 @@ function InstallPackage() {
         Write-Host "Install package failed"
         throw;
     }
+    Write-Host "Install build.txt successfully."
     python .\setup.py develop
     if ($LASTEXITCODE -ne 0) {
         Write-Host "Install package failed"
