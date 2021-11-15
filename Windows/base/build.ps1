@@ -65,6 +65,7 @@ function Installtorch () {
 }
 
 function CondaInstall() {
+    $torchVersion = GetTorchVersion $cuda
     $cudaValue = GetCudaValue $cuda
     $cuda_home = "v"+$cudaValue
     conda create -y -n $conda_env
@@ -72,7 +73,6 @@ function CondaInstall() {
     if ($LASTEXITCODE -ne 0) {
         return $LASTEXITCODE
     }
-    $torchVersion = GetTorchVersion $cudaValue
     $env:CUDA_HOME = "C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\$cuda_home"
     $env:MMCV_WITH_OPS = 1
     $env:MAX_JOBS = 8
