@@ -9,7 +9,7 @@ $tmpEnv = "mmcv"+$mmcv+"_"+$baseCondaEnv
 
 function CondaInstall() {
     conda env remove -y -n $tmpEnv
-    pip uninstall -y mmcv-full
+    pip uninstall -y mmcv-full mmcv
     conda create -y -n $tmpEnv --clone $baseCondaEnv
     conda activate $tmpEnv
     if ($LASTEXITCODE -ne 0) {
