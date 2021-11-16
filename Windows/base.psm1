@@ -61,7 +61,7 @@ function GetPythonValue() {
         [string] $python
     )
     $pythonValue = "python"
-    $value = $python.Replace("[^0-9]", '')
+    $value = $python.replace("[^0-9]", '')
     Write-Host "$value"
     $pythonValue = $pythonValue + $value.Insert(1, ".")
     return $pythonValue
