@@ -60,11 +60,11 @@ function GetPythonValue() {
     param (
         [string] $python
     )
+    $tmp = $python
     $prefix = "python="
-    If ($python -match '^\D*(\d{2}).*$') {
+    If ($tmp -match '^\D*(\d{2}).*$') {
         "{0}" -f $Matches[1]
     }
-    Write-Host "$Matches[1]"
     $pythonValue = $prefix + $Matches[1].Insert(1, ".")
     Write-Host "$pythonValue"
     return $pythonValue
