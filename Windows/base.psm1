@@ -56,6 +56,16 @@ function GetCudaValue() {
     return $cudaValue
 }
 
+function GetPythonValue() {
+    param (
+        [string] $python
+    )
+    $pythonValue = "python"
+    $value = $python - replace "[^0-9]", ''
+    $pythonValue = $pythonValue + $value.Insert(1, ".")
+    return $pythonValue
+}
+
 function InstallTorch () {
     param (
         [string] $cuda,

@@ -11,7 +11,9 @@ function CondaInstall() {
         $torchVision = GetTorchVision $torch
         $cudaValue = GetCudaValue $cuda
         SetCudaHome $cuda
-        conda create -y -n $condaEnv
+        $pythonValue = GetPythonValue $python
+        Write-Host "python: $pythonValue"
+        conda create -y -n $condaEnv $pythonValue
         conda activate $condaEnv
         if ($LASTEXITCODE -ne 0) {
             return $LASTEXITCODE
