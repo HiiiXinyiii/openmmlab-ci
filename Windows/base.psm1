@@ -67,7 +67,7 @@ function GetPythonValue() {
     }
     $pythonValue = $prefix + $Matches[1].Insert(1, ".")
     Write-Host "$pythonValue"
-    Write-Host "$python
+    Write-Host "$python"
     return $pythonValue
 }
 
