@@ -12,6 +12,7 @@ function CondaInstall() {
         $cudaValue = GetCudaValue $cuda
         SetCudaHome $cuda
         $pythonValue = GetPythonValue $python
+        Write-Host "$pythonValue"
         conda create -y -n $condaEnv $pythonValue
         conda activate $condaEnv
         if ($LASTEXITCODE -ne 0) {
