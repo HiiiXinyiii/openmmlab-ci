@@ -6,7 +6,7 @@ Import-Module $scriptDir\..\base.psm1
 Write-Host "$cuda, $python, $torch, $mmcv, $mmdetection"
 $baseCondaEnv = SetCondaEnvName $cuda $python $torch
 $mmcvEnv = "mmcv"+$mmcv+"_"+$baseCondaEnv
-$tmpEnv = "mmdet"$mmcvEnv
+$tmpEnv = "mmdet"+$mmcvEnv
 
 function Get-MMCV() {
     param(
