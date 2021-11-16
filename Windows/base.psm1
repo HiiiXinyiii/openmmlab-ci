@@ -63,14 +63,23 @@ function GetPythonValue() {
         [string] $python
     )
 
-    $tmp = $python
-    If ($tmp -match '^\D*(\d{2}).*$') {
-        "{0}" -f $Matches[1]
+    # TODO: value changed after returned
+    # $tmp = $python
+    # If ($tmp -match '^\D*(\d{2}).*$') {
+    #     "{0}" -f $Matches[1]
+    # }
+    # $value = $Matches[1].Insert(1, ".")
+    if ("py37" -eq $python) {
+        $value = "3.7"
+    } elseif ("py38" -eq $python) {
+        $value = "3.8"
+    } elseif ("py39" -eq $python) {
+        $value = "3.9"
+    } else {
+        Write-Host "Python not supported."
+        throw;
     }
-    $value = $Matches[1].Insert(1, ".")
     $pythonValue = "python="+$value
-    Write-Host "$pythonValue"
-    Write-Host "$python"
     return $pythonValue
 }
 
