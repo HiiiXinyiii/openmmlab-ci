@@ -61,9 +61,11 @@ function GetPythonValue() {
         [string] $python
     )
     $pythonValue = "python="
-    $python.replace("[^0-9]", '')
-    Write-Host "$value"
-    $pythonValue = $pythonValue + $python.Insert(2, ".")
+    If ($python -match '^\D*(\d{2}).*$') {
+        "Foud number {0} in python" -f $Matches[1]
+    }
+    Write-Host "$Matches[1]"
+    $pythonValue = $pythonValue + $Matches[1].Insert(1, ".")
     return $pythonValue
 }
 
