@@ -1,9 +1,10 @@
 param($cuda, $python, $torch, $mmcv)
 Write-Host "$cuda, $python, $torch, $mmcv"
-$script = "$PSScriptRoot\..\base.ps1"
-. "$script"
+$scriptDir = Split-Path -parent $MyInvocation.MyCommand.Path
+Write-Host "$scriptDir"
+Import-Module $scriptDir\..\base.psm1
 
-$baseCondaEnv = SetCondaEnvName $cuda, $python, $torch
+$baseCondaEnv = SetCondaEnvName $cuda $python $torch
 $tmpEnv = "mmcv"+$mmcv+"_"+$baseCondaEnv
 
 function CondaInstall() {
