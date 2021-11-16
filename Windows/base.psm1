@@ -47,6 +47,8 @@ function GetCudaValue() {
         $cudaValue = "11.0"
     } elseif ('cuda111' -eq $cuda) {
         $cudaValue = "11.1"
+    } elseif ('cuda113' -eq $cuda) {
+        $cudaValue = "11.3"
     } else {
         Write-Host "Cuda not supported."
         throw;
@@ -62,9 +64,9 @@ function InstallTorch () {
         [string] $torchVision
     )
     if ("cpu" -ne $cuda) {
-        conda install -y pytorch=$torch torchvision=$torchVision cudatoolkit=$cudaValue -c torch
+        conda install -y pytorch==$torch torchvision==$torchVision cudatoolkit=$cudaValue -c torch
     } else {
-        conda install -y pytorch=$torch torchvision=$torchVision cpuonly -c torch
+        conda install -y pytorch==$torch torchvision==$torchVision cpuonly -c torch
     }
     if ($LASTEXITCODE -ne 0) {
         Write-Host "Torch install failed."
