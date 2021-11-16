@@ -94,17 +94,17 @@ function InstallTorch () {
     )
     if ("1.8.0" -eq $torch ) {
         if ("10.2" -eq $cudaValue) {
-            conda install -y pytorch==$torch torchvision==$torchVision cudatoolkit=$cudaValue -c torch
+            conda install -y pytorch==$torch torchvision==$torchVision cudatoolkit=$cudaValue -c pytorch
         } elseif ("11.1" -eq $cudaValue) {
-            conda install -y pytorch==$torch torchvision==$torchVision cudatoolkit=$cudaValue -c torch -c conda-forge
+            conda install -y pytorch==$torch torchvision==$torchVision cudatoolkit=$cudaValue -c pytorch -c conda-forge
         } elseif ("" -eq $cudaValue) {
-            conda install -y pytorch==$torch torchvision==$torchVision cpuonly -c torch
+            conda install -y pytorch==$torch torchvision==$torchVision cpuonly -c pytorch
         }
     } else {
         if ("" -eq $cudaValue) {
-            conda install -y pytorch==$torch torchvision==$torchVision cpuonly -c torch
+            conda install -y pytorch==$torch torchvision==$torchVision cpuonly -c pytorch
         } else {
-            conda install -y pytorch==$torch torchvision==$torchVision cudatoolkit=$cudaValue -c torch
+            conda install -y pytorch==$torch torchvision==$torchVision cudatoolkit=$cudaValue -c pytorch
         }
     }
     if ($LASTEXITCODE -ne 0) {
