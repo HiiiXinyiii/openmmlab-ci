@@ -14,6 +14,7 @@ function CondaInstall() {
         Write-Host "Conda activate failed."
         return $LASTEXITCODE
     }
+    pip install ninja
     pip install -r requirements.txt
     if ($LASTEXITCODE -ne 0) {
         Write-Host "Pip install failed."
