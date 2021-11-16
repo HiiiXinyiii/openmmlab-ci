@@ -1,5 +1,5 @@
 param($cuda, $python, $torch)
-. ".\base.ps1"
+. ".\..\base.ps1"
 Write-Host "$cuda, $python, $torch"
 $condaEnv = SetCondaEnvName $cuda, $python, $torch
 
