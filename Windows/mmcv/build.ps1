@@ -8,6 +8,7 @@ $baseCondaEnv = SetCondaEnvName $cuda $python $torch
 $tmpEnv = "mmcv"+$mmcv+"_"+$baseCondaEnv
 
 function CondaInstall() {
+    conda env remove -n $tmpEnv
     conda create -y -n $tmpEnv --clone $baseCondaEnv
     conda activate $tmpEnv
     if ($LASTEXITCODE -ne 0) {
