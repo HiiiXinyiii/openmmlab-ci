@@ -14,6 +14,7 @@ function CondaInstall() {
         $pythonEnv = GetPythonValue $python
         Write-Host "$python"
         Write-Host "$pythonEnv"
+        conda env remove -y -n $condaEnv
         conda create -y -n $condaEnv $pythonEnv
         conda activate $condaEnv
         if ($LASTEXITCODE -ne 0) {
