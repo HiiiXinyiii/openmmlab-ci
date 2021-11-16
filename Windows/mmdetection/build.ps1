@@ -1,34 +1,28 @@
-param($cuda, $python, $mmcv, $mmdetection)
-Write-Host "$cuda, $python, $mmcv, $mmdetection"
+param($cuda, $python, $torch, $mmcv, $mmdetection)
+Write-Host "$cuda, $python, $torch, $mmcv"
+$scriptDir = Split-Path -parent $MyInvocation.MyCommand.Path
+Write-Host "$scriptDir"
+Import-Module $scriptDir\..\base.psm1
 
-$conda_env = $cuda+"_"+$python
-# conda activate $conda_env
-$tmp_env = $mmdetection+"_"+$conda_env
-
-conda create -y -n $tmp_env --clone $conda_env
-conda activate $tmp_env
-if ($LASTEXITCODE -ne 0) {
-    return $LASTEXITCODE
-}
-
-function tearDownWithFail() {
-    conda env remove -y -n $tmp_env
-}
+Write-Host "$cuda, $python, $torch, $mmcv, $mmdetection"
+$baseCondaEnv = SetCondaEnvName $cuda $python $torch
+$mmcvEnv = "mmcv"+$mmcv+"_"+$baseCondaEnv
+$tmpEnv = "mmdet"$mmcvEnv
 
 function Get-MMCV() {
     param(
         [string] $mmcv
     )
-    $cur_mmcv_line = pip list | Select-String -Pattern "mmcv"
-    Write-Host $cur_mmcv_line
+    $curMmcvLine = pip list | Select-String -Pattern "mmcv"
+    Write-Host $curMmcvLine
     try {
-        $cur_mmcv = [regex]::split($cur_mmcv_line, ",|\s+")[1]
-        Write-Host $cur_mmcv
-        if ("v$cur_mmcv" -ne $mmcv) {
-            Write-Host "$cur_mmcv is not euqal to $mmcv"
+        $curMmcv = [regex]::split($curMmcvLine, ",|\s+")[1]
+        Write-Host $curMmcv
+        if ("v$curMmcv" -ne $mmcv) {
+            Write-Host "$curMmcv is not euqal to $mmcv"
             throw;
         }
-        return $cur_mmcv
+        return $curMmcv
     }
     catch {
         Write-Host "Get mmcv version failed."
@@ -39,7 +33,6 @@ function Get-MMCV() {
 
 function InstallPackage() {
     pip uninstall -y mmdet
-    pip install ninja
     pip install -r .\requirements\/build.txt
     if ($LASTEXITCODE -ne 0) {
         Write-Host "Install package failed"
@@ -64,6 +57,12 @@ function Verify() {
     }
 }
 
+conda env remove -y -n $tmpEnv
+conda create -y -n $tmpEnv --clone $mmcvEnv
+conda activate $tmpEnv
+if ($LASTEXITCODE -ne 0) {
+    return $LASTEXITCODE
+}
 Get-MMCV $mmcv
 InstallPackage
 Verify
