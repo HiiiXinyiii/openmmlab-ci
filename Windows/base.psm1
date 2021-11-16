@@ -60,10 +60,10 @@ function GetPythonValue() {
     param (
         [string] $python
     )
-    $pythonValue = "python"
-    $value = $python.replace("[^0-9]", '')
+    $pythonValue = "python="
+    $python.replace("[^0-9]", '')
     Write-Host "$value"
-    $pythonValue = $pythonValue + $value.Insert(2, ".")
+    $pythonValue = $pythonValue + $python.Insert(2, ".")
     return $pythonValue
 }
 
