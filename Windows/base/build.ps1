@@ -16,20 +16,20 @@ function CondaInstall() {
         if ($LASTEXITCODE -ne 0) {
             return $LASTEXITCODE
         }
+        $env:MMCV_WITH_OPS = 1
+        $env:MAX_JOBS = 8
+        $env:TORCH_CUDA_ARCH_LIST="6.1"
+        InstallTorch $cuda $cudaValue $torch $torchVision
+        if ($LASTEXITCODE -ne 0) {
+            return $LASTEXITCODE
+        }
+        pip install -r "$PSScriptRoot\requirements.txt"
+        conda deactivate
     }
     catch {
         Write-Host "Conda install failed."
         throw;
     }
-    $env:MMCV_WITH_OPS = 1
-    $env:MAX_JOBS = 8
-    $env:TORCH_CUDA_ARCH_LIST="6.1"
-    InstallTorch $cuda $cudaValue $torch $torchVision
-    if ($LASTEXITCODE -ne 0) {
-        return $LASTEXITCODE
-    }
-    pip install -r "$PSScriptRoot\requirements.txt"
-    conda deactivate
 }
 
 CondaInstall
