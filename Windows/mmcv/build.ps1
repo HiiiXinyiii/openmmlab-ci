@@ -9,7 +9,7 @@ $tmpEnv = "mmcv"+$mmcv+"_"+$baseCondaEnv
 
 function CondaInstall() {
     conda create -y -n $tmpEnv --clone $baseCondaEnv
-    conda activate $baseCondaEnv
+    conda activate $tmpEnv
     if ($LASTEXITCODE -ne 0) {
         Write-Host "Conda activate failed."
         return $LASTEXITCODE
@@ -32,3 +32,4 @@ function CondaInstall() {
 }
 
 CondaInstall
+return $LASTEXITCODE
