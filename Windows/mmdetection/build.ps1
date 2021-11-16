@@ -1,5 +1,4 @@
 param($cuda, $python, $torch, $mmcv, $mmdetection)
-Write-Host "$cuda, $python, $torch, $mmcv"
 $scriptDir = Split-Path -parent $MyInvocation.MyCommand.Path
 Write-Host "$scriptDir"
 Import-Module $scriptDir\..\base.psm1
