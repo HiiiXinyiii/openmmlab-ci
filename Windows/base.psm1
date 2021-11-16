@@ -57,15 +57,18 @@ function GetCudaValue() {
 }
 
 function GetPythonValue() {
+    # Params: py38
+    # Return: python=3.8
     param (
         [string] $python
     )
+
     $tmp = $python
-    $prefix = "python="
     If ($tmp -match '^\D*(\d{2}).*$') {
         "{0}" -f $Matches[1]
     }
-    $pythonValue = $prefix + $Matches[1].Insert(1, ".")
+    $value = $Matches[1].Insert(1, ".")
+    $pythonValue = "python="+$value
     Write-Host "$pythonValue"
     Write-Host "$python"
     return $pythonValue
