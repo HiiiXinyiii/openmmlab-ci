@@ -32,9 +32,10 @@ function CondaInstall() {
         Write-Host "Python setup.py build_ext failed."
         return $LASTEXITCODE
     }
-    python setup.py develop
+    # python setup.py develop
+    python setup.py install
     if ($LASTEXITCODE -ne 0) {
-        Write-Host "Python setup.py develop failed."
+        Write-Host "Python setup.py install failed."
         return $LASTEXITCODE
     }
     pip list

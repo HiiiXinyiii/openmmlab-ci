@@ -38,10 +38,11 @@ function InstallPackage() {
         throw;
     }
     Write-Host "Install build.txt successfully."
-    python .\setup.py develop
+    # python setup.py develop
+    python setup.py install
     if ($LASTEXITCODE -ne 0) {
-        Write-Host "Install package failed."
-        throw;
+        Write-Host "Python setup.py install failed."
+        return $LASTEXITCODE
     }
     Write-Host "Install package successfully."
     pip list
