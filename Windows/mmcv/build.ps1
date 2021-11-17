@@ -38,6 +38,11 @@ function CondaInstall() {
         return $LASTEXITCODE
     }
     pip list
+    python setup.py bdist_wheel
+    if ($LASTEXITCODE -ne 0) {
+        Write-Host "Python setup.py bdist_wheel failed."
+        return $LASTEXITCODE
+    }
 }
 
 CondaInstall
