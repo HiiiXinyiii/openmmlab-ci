@@ -29,10 +29,12 @@ function CondaInstall() {
     $env:PATH += ";C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.27.29110\bin\Hostx86\x64"
     python setup.py build_ext
     if ($LASTEXITCODE -ne 0) {
+        Write-Host "Python setup.py build_ext failed."
         return $LASTEXITCODE
     }
     python setup.py develop
     if ($LASTEXITCODE -ne 0) {
+        Write-Host "Python setup.py develop failed."
         return $LASTEXITCODE
     }
     pip list
