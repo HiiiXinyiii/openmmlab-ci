@@ -12,8 +12,10 @@ function GetTorchVision() {
     param (
         [string] $torch
     )
-    $torchVersion = "0.7.0"
-    if ('1.6.0' -eq $torch) {
+    $torchVersion = ""
+    if ('1.5.0' -eq $torch) {
+        $torchVersion = "0.6.0"
+    } elseif ('1.6.0' -eq $torch) {
         $torchVersion = "0.7.0"
     } elseif ('1.7.0' -eq $torch) {
         $torchVersion = "0.8.0"
@@ -26,7 +28,7 @@ function GetTorchVision() {
     } elseif ('1.10.0' -eq $torch) {
         $torchVersion = "0.11.1"
     } else {
-        Write-Host "Not supported"
+        Write-Host "Torch not supported"
         throw;
     }
     return $torchVersion
@@ -37,7 +39,9 @@ function GetCudaValue() {
         [string] $cuda
     )
     $cudaValue = ""
-    if ('cuda100' -eq $cuda) {
+    if ('cuda92' -eq $cuda) {
+        $cudaValue = "9.2"
+    } elseif ('cuda100' -eq $cuda) {
         $cudaValue = "10.0"
     } elseif ('cuda101' -eq $cuda) {
         $cudaValue = "10.1"
@@ -58,6 +62,27 @@ function GetCudaValue() {
     return $cudaValue
 }
 
+function GetCudaArchList() {
+    param (
+        [string] $cuda
+    )
+    $cudaArchList = ""
+    if ('cuda92' -eq $cuda) {
+        $cudaArchList = "6.0;7.0"
+    } elseif ('cuda110' -eq $cuda) {
+        $cudaArchList = "3.5;3.7;5.0;5.2;5.3;6.0;6.2;6.2;7.0;7.2;7.5;8.0"
+    } elseif ('cuda111' -eq $cuda) {
+        $cudaArchList = "3.5;3.7;5.0;5.2;5.3;6.0;6.2;6.2;7.0;7.2;7.5;8.0;8.6"
+    } elseif ('cuda113' -eq $cuda) {
+        $cudaArchList = "3.5;3.7;5.0;5.2;5.3;6.0;6.2;6.2;7.0;7.2;7.5;8.0;8.6"
+    } elseif ('nocuda' -eq $cuda) {
+        $cudaArchList = ""
+    } else {
+        $cudaArchList = "3.5;3.7;5.0;5.2;5.3;6.0;6.2;6.2;7.0;7.2;7.5"
+    }
+    return $cudaArchList
+}
+
 function GetPythonValue() {
     # Params: py38
     # Return: python=3.8
@@ -71,7 +96,9 @@ function GetPythonValue() {
     #     "{0}" -f $Matches[1]
     # }
     # $value = $Matches[1].Insert(1, ".")
-    if ("py37" -eq $python) {
+    if ("py36" -eq $python) {
+        $value = "3.6"
+    } elseif ("py37" -eq $python) {
         $value = "3.7"
     } elseif ("py38" -eq $python) {
         $value = "3.8"
@@ -85,28 +112,62 @@ function GetPythonValue() {
     return $pythonValue
 }
 
-function InstallTorch () {
+function CudaTorchMatchCheck() {
+    param (
+        [string] $cuda,
+        [string] $torch
+    )
+
+    $cudaValueTorchTuple = [Tuple]::Create($cudaValue, $torch)
+    $matchList = New-Object System.Collections.ArrayList
+    $matchList.Add((
+        [Tuple]::Create("1.5.0", "9.2"),
+        [Tuple]::Create("1.5.0", "10.1"),
+        [Tuple]::Create("1.5.0", "10.2"),
+        [Tuple]::Create("1.6.0", "9.2"),
+        [Tuple]::Create("1.6.0", "10.1"),
+        [Tuple]::Create("1.6.0", "10.2"),
+        [Tuple]::Create("1.7.0", "9.2"),
+        [Tuple]::Create("1.7.0", "10.1"),
+        [Tuple]::Create("1.7.0", "10.2"),
+        [Tuple]::Create("1.7.0", "11.0"),
+        [Tuple]::Create("1.8.0", "10.1"),
+        [Tuple]::Create("1.8.0", "10.2"),
+        [Tuple]::Create("1.8.0", "11.1"),
+        [Tuple]::Create("1.9.0", "10.2"),
+        [Tuple]::Create("1.9.0", "11.1"),
+        [Tuple]::Create("1.10.0", "10.2"),
+        [Tuple]::Create("1.10.0", "11.1"),
+        [Tuple]::Create("1.10.0", "11.3")
+    ))
+    Write-Host "$matchList"
+    if ($matchList -contains $cudaValueTorchTuple) {
+        Write-Host "Cuda:$cudaValue & torch:$torch not matched."
+        throw;
+    }
+}
+
+function InstallTorch() {
     param (
         [string] $cuda,
         [string] $cudaValue,
         [string] $torch,
         [string] $torchVision
     )
-    if ("1.8.0" -eq $torch ) {
-        if ("10.2" -eq $cudaValue) {
-            conda install -y pytorch==$torch torchvision==$torchVision cudatoolkit=$cudaValue -c pytorch
-        } elseif ("11.1" -eq $cudaValue) {
-            conda install -y pytorch==$torch torchvision==$torchVision cudatoolkit=$cudaValue -c pytorch -c conda-forge
-        } elseif ("" -eq $cudaValue) {
-            conda install -y pytorch==$torch torchvision==$torchVision cpuonly -c pytorch
-        }
-    } else {
-        if ("" -eq $cudaValue) {
-            conda install -y pytorch==$torch torchvision==$torchVision cpuonly -c pytorch
-        } else {
-            conda install -y pytorch==$torch torchvision==$torchVision cudatoolkit=$cudaValue -c pytorch
-        }
-    }
+    if ("" -eq $cudaValue) {
+        conda install -y pytorch==$torch torchvision==$torchVision cpuonly -c pytorch
+    } 
+    CudaTorchMatchCheck $cuda, $torch
+    # if ("1.8.0" -eq $torch ) {
+    #     if ("11.0" -le $cudaValue) {
+    #         conda install -y pytorch==$torch torchvision==$torchVision cudatoolkit=$cudaValue -c pytorch -c conda-forge
+    #     } else {
+    #         conda install -y pytorch==$torch torchvision==$torchVision cudatoolkit=$cudaValue -c pytorch
+    #     }
+    # } else {
+    #     conda install -y pytorch==$torch torchvision==$torchVision cudatoolkit=$cudaValue -c pytorch
+    # }
+    conda install -y pytorch==$torch torchvision==$torchVision cudatoolkit=$cudaValue -c pytorch
     if ($LASTEXITCODE -ne 0) {
         Write-Host "Torch install failed."
         throw;
