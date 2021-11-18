@@ -8,6 +8,7 @@ $baseCondaEnv = SetCondaEnvName $cuda $python $torch
 $tmpEnv = "mmcv"+$mmcv+"_"+$baseCondaEnv
 
 function CondaInstall() {
+    conda init powershell
     conda env remove -y -n $tmpEnv
     pip uninstall -y mmcv-full mmcv
     conda create -y -n $tmpEnv --clone $baseCondaEnv
