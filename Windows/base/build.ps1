@@ -23,7 +23,7 @@ function CondaInstall() {
         if ($LASTEXITCODE -ne 0) {
             return $LASTEXITCODE
         }
-        conda list
+        conda env list
         $env:MMCV_WITH_OPS = 1
         $env:MAX_JOBS = 8
         $env:TORCH_CUDA_ARCH_LIST=$cudaArchList
