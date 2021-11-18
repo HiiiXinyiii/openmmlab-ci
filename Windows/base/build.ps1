@@ -19,10 +19,13 @@ function CondaInstall() {
         Write-Host "torchVision: $torchVision"
         conda env remove -y -n $condaEnv --all
         conda create -y -n $condaEnv $pythonEnv
+        Write-Host "conda activate $condaEnv"
         conda activate $condaEnv
         if ($LASTEXITCODE -ne 0) {
+            Write-Host "Conda activate $condaEnv failed."
             return $LASTEXITCODE
         }
+        Write-Host "Conda env list"
         conda env list
         $env:MMCV_WITH_OPS = 1
         $env:MAX_JOBS = 8
