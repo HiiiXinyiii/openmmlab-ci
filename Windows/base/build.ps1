@@ -10,13 +10,14 @@ function CondaInstall() {
     try {
         $torchVision = GetTorchVision $torch
         $cudaValue = GetCudaValue $cuda
-        $cudaArchList = $GetCudaArchList $cuda
+        $cudaArchList = GetCudaArchList $cuda
         SetCudaHome $cuda
         $pythonEnv = GetPythonValue $python
         Write-Host "$python"
         Write-Host "$pythonEnv"
         Write-Host "$cudaArchList"
-        conda env remove -y -n $condaEnv
+        Write-Host "torchVision: $torchVision"
+        conda env remove -y -n $condaEnv --all
         conda create -y -n $condaEnv $pythonEnv
         conda activate $condaEnv
         if ($LASTEXITCODE -ne 0) {
