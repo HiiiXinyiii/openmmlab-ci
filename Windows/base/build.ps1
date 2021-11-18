@@ -17,7 +17,7 @@ function CondaInstall() {
         Write-Host "$pythonEnv"
         Write-Host "$cudaArchList"
         Write-Host "torchVision: $torchVision"
-        conda env remove -y -n $condaEnv --all
+        conda env remove -y -n $condaEnv
         conda create -y -n $condaEnv $pythonEnv
         Write-Host "conda activate $condaEnv"
         conda activate $condaEnv
