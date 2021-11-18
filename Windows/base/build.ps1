@@ -17,8 +17,9 @@ function CondaInstall() {
         Write-Host "$pythonEnv"
         Write-Host "$cudaArchList"
         Write-Host "torchVision: $torchVision"
-        conda.exe env remove -y -n $condaEnv
-        conda.exe create -y -n $condaEnv $pythonEnv
+        conda env remove -y -n $condaEnv
+        Write-Host "Conda remove env:$condaEnv"
+        conda create -y -n $condaEnv $pythonEnv
         Write-Host "conda activate $condaEnv"
         conda activate $condaEnv
         if ($LASTEXITCODE -ne 0) {
@@ -26,7 +27,7 @@ function CondaInstall() {
             return $LASTEXITCODE
         }
         Write-Host "Conda env list"
-        conda.exe env list
+        conda env list
         $env:MMCV_WITH_OPS = 1
         $env:MAX_JOBS = 8
         $env:TORCH_CUDA_ARCH_LIST=$cudaArchList
@@ -36,7 +37,7 @@ function CondaInstall() {
             return $LASTEXITCODE
         }
         pip install -r "$PSScriptRoot\requirements.txt"
-        conda.exe deactivate
+        conda deactivate
     }
     catch {
         Write-Host "Conda install failed."
