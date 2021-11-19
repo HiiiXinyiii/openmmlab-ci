@@ -8,11 +8,11 @@ $baseCondaEnv = SetCondaEnvName $cuda $python $torch
 $tmpEnv = "mmcv"+$mmcv+"_"+$baseCondaEnv
 
 function CondaInstall() {
-    conda init powershell
-    conda env remove -y -n $tmpEnv
+    conda.exe init powershell
+    conda.exe env remove -y -n $tmpEnv
     pip uninstall -y mmcv-full mmcv
-    conda create -y -n $tmpEnv --clone $baseCondaEnv
-    conda activate $tmpEnv
+    conda.exe create -y -n $tmpEnv --clone $baseCondaEnv
+    conda.exe activate $tmpEnv
     if ($LASTEXITCODE -ne 0) {
         Write-Host "Conda activate failed."
         return $LASTEXITCODE

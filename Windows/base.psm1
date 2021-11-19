@@ -140,8 +140,27 @@ function CudaTorchMatchCheck() {
         [Tuple]::Create("1.10.0", "11.1"),
         [Tuple]::Create("1.10.0", "11.3")
     ))
-    if ($matchList -contains $cudaValueTorchTuple) {
+    if (-Not $matchList.Contains($cudaValueTorchTuple)) {
         Write-Host "Cuda:$cudaValue & torch:$torch not matched."
+        throw;
+    }
+}
+
+function TorchPythonMatchCheck() {
+    param (
+        [string] $torch,
+        [string] $python
+    )
+
+    $torchPythonTuple = [Tuple]::Create($torch, $python)
+    $notMatchList = New-Object System.Collections.ArrayList
+    $notMatchList.Add((
+        [Tuple]::Create("1.5.0", "py39"),
+        [Tuple]::Create("1.6.0", "py39"),
+        [Tuple]::Create("1.7.0", "py39")
+    ))
+    if ($notMatchList.Contains($torchPythonTuple)) {
+        Write-Host "torch:$torch & python:$python not matched."
         throw;
     }
 }
@@ -158,17 +177,17 @@ function InstallTorch() {
         conda install -y pytorch==$torch torchvision==$torchVision cpuonly -c pytorch
     } else {
         CudaTorchMatchCheck $cuda, $torch
-        # if ("1.8.0" -eq $torch ) {
-        #     if ("11.0" -le $cudaValue) {
-        #         conda install -y pytorch==$torch torchvision==$torchVision cudatoolkit=$cudaValue -c pytorch -c conda-forge
-        #     } else {
-        #         conda install -y pytorch==$torch torchvision==$torchVision cudatoolkit=$cudaValue -c pytorch
-        #     }
-        # } else {
-        #     conda install -y pytorch==$torch torchvision==$torchVision cudatoolkit=$cudaValue -c pytorch
-        # }
+        if ("1.8.0" -eq $torch ) {
+            if ("11.0" -le $cudaValue) {
+                conda install -y pytorch==$torch torchvision==$torchVision cudatoolkit=$cudaValue -c pytorch -c conda-forge
+            } else {
+                conda install -y pytorch==$torch torchvision==$torchVision cudatoolkit=$cudaValue -c pytorch
+            }
+        } else {
+            conda install -y pytorch==$torch torchvision==$torchVision cudatoolkit=$cudaValue -c pytorch
+        }
         Write-Host "Installing: conda install -y pytorch==$torch torchvision==$torchVision cudatoolkit=$cudaValue -c pytorch"
-        conda install -y pytorch==$torch torchvision==$torchVision cudatoolkit=$cudaValue -c pytorch
+        # conda install -y pytorch==$torch torchvision==$torchVision cudatoolkit=$cudaValue -c pytorch
     }
     if ($LASTEXITCODE -ne 0) {
         Write-Host "Torch install failed."
