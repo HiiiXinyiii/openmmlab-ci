@@ -5,6 +5,7 @@ Import-Module $scriptDir\..\base.psm1
 
 Write-Host "$cuda, $python, $torch"
 $condaEnv = SetCondaEnvName $cuda $python $torch
+# $ErrorActionPreference = "Stop"
 
 function CondaInstall() {
     try {
@@ -17,6 +18,7 @@ function CondaInstall() {
         Write-Host "$pythonEnv"
         Write-Host "$cudaArchList"
         Write-Host "torchVision: $torchVision"
+        conda init --all
         conda env remove -y -n $condaEnv
         if ($LASTEXITCODE -ne 0) {
             Write-Host "Conda remove $condaEnv failed."
