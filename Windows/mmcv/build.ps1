@@ -12,7 +12,7 @@ function CondaInstall() {
     TorchPythonMatchCheck $torch, $python
 
     conda init powershell
-    conda env remove -y -n $tmpEnv
+    conda remove -y --name $tmpEnv --all
     pip uninstall -y mmcv-full mmcv
     conda create -y -n $tmpEnv --clone $baseCondaEnv
     if ($LASTEXITCODE -ne 0) {

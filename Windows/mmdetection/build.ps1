@@ -62,7 +62,7 @@ function Verify() {
     }
 }
 
-conda env remove -y -n $tmpEnv
+conda remove -y --name $tmpEnv --all
 conda create -y -n $tmpEnv --clone $mmcvEnv
 conda activate $tmpEnv
 if ($LASTEXITCODE -ne 0) {

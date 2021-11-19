@@ -19,7 +19,7 @@ function CondaInstall() {
         Write-Host "$cudaArchList"
         Write-Host "torchVision: $torchVision"
         conda init --all
-        conda env remove -y -n $condaEnv
+        cconda remove -y --name $condaEnv --all
         if ($LASTEXITCODE -ne 0) {
             Write-Host "Conda remove $condaEnv failed."
             return $LASTEXITCODE
