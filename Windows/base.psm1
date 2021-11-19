@@ -119,6 +119,7 @@ function CudaTorchMatchCheck() {
     )
     $cudaValueTorchTuple = [Tuple]::Create($torch, $cudaValue)
     $matchList = New-Object System.Collections.ArrayList
+    # TODO: improve
     $matchList.Add([Tuple]::Create("1.5.0", "9.2"))
     $matchList.Add([Tuple]::Create("1.5.0", "10.1"))
     $matchList.Add([Tuple]::Create("1.5.0", "10.2"))
