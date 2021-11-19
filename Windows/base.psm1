@@ -119,26 +119,24 @@ function CudaTorchMatchCheck() {
     )
     $cudaValueTorchTuple = [Tuple]::Create($torch, $cudaValue)
     $matchList = New-Object System.Collections.ArrayList
-    $matchList.Add((
-        [Tuple]::Create("1.5.0", "9.2"),
-        [Tuple]::Create("1.5.0", "10.1"),
-        [Tuple]::Create("1.5.0", "10.2"),
-        [Tuple]::Create("1.6.0", "9.2"),
-        [Tuple]::Create("1.6.0", "10.1"),
-        [Tuple]::Create("1.6.0", "10.2"),
-        [Tuple]::Create("1.7.0", "9.2"),
-        [Tuple]::Create("1.7.0", "10.1"),
-        [Tuple]::Create("1.7.0", "10.2"),
-        [Tuple]::Create("1.7.0", "11.0"),
-        [Tuple]::Create("1.8.0", "10.1"),
-        [Tuple]::Create("1.8.0", "10.2"),
-        [Tuple]::Create("1.8.0", "11.1"),
-        [Tuple]::Create("1.9.0", "10.2"),
-        [Tuple]::Create("1.9.0", "11.1"),
-        [Tuple]::Create("1.10.0", "10.2"),
-        [Tuple]::Create("1.10.0", "11.1"),
-        [Tuple]::Create("1.10.0", "11.3")
-    ))
+    $matchList.Add([Tuple]::Create("1.5.0", "9.2"))
+    $matchList.Add([Tuple]::Create("1.5.0", "10.1"))
+    $matchList.Add([Tuple]::Create("1.5.0", "10.2"))
+    $matchList.Add([Tuple]::Create("1.6.0", "9.2"))
+    $matchList.Add([Tuple]::Create("1.6.0", "10.1"))
+    $matchList.Add([Tuple]::Create("1.6.0", "10.2"))
+    $matchList.Add([Tuple]::Create("1.7.0", "9.2"))
+    $matchList.Add([Tuple]::Create("1.7.0", "10.1"))
+    $matchList.Add([Tuple]::Create("1.7.0", "10.2"))
+    $matchList.Add([Tuple]::Create("1.7.0", "11.0"))
+    $matchList.Add([Tuple]::Create("1.8.0", "10.1"))
+    $matchList.Add([Tuple]::Create("1.8.0", "10.2"))
+    $matchList.Add([Tuple]::Create("1.8.0", "11.1"))
+    $matchList.Add([Tuple]::Create("1.9.0", "10.2"))
+    $matchList.Add([Tuple]::Create("1.9.0", "11.1"))
+    $matchList.Add([Tuple]::Create("1.10.0", "10.2"))
+    $matchList.Add([Tuple]::Create("1.10.0", "11.1"))
+    $matchList.Add([Tuple]::Create("1.10.0", "11.3"))
     if (-Not $matchList.Contains($cudaValueTorchTuple)) {
         Write-Host "torch:$torch, cuda:$cudaValue not matched."
         throw;
@@ -153,11 +151,9 @@ function TorchPythonMatchCheck() {
 
     $torchPythonTuple = [Tuple]::Create($torch, $python)
     $notMatchList = New-Object System.Collections.ArrayList
-    $notMatchList.Add((
-        [Tuple]::Create("1.5.0", "py39"),
-        [Tuple]::Create("1.6.0", "py39"),
-        [Tuple]::Create("1.7.0", "py39")
-    ))
+    $notMatchList.Add([Tuple]::Create("1.5.0", "py39"))
+    $notMatchList.Add([Tuple]::Create("1.6.0", "py39"))
+    $notMatchList.Add([Tuple]::Create("1.7.0", "py39"))
     if ($notMatchList.Contains($torchPythonTuple)) {
         Write-Host "torch:$torch, python:$python not matched."
         throw;
