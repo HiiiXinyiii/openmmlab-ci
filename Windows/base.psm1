@@ -117,7 +117,6 @@ function CudaTorchMatchCheck() {
         [string] $cudaValue,
         [string] $torch
     )
-    Write-Host "torch:$torch, cuda:$cudaValue"
     $cudaValueTorchTuple = [Tuple]::Create($torch, $cudaValue)
     $matchList = New-Object System.Collections.ArrayList
     $matchList.Add((
@@ -176,7 +175,7 @@ function InstallTorch() {
         Write-Host "Installing: conda install -y pytorch==$torch torchvision==$torchVision cpuonly -c pytorch"
         conda install -y pytorch==$torch torchvision==$torchVision cpuonly -c pytorch
     } else {
-        CudaTorchMatchCheck $cudaValue, $torch
+        CudaTorchMatchCheck $cudaValue $torch
         if ("1.8.0" -eq $torch) {
             if ("11.0" -le $cudaValue) {
                 conda install -y pytorch==$torch torchvision==$torchVision cudatoolkit=$cudaValue -c pytorch -c conda-forge
