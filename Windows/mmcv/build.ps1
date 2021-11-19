@@ -10,7 +10,7 @@ $cudaArchList = GetCudaArchList $cuda
 
 function CondaInstall() {
     TorchPythonMatchCheck $torch, $python
-    
+
     conda init powershell
     conda env remove -y -n $tmpEnv
     pip uninstall -y mmcv-full mmcv
@@ -20,6 +20,7 @@ function CondaInstall() {
         Write-Host "Conda activate failed."
         return $LASTEXITCODE
     }
+    Write-Host "$env:PATH"
     # TODO: move pip install ninja into requirements.txt
     pip install ninja
     pip install -r requirements.txt
