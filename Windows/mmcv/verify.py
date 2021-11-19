@@ -2,7 +2,7 @@ import argparse
 import torch
 import mmcv
 
-if __name__ == "__main"__:
+if __name__ == "__main__":
     arg_parser = argparse.ArgumentParser(
         formatter_class=argparse.ArgumentDefaultsHelpFormatter)
     arg_parser.add_argument(

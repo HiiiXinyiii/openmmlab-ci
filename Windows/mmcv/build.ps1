@@ -63,8 +63,13 @@ function CondaInstall() {
 }
 
 function Verify() {
+    param (
+        [string] $torch,
+        [string] $mmcv
+    )
+
     # $path = (Get-Item .).FullName
-    python "$PSScriptRoot\verify.py"
+    python "$PSScriptRoot\verify.py -torch-version $torch -mmcv-version $mmcv"
     if ($LASTEXITCODE -ne 0) {
         Write-Host "Verify failed."
         throw;
@@ -72,5 +77,5 @@ function Verify() {
 }
 
 CondaInstall
-Verify
+Verify $torch $mmcv
 return $LASTEXITCODE
