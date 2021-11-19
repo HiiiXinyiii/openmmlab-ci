@@ -13,18 +13,22 @@ function CondaInstall() {
 
     conda init powershell
     conda remove -y --name $tmpEnv --all
+    if ($LASTEXITCODE -ne 0) {
+        Write-Host "Conda remove -y --name $tmpEnv --all failed."
+        throw
+    }
     pip uninstall -y mmcv-full mmcv
     conda create -y -n $tmpEnv --clone $baseCondaEnv
     if ($LASTEXITCODE -ne 0) {
         Write-Host "Conda create $tmpEnv from $baseCondaEnv failed."
-        return $LASTEXITCODE
+        throw
     }
     conda activate $tmpEnv
     Write-Host "Conda env list"
     conda env list
     if ($LASTEXITCODE -ne 0) {
         Write-Host "Conda activate failed."
-        return $LASTEXITCODE
+        throw
     }
     Write-Host "$env:PATH"
     # TODO: move pip install ninja into requirements.txt
@@ -32,7 +36,7 @@ function CondaInstall() {
     pip install -r requirements.txt
     if ($LASTEXITCODE -ne 0) {
         Write-Host "Pip install requirements.txt failed."
-        return $LASTEXITCODE
+        throw
     }
     SetCudaHome $cuda
     $env:MMCV_WITH_OPS = 1
@@ -42,21 +46,31 @@ function CondaInstall() {
     python setup.py build_ext
     if ($LASTEXITCODE -ne 0) {
         Write-Host "Python setup.py build_ext failed."
-        return $LASTEXITCODE
+        throw
     }
     # python setup.py develop
     python setup.py install
     if ($LASTEXITCODE -ne 0) {
         Write-Host "Python setup.py install failed."
-        return $LASTEXITCODE
+        throw
     }
     pip list
     python setup.py bdist_wheel
     if ($LASTEXITCODE -ne 0) {
         Write-Host "Python setup.py bdist_wheel failed."
-        return $LASTEXITCODE
+        throw
+    }
+}
+
+function Verify() {
+    # $path = (Get-Item .).FullName
+    python "$PSScriptRoot\verify.py"
+    if ($LASTEXITCODE -ne 0) {
+        Write-Host "Verify failed."
+        throw;
     }
 }
 
 CondaInstall
+Verify
 return $LASTEXITCODE
