@@ -15,7 +15,13 @@ function CondaInstall() {
     conda env remove -y -n $tmpEnv
     pip uninstall -y mmcv-full mmcv
     conda create -y -n $tmpEnv --clone $baseCondaEnv
+    if ($LASTEXITCODE -ne 0) {
+        Write-Host "Conda create $tmpEnv from $baseCondaEnv failed."
+        return $LASTEXITCODE
+    }
     conda activate $tmpEnv
+    Write-Host "Conda env list"
+    conda env list
     if ($LASTEXITCODE -ne 0) {
         Write-Host "Conda activate failed."
         return $LASTEXITCODE
