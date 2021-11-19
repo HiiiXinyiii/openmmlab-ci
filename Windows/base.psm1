@@ -117,7 +117,7 @@ function CudaTorchMatchCheck() {
         [string] $cudaValue,
         [string] $torch
     )
-
+    Write-Host "torch:$torch, cuda:$cudaValue"
     $cudaValueTorchTuple = [Tuple]::Create($torch, $cudaValue)
     $matchList = New-Object System.Collections.ArrayList
     $matchList.Add((
@@ -160,7 +160,7 @@ function TorchPythonMatchCheck() {
         [Tuple]::Create("1.7.0", "py39")
     ))
     if ($notMatchList.Contains($torchPythonTuple)) {
-        Write-Host "torch:$torch & python:$python not matched."
+        Write-Host "torch:$torch, python:$python not matched."
         throw;
     }
 }
