@@ -114,7 +114,7 @@ function GetPythonValue() {
 
 function CudaTorchMatchCheck() {
     param (
-        [string] $cuda,
+        [string] $cudaValue,
         [string] $torch
     )
 
@@ -176,8 +176,8 @@ function InstallTorch() {
         Write-Host "Installing: conda install -y pytorch==$torch torchvision==$torchVision cpuonly -c pytorch"
         conda install -y pytorch==$torch torchvision==$torchVision cpuonly -c pytorch
     } else {
-        CudaTorchMatchCheck $cuda, $torch
-        if ("1.8.0" -eq $torch ) {
+        CudaTorchMatchCheck $cudaValue, $torch
+        if ("1.8.0" -eq $torch) {
             if ("11.0" -le $cudaValue) {
                 conda install -y pytorch==$torch torchvision==$torchVision cudatoolkit=$cudaValue -c pytorch -c conda-forge
             } else {
