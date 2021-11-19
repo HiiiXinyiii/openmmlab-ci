@@ -118,7 +118,7 @@ function CudaTorchMatchCheck() {
         [string] $torch
     )
 
-    $cudaValueTorchTuple = [Tuple]::Create($cudaValue, $torch)
+    $cudaValueTorchTuple = [Tuple]::Create($torch, $cudaValue)
     $matchList = New-Object System.Collections.ArrayList
     $matchList.Add((
         [Tuple]::Create("1.5.0", "9.2"),
@@ -141,7 +141,7 @@ function CudaTorchMatchCheck() {
         [Tuple]::Create("1.10.0", "11.3")
     ))
     if (-Not $matchList.Contains($cudaValueTorchTuple)) {
-        Write-Host "Cuda:$cudaValue & torch:$torch not matched."
+        Write-Host "torch:$torch, cuda:$cudaValue not matched."
         throw;
     }
 }
