@@ -35,6 +35,7 @@ function CondaInstall() {
     conda env list
     # TODO: remove debug
     Write-Host "$env:TORCH_CUDA_ARCH_LIST"
+    Write-Host "$env:PATH"
     # TODO: move pip install ninja into requirements.txt
     pip install ninja
     pip install -r requirements.txt
@@ -44,7 +45,7 @@ function CondaInstall() {
     }
     SetCudaHome $cuda
     $env:MMCV_WITH_OPS = 1
-    $env:MAX_JOBS = 8
+    $env:MAX_JOBS = 4
     $env:TORCH_CUDA_ARCH_LIST=$cudaArchList
     $env:PATH += ";C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.27.29110\bin\Hostx86\x64"
     python setup.py build_ext
