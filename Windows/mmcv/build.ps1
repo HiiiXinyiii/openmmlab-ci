@@ -74,7 +74,7 @@ function Verify() {
     )
 
     # $path = (Get-Item .).FullName
-    python "$PSScriptRoot\verify.py -torch-version $torch -mmcv-version $mmcv"
+    python "$PSScriptRoot\verify.py" -torch-version $torch -mmcv-version $mmcv
     if ($LASTEXITCODE -ne 0) {
         Write-Host "Verify failed."
         throw;
