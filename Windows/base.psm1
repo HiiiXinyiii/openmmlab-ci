@@ -207,9 +207,8 @@ function SetMSVCEnvPath() {
     )
 
     if ('cuda92' -eq $cuda) {
-        $MSVC_VERSION = "14.16.27023"
+        $env:PATH += ";C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Tools\MSVC\14.16.27023\bin\Hostx86\x64"
     } else {
-        $MSVC_VERSION = "14.29.30133"
+        $env:PATH += ";C:\Program Files (x86)\Microsoft Visual Studio\2019\BuildTools\VC\Tools\MSVC\14.29.30133\bin\Hostx86\x64"
     }
-    $env:PATH += ";C:\Program Files (x86)\Microsoft Visual Studio\2019\BuildTools\VC\Tools\MSVC\$MSVC_VERSION\bin\Hostx86\x64"
 }
