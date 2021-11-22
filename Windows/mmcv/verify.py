@@ -9,7 +9,7 @@ if __name__ == "__main__":
         "--torch-version",
         help="torch version")
     arg_parser.add_argument(
-        "--mmcv",
+        "--mmcv-version",
         help="mmcv version")
 
     args = arg_parser.parse_args()
