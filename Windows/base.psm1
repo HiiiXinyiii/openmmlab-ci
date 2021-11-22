@@ -200,3 +200,15 @@ function SetCudaHome() {
     $cudaHome = "v"+$cudaValue
     $env:CUDA_HOME = "C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\$cudaHome"
 }
+
+function SetMSVCEnvPath() {
+    param (
+        [string] $cuda
+    )
+
+    if ('cuda92' -eq $cuda) {
+        $env:PATH += ";C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin"
+    } else {
+        $env:PATH += ";C:\Program Files (x86)\Microsoft Visual Studio\2019\BuildTools\VC\Tools\MSVC\14.29.30133\bin\Hostx86\x64"
+    }
+}
