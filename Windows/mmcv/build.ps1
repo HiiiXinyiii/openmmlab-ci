@@ -7,29 +7,34 @@ Import-Module $scriptDir\..\base.psm1
 $baseCondaEnv = SetCondaEnvName $cuda $python $torch
 $tmpEnv = "mmcv"+$mmcv+"_"+$baseCondaEnv
 $cudaArchList = GetCudaArchList $cuda
+$prefixCondaPath = "C:\Users\user\miniconda3\envs\"
 
 function CondaInstall() {
     TorchPythonMatchCheck $torch, $python
 
     conda init powershell
-    conda remove -y --name $tmpEnv --all
-    if ($LASTEXITCODE -ne 0) {
-        Write-Host "Conda remove -y --name $tmpEnv --all failed."
-        throw
-    }
-    pip uninstall -y mmcv-full mmcv
-    conda create -y -n $tmpEnv --clone $baseCondaEnv
-    if ($LASTEXITCODE -ne 0) {
+    try {
+        Write-Host "pip uninstall -y mmcv-full mmcv"
+        pip uninstall -y mmcv-full mmcv
+        $tmpEnvPath = $prefixCondaPath+$tmpEnv
+        if (Test-Path $tmpEnvPath) {
+            Remove-Item -Path $tmpEnvPath -Recurse
+        }
+        conda remove -y --name $tmpEnv --all
+        conda create -y -n $tmpEnv --clone $baseCondaEnv
+    } catch {
         Write-Host "Conda create $tmpEnv from $baseCondaEnv failed."
         throw
     }
     conda activate $tmpEnv
-    Write-Host "Conda env list"
-    conda env list
     if ($LASTEXITCODE -ne 0) {
         Write-Host "Conda activate failed."
         throw
     }
+    Write-Host "Conda env list"
+    conda env list
+    # TODO: remove debug
+    Write-Host "$env:TORCH_CUDA_ARCH_LIST"
     Write-Host "$env:PATH"
     # TODO: move pip install ninja into requirements.txt
     pip install ninja
