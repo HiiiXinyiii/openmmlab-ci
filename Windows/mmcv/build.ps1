@@ -18,6 +18,7 @@ function CondaInstall() {
         pip uninstall -y mmcv-full mmcv
         $tmpEnvPath = $prefixCondaPath+$tmpEnv
         if (Test-Path $tmpEnvPath) {
+            Write-Host "Start remove item in Path:$tmpEnvPath"
             Remove-Item -Path $tmpEnvPath -Recurse
         }
         conda remove -y --name $tmpEnv --all
