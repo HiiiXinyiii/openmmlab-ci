@@ -22,9 +22,14 @@ function CondaInstall() {
             Remove-Item -Path $tmpEnvPath -Recurse
         }
         conda remove -y --name $tmpEnv --all
+        Write-Host "Start conda create -y -n $tmpEnv --clone $baseCondaEnv"
         conda create -y -n $tmpEnv --clone $baseCondaEnv
+        if ($LASTEXITCODE -ne 0) {
+            Write-Host "Conda create failed."
+            throw
+        }
     } catch {
-        Write-Host "Conda create $tmpEnv from $baseCondaEnv failed."
+        Write-Host "Conda failed."
         throw
     }
     conda activate $tmpEnv
@@ -44,6 +49,7 @@ function CondaInstall() {
         throw
     }
     SetCudaHome $cuda
+    Write-Host "$env:CUDA_HOME"
     $env:MMCV_WITH_OPS = 1
     $env:MAX_JOBS = 8
     $env:TORCH_CUDA_ARCH_LIST=$cudaArchList
