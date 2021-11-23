@@ -17,4 +17,4 @@ if __name__ == "__main__":
     torch_vesion = args.torch_version
     mmcv_vesion = args.mmcv_version
     assert torch_vesion == torch.__version__
-    assert mmcv_vesion == mmcv.__version__
+    assert mmcv_vesion == "v"+mmcv.__version__
