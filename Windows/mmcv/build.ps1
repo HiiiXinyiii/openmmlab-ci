@@ -55,11 +55,11 @@ function CondaInstall() {
     $env:TORCH_CUDA_ARCH_LIST=$cudaArchList
     SetMSVCEnvPath $cuda
     Write-Host "$env:PATH"
-    # python setup.py build_ext
-    # if ($LASTEXITCODE -ne 0) {
-    #     Write-Host "Python setup.py build_ext failed."
-    #     throw
-    # }
+    python setup.py build_ext
+    if ($LASTEXITCODE -ne 0) {
+        Write-Host "Python setup.py build_ext failed."
+        throw
+    }
     # # python setup.py develop
     # python setup.py install
     # if ($LASTEXITCODE -ne 0) {
