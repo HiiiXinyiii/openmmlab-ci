@@ -60,13 +60,15 @@ function CondaInstall() {
         Write-Host "Python setup.py build_ext failed."
         throw
     }
-    # # python setup.py develop
-    # python setup.py install
-    # if ($LASTEXITCODE -ne 0) {
-    #     Write-Host "Python setup.py install failed."
-    #     throw
-    # }
+    # python setup.py develop
+    python setup.py install
+    if ($LASTEXITCODE -ne 0) {
+        Write-Host "Python setup.py install failed."
+        throw
+    }
+    Write-Host "Python setup.py install successfully."
     pip list
+    Write-Host "Start python setup.py install failed."
     python setup.py bdist_wheel
     if ($LASTEXITCODE -ne 0) {
         Write-Host "Python setup.py bdist_wheel failed."
