@@ -56,11 +56,13 @@ function CondaInstall() {
     SetMSVCEnvPath $cuda
     Write-Host "$env:PATH"
     python setup.py build_ext
+    Write-Host "Start python setup.py build_ext."
     if ($LASTEXITCODE -ne 0) {
         Write-Host "Python setup.py build_ext failed."
         throw
     }
     # python setup.py develop
+    Write-Host "Start python setup.py install."
     python setup.py install
     if ($LASTEXITCODE -ne 0) {
         Write-Host "Python setup.py install failed."
@@ -68,7 +70,6 @@ function CondaInstall() {
     }
     Write-Host "Python setup.py install successfully."
     pip list
-    Write-Host "Start python setup.py install failed."
     python setup.py bdist_wheel
     if ($LASTEXITCODE -ne 0) {
         Write-Host "Python setup.py bdist_wheel failed."
