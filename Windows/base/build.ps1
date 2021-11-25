@@ -20,13 +20,22 @@ function CondaInstall() {
         Write-Host "$cudaArchList"
         Write-Host "torchVision: $torchVision"
         conda init --all
+        if (Test-Path $condaEnv) {
+            Write-Host "Start remove item in Path:$condaEnv"
+            Remove-Item -Path $condaEnv -Recurse
+        }
         conda remove -y --name $condaEnv --all
         if ($LASTEXITCODE -ne 0) {
             Write-Host "Conda remove $condaEnv failed."
             return $LASTEXITCODE
         }
-        Write-Host "Conda remove env:$condaEnv"
+        Write-Host "Conda remove env:$condaEnv successfully."
+        Write-Host "Start conda create -y -n $condaEnv $pythonEnv."
         conda create -y -n $condaEnv $pythonEnv
+        if ($LASTEXITCODE -ne 0) {
+            Write-Host "Conda create $condaEnv failed."
+            return $LASTEXITCODE
+        }
         UpdateTorchFiles $torch $condaEnv
         Write-Host "conda activate $condaEnv"
         conda activate $condaEnv

@@ -7,7 +7,7 @@ Import-Module $scriptDir\..\base.psm1
 $baseCondaEnv = SetCondaEnvName $cuda $python $torch
 $tmpEnv = "mmcv"+$mmcv+"_"+$baseCondaEnv
 $cudaArchList = GetCudaArchList $cuda
-$prefixCondaPath = "C:\Users\user\miniconda3\envs\"
+$prefixCondaPath = GetCondaEnvPath
 
 function CondaInstall() {
     TorchPythonMatchCheck $torch, $python
@@ -16,7 +16,7 @@ function CondaInstall() {
     try {
         Write-Host "pip uninstall -y mmcv-full mmcv"
         pip uninstall -y mmcv-full mmcv
-        $tmpEnvPath = $prefixCondaPath+$tmpEnv
+        $tmpEnvPath = Join-Path $prefixCondaPath -ChildPath $tmpEnv
         if (Test-Path $tmpEnvPath) {
             Write-Host "Start remove item in Path:$tmpEnvPath"
             Remove-Item -Path $tmpEnvPath -Recurse
