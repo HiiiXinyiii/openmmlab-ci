@@ -218,7 +218,7 @@ function UpdateTorchFiles() {
         $MODULE_FILE_PATH = Join-Path $filePath -ChildPath "\torch\csrc\jit\ir\ir.h"
         if (Test-Path $MODULE_FILE_PATH) {
             $content = Get-Content $MODULE_FILE_PATH
-            $content.replace('static constexpr Symbol Kind', '# static constexpr Symbol Kind') | Set-Content $MODULE_FILE_PATH
+            $content.replace('static constexpr Symbol Kind', '// static constexpr Symbol Kind') | Set-Content $MODULE_FILE_PATH
         }
     }
 }
