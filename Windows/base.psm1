@@ -192,6 +192,42 @@ function InstallTorch() {
     }
 }
 
+function UpdateTorchFiles() {
+    param (
+        [string] $torch,
+        [string] $envName
+    )
+
+    if ("1.7.0" -ge $torch) {
+        $condaEnvPath = GetCondaEnvPath
+        $filePath = Join-Path $condaEnvPath -ChildPath "$envName\Lib\site-packages\torch\include\torch"
+        # module.h
+        $MODULE_FILE_PATH = Join-Path $filePath -ChildPath "\csrc\jit\api\module.h"
+        if (Test-Path $MODULE_FILE_PATH) {
+            $content = Get-Content $MODULE_FILE_PATH
+            $content.replace('constexpr', 'const') | Set-Content $MODULE_FILE_PATH
+        }
+        # cast.h
+        $MODULE_FILE_PATH = Join-Path $filePath -ChildPath "\pybind11\cast.h"
+        if (Test-Path $MODULE_FILE_PATH) {
+            $content = Get-Content $MODULE_FILE_PATH
+            $content.replace('return *(this->value)', 'return *((type*)this->value)') | Set-Content $MODULE_FILE_PATH
+        }
+        # ir.h
+        $MODULE_FILE_PATH = Join-Path $filePath -ChildPath "\csrc\jit\ir\ir.h"
+        if (Test-Path $MODULE_FILE_PATH) {
+            $content = Get-Content $MODULE_FILE_PATH
+            $content.replace('static constexpr Symbol Kind', '# static constexpr Symbol Kind') | Set-Content $MODULE_FILE_PATH
+        }
+    }
+}
+
+function GetCondaEnvPath() {
+    $CONDA_PATH = Get-Item (Get-Command conda.exe).Path
+    $CONDA_ENV_PATH = Join-Path $CONDA_PATH.Directory.Parent.FullName -ChildPath "envs"
+    return $CONDA_ENV_PATH
+}
+
 function SetCudaHome() {
     param (
         [string] $cuda
