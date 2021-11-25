@@ -200,9 +200,10 @@ function UpdateTorchFiles() {
 
     if ("1.7.0" -ge $torch) {
         $condaEnvPath = GetCondaEnvPath
-        $filePath = Join-Path $condaEnvPath -ChildPath "$envName\Lib\site-packages\torch\include\torch"
+        $filePath = Join-Path $condaEnvPath -ChildPath "$envName\Lib\site-packages\torch\include"
+        Write-Host "Start update torch files."
         # module.h
-        $MODULE_FILE_PATH = Join-Path $filePath -ChildPath "\csrc\jit\api\module.h"
+        $MODULE_FILE_PATH = Join-Path $filePath -ChildPath "\torch\csrc\jit\api\module.h"
         if (Test-Path $MODULE_FILE_PATH) {
             $content = Get-Content $MODULE_FILE_PATH
             $content.replace('constexpr', 'const') | Set-Content $MODULE_FILE_PATH
@@ -214,7 +215,7 @@ function UpdateTorchFiles() {
             $content.replace('return *(this->value)', 'return *((type*)this->value)') | Set-Content $MODULE_FILE_PATH
         }
         # ir.h
-        $MODULE_FILE_PATH = Join-Path $filePath -ChildPath "\csrc\jit\ir\ir.h"
+        $MODULE_FILE_PATH = Join-Path $filePath -ChildPath "\torch\csrc\jit\ir\ir.h"
         if (Test-Path $MODULE_FILE_PATH) {
             $content = Get-Content $MODULE_FILE_PATH
             $content.replace('static constexpr Symbol Kind', '# static constexpr Symbol Kind') | Set-Content $MODULE_FILE_PATH
