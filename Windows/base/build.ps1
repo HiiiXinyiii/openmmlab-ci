@@ -36,7 +36,6 @@ function CondaInstall() {
             Write-Host "Conda create $condaEnv failed."
             return $LASTEXITCODE
         }
-        UpdateTorchFiles $torch $condaEnv
         Write-Host "conda activate $condaEnv"
         conda activate $condaEnv
         if ($LASTEXITCODE -ne 0) {
@@ -50,10 +49,13 @@ function CondaInstall() {
         # $env:PATH += ";C:\Program Files (x86)\Microsoft Visual Studio\2019\BuildTools\VC\Tools\MSVC\14.29.30133\bin\Hostx86\x64"
         conda env list
         TorchPythonMatchCheck $torch, $python
+        Write-Host "Start install torch."
         InstallTorch $cuda $cudaValue $torch $torchVision
         if ($LASTEXITCODE -ne 0) {
             return $LASTEXITCODE
         }
+        # Update files in torch
+        UpdateTorchFiles $torch $condaEnv
         pip install -r "$PSScriptRoot\requirements.txt"
         conda deactivate
     }
