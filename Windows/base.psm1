@@ -207,6 +207,7 @@ function UpdateTorchFiles() {
         if (Test-Path $MODULE_FILE_PATH) {
             $content = Get-Content $MODULE_FILE_PATH
             $content.replace('constexpr', 'const') | Set-Content $MODULE_FILE_PATH
+            $content.replace('CONSTEXPR_EXCEPT_WIN_CUDA', 'const') | Set-Content $MODULE_FILE_PATH
         }
         # cast.h
         $MODULE_FILE_PATH = Join-Path $filePath -ChildPath "\pybind11\cast.h"
