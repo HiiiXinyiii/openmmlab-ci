@@ -69,17 +69,17 @@ function GetCudaArchList() {
     $cudaArchList = ""
     # TODO: remove lt 6.0: 3.5;3.7;5.0;5.2;5.3;
     if ('cuda92' -eq $cuda) {
-        $cudaArchList = "6.0;7.0"
+        $cudaArchList = "5.0;5.2;6.0;7.0"
     } elseif ('cuda110' -eq $cuda) {
-        $cudaArchList = "6.0;6.2;6.2;7.0;7.2;7.5;8.0"
+        $cudaArchList = "5.0;5.2;6.0;6.2;6.2;7.0;7.2;7.5;8.0"
     } elseif ('cuda111' -eq $cuda) {
-        $cudaArchList = "6.0;6.2;6.2;7.0;7.2;7.5;8.0;8.6"
+        $cudaArchList = "5.0;5.2;6.0;6.2;6.2;7.0;7.2;7.5;8.0;8.6"
     } elseif ('cuda113' -eq $cuda) {
-        $cudaArchList = "6.0;6.2;6.2;7.0;7.2;7.5;8.0;8.6"
+        $cudaArchList = "5.0;5.2;6.0;6.2;6.2;7.0;7.2;7.5;8.0;8.6"
     } elseif ('nocuda' -eq $cuda) {
         $cudaArchList = ""
     } else {
-        $cudaArchList = "6.0;6.2;6.2;7.0;7.2;7.5"
+        $cudaArchList = "5.0;5.2;6.0;6.2;6.2;7.0;7.2;7.5"
     }
     return $cudaArchList
 }
