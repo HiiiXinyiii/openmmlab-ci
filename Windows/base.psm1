@@ -174,7 +174,7 @@ function InstallTorch() {
         conda install -y pytorch==$torch torchvision==$torchVision cpuonly -c pytorch
     } else {
         CudaTorchMatchCheck $cudaValue $torch
-        if ("1.8.0" -eq $torch) {
+        if ("1.8.0" -le $torch) {
             if ("11.0" -le $cudaValue) {
                 conda install -y pytorch==$torch torchvision==$torchVision cudatoolkit=$cudaValue -c pytorch -c conda-forge
             } else {
