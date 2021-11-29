@@ -86,6 +86,11 @@ function Verify() {
     # $path = (Get-Item .).FullName
     python "$PSScriptRoot\verify.py" --torch-version $torch --mmcv-version $mmcv
     if ($LASTEXITCODE -ne 0) {
+        Write-Host "Verify version failed."
+        throw;
+    }
+    python .dev_scripts/check_installation.py
+    if ($LASTEXITCODE -ne 0) {
         Write-Host "Verify failed."
         throw;
     }
