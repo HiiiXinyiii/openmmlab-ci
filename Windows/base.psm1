@@ -174,16 +174,23 @@ function InstallTorch() {
         conda install -y pytorch==$torch torchvision==$torchVision cpuonly -c pytorch
     } else {
         CudaTorchMatchCheck $cudaValue $torch
-        if ("1.8.0" -le $torch) {
-            if ("11.0" -le $cudaValue) {
-                conda install -y pytorch==$torch torchvision==$torchVision cudatoolkit=$cudaValue -c pytorch -c conda-forge
-            } else {
-                conda install -y pytorch==$torch torchvision==$torchVision cudatoolkit=$cudaValue -c pytorch
-            }
+        # if ("1.8.0" -le $torch) {
+        #     if ("11.0" -le $cudaValue) {
+        #         conda install -y pytorch==$torch torchvision==$torchVision cudatoolkit=$cudaValue -c pytorch -c conda-forge
+        #     } else {
+        #         conda install -y pytorch==$torch torchvision==$torchVision cudatoolkit=$cudaValue -c pytorch
+        #     }
+        # } else {
+        #     conda install -y pytorch==$torch torchvision==$torchVision cudatoolkit=$cudaValue -c pytorch
+        # }
+        if ("11.0" -le $cudaValue) {
+            conda install -y pytorch==$torch torchvision==$torchVision cudatoolkit=$cudaValue -c pytorch -c conda-forge
+            Write-Host "Installing: conda install -y pytorch==$torch torchvision==$torchVision cudatoolkit=$cudaValue -c pytorch -c conda-forge"
         } else {
             conda install -y pytorch==$torch torchvision==$torchVision cudatoolkit=$cudaValue -c pytorch
+            Write-Host "Installing: conda install -y pytorch==$torch torchvision==$torchVision cudatoolkit=$cudaValue -c pytorch"
         }
-        Write-Host "Installing: conda install -y pytorch==$torch torchvision==$torchVision cudatoolkit=$cudaValue -c pytorch"
+        # Write-Host "Installing: conda install -y pytorch==$torch torchvision==$torchVision cudatoolkit=$cudaValue -c pytorch"
         # conda install -y pytorch==$torch torchvision==$torchVision cudatoolkit=$cudaValue -c pytorch
     }
     if ($LASTEXITCODE -ne 0) {
