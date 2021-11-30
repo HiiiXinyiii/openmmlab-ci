@@ -8,6 +8,19 @@ function SetCondaEnvName() {
     return $cuda+"_"+$python+"_torch"+$torch
 }
 
+function ParseCondaEnv() {
+    param (
+        [string] $benv
+    )
+
+    $env = $benv.Split("_")
+    if (3 -ne $env.Length) {
+        Write-Host "Invalid env format."
+        throw
+    }
+    return $env
+}
+
 function GetTorchVision() {
     param (
         [string] $torch
