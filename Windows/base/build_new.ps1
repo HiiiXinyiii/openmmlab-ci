@@ -8,6 +8,7 @@ Write-Host "$benv"
 $condaEnv = $benv
 # $ErrorActionPreference = "Stop"
 $cuda, $python, $torch = ParseCondaEnv $benv
+Write-Host "$cuda, $python, $torch"
 
 function CondaInstall() {
     try {
