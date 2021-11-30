@@ -18,6 +18,7 @@ function ParseCondaEnv() {
         Write-Host "Invalid env format."
         throw
     }
+    $env[2] = $env[2].Split("torch")[-1]
     return $env
 }
 
