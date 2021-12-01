@@ -1,12 +1,15 @@
-param($cuda, $python, $torch)
+param($benv)
+Write-Host "$benv"
 $scriptDir = Split-Path -parent $MyInvocation.MyCommand.Path
 Write-Host "$scriptDir"
 Import-Module $scriptDir\..\base.psm1
 
-Write-Host "$cuda, $python, $torch"
-$condaEnv = SetCondaEnvName $cuda $python $torch
-
+Write-Host "$benv"
+# $condaEnv = SetCondaEnvName $cuda $python $torch
+$condaEnv = $benv
 # $ErrorActionPreference = "Stop"
+$cuda, $python, $torch = ParseCondaEnv $benv
+Write-Host "$cuda, $python, $torch"
 
 function CondaInstall() {
     try {
