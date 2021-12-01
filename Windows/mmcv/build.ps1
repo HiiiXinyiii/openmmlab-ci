@@ -1,13 +1,15 @@
-param($cuda, $python, $torch, $mmcv)
-Write-Host "$cuda, $python, $torch, $mmcv"
+param($benv, $mmcv)
+Write-Host "$benv, $mmcv"
 $scriptDir = Split-Path -parent $MyInvocation.MyCommand.Path
 Write-Host "$scriptDir"
 Import-Module $scriptDir\..\base.psm1
 
-$baseCondaEnv = SetCondaEnvName $cuda $python $torch
+$baseCondaEnv = $benv
 $tmpEnv = "mmcv"+$mmcv+"_"+$baseCondaEnv
 $cudaArchList = GetCudaArchList $cuda
 $prefixCondaPath = GetCondaEnvPath
+$cuda, $python, $torch = ParseCondaEnv $benv
+Write-Host "$cuda, $python, $torch"
 
 function CondaInstall() {
     TorchPythonMatchCheck $torch, $python
