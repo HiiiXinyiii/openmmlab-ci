@@ -186,7 +186,10 @@ function InstallTorch() {
     if ("" -eq $cudaValue) {
         Write-Host "Installing: conda install -y pytorch==$torch torchvision==$torchVision cpuonly -c pytorch"
         conda install -y pytorch==$torch torchvision==$torchVision cpuonly -c pytorch
-    } else {
+    } elseif (("11.1" -eq $cudaValue) -and ("1.10.0" -eq $torch)) {
+        Write-Host "Installing: pip install torch"
+        pip install torch==1.10.0+cu111 torchvision==0.11.0+cu111 -f https://download.pytorch.org/whl/torch_stable.html
+    } elseif {
         CudaTorchMatchCheck $cudaValue $torch
         # if ("1.8.0" -le $torch) {
         #     if ("11.0" -le $cudaValue) {
