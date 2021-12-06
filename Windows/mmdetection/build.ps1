@@ -61,7 +61,7 @@ function InstallPackage() {
     Write-Host "Conda env list"
     conda env list
     # Check mmcv version
-    CheckMMCV
+    CheckMMCV $mmcv
     # Start installation
     pip install -r .\requirements\/build.txt
     if ($LASTEXITCODE -ne 0) {
