@@ -40,7 +40,7 @@ function GetTorchVision() {
     } elseif ('1.9.0' -eq $torch) {
         $torchVersion = "0.10.0"
     } elseif ('1.10.0' -eq $torch) {
-        $torchVersion = "0.11.1"
+        $torchVersion = "0.11.0"
     } else {
         Write-Host "Torch not supported"
         throw;
@@ -187,8 +187,8 @@ function InstallTorch() {
         Write-Host "Installing: conda install -y pytorch==$torch torchvision==$torchVision cpuonly -c pytorch"
         conda install -y pytorch==$torch torchvision==$torchVision cpuonly -c pytorch
     } elseif (("11.1" -eq $cudaValue) -and ("1.10.0" -eq $torch)) {
-        Write-Host "Installing: pip install torch"
-        pip install torch==1.10.0+cu111 torchvision==0.11.1+cu111 -f https://download.pytorch.org/whl/torch_stable.html
+        Write-Host "Skip installing torch1.10.0+cu111"
+        # pip install torch==1.10.0+cu111 torchvision==0.11.1+cu111 -f https://download.pytorch.org/whl/torch_stable.html
     } else {
         CudaTorchMatchCheck $cudaValue $torch
         # if ("1.8.0" -le $torch) {
