@@ -1,12 +1,12 @@
 
 
 INVALID_FORMAT_PAIRS = [
-    ("aaa", "bbb"),
-    ("", "JgPZ1ezGocppg4JO51zmXLwq"),
-    (None, "JgPZ1ezGocppg4JO51zmXLwq"),
-    ("JgPZ1ezGocppg4JO51zmXLwq", ""),
-    ("JgPZ1ezGocppg4JO51zmXLwq", "中文"),
-    (None, None)
+    ["aaa", "bbb"],
+    ["", "JgPZ1ezGocppg4JO51zmXLwq"],
+    [None, "JgPZ1ezGocppg4JO51zmXLwq"],
+    ["JgPZ1ezGocppg4JO51zmXLwq", ""],
+    ["JgPZ1ezGocppg4JO51zmXLwq", "中文"],
+    [None, None]
 ]
 
 
