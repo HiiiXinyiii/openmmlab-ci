@@ -69,7 +69,6 @@ if __name__ == '__main__':
         print("Input repo params invalid")
         sys.exit(-2)
 
-
     jclient = Jenkins(constants.JENKINS_URL, auth=(constants.USER_NAME, constants.USER_TOKEN), max_retries=3)
     job_name = '%s/%s' % (repo_name, WINDOWS_JOB_NAME)
     building_list = []
