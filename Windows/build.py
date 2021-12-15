@@ -8,7 +8,7 @@ from api4jenkins import Jenkins
 import constants
 
 WINDOWS_JOB_NAME = "build-on-windows-commit"
-WINDOWS_JOB_NAME = "debug"
+# WINDOWS_JOB_NAME = "debug"
 OS_NAME = platform.system()
 
 def parse_base_env(base_env):

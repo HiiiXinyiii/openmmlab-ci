@@ -8,8 +8,21 @@ WINDOWS_STORAGE_DIR = "C:\\Workspace\\bdist"
 LINUX_STORAGE_DIR   = path.join(path.expanduser("~"), "Workspace/bdist")
 
 DEBUG_BASE_ENVS     = [
-    'cuda92_py36_torch1.5.0',
-    'cuda92_py37_torch1.5.0'
+    'cuda111_py36_torch1.8.0',
+    'cuda111_py37_torch1.8.0',
+    'cuda111_py38_torch1.8.0',
+    'cuda111_py39_torch1.8.0',
+    'cuda111_py36_torch1.9.0',
+    'cuda111_py37_torch1.9.0',
+    'cuda111_py38_torch1.9.0',
+    'cuda111_py39_torch1.9.0',
+    'cuda111_py37_torch1.10.0',
+    'cuda111_py38_torch1.10.0',
+    'cuda111_py39_torch1.10.0',
+    'cuda113_py36_torch1.10.0',
+    'cuda113_py37_torch1.10.0',
+    'cuda113_py38_torch1.10.0',
+    'cuda113_py39_torch1.10.0',
 ]
 DEFAULT_BASE_ENVS   = [
     'cuda92_py36_torch1.5.0',
