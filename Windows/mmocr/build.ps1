@@ -44,7 +44,7 @@ function InstallPackage() {
         }
         conda remove -y --name $tmpEnv --all
         Write-Host "Start conda create -y -n $tmpEnv --clone $mmdetEnv"
-        conda create -y -n $tmpEnv --clone $mmcvEnv
+        conda create -y -n $tmpEnv --clone $mmdetEnv
         if ($LASTEXITCODE -ne 0) {
             Write-Host "Conda create failed."
             throw
