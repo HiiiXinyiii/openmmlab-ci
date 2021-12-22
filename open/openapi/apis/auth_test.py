@@ -1,9 +1,10 @@
 import pytest
-
-from .. import utils
+from openapi import constants
+from openapi import utils
 
 
 class TestAuth:
+
     """Test cases for authorization in open-apis
     """
     @pytest.fixture(
@@ -13,14 +14,13 @@ class TestAuth:
     def get_invalid_pair(self, request):
         yield request.param
 
-    def test_auth_with_invalid_pair(self, get_invalid_pair):
+    def test_auth_with_invalid_pair(self, hc, get_invalid_pair):
         """Checking auth status if using the invalid format pair key.
         Expected: auth failed.
         """
-        auth = utils.Auths()
         pair = get_invalid_pair
         with pytest.raises(Exception) as e: 
-            auth.get_token(pair[0], pair[1])
+            hc._get_token(pair[0], pair[1])
 
     def test_auth_valid_one(self):
         """Checking auth status if using the only enabled pair key.
