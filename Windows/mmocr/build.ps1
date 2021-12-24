@@ -99,6 +99,6 @@ if ($LASTEXITCODE -ne 0) {
     Write-Host "Install package failed."
     return $LASTEXITCODE
 }
-pip install requests
+# pip install requests
 Verify
 return $LASTEXITCODE
