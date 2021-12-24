@@ -30,6 +30,31 @@ def gen_invalid_urls():
     ]
 
 
+def gen_invalid_task_ids():
+    return [
+        "aaa",
+        " ",
+        ""
+    ]
+
+
+def gen_valid_cls_bads():
+    cls_bads = []
+    for b in constants.CLS_BACKENDS:
+        for d, al in constants.CLS_AD.items():
+            for a in al:
+                cls_bads.append((b, a, d))
+    return cls_bads
+
+
+def gen_valid_det_as():
+    det_bas = []
+    for b in constants.DET_BACKENDS:
+        for a in constants.DET_A:
+            det_bas.append((b, a))
+    return det_bas
+
+
 class TestThread(threading.Thread):
     def __init__(self, target, args=()):
         threading.Thread.__init__(self, target=target, args=args)

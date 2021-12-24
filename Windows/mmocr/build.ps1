@@ -63,6 +63,7 @@ function InstallPackage() {
     # Check mmcv version
     CheckMMCV $mmcv
 
+    pip install pybind11
     pip install -r .\requirements\/build.txt
     if ($LASTEXITCODE -ne 0) {
         Write-Host "Install package failed"

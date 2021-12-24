@@ -276,3 +276,14 @@ function SetMSVCEnvPath() {
     # }
     $env:PATH += ";C:\Program Files (x86)\Microsoft Visual Studio\2019\BuildTools\VC\Tools\MSVC\14.27.29110\bin\Hostx86\x64"
 }
+
+# function Get-Hash() {
+#     param(
+#         [string] $s
+#     )
+    
+#     $md5 = new-object -TypeName System.Security.Cryptography.MD5CryptoServiceProvider
+#     $utf8 = new-object -TypeName System.Text.UTF8Encoding
+#     $hash = [System.BitConverter]::ToString($md5.ComputeHash($utf8.GetBytes($s)))
+#     return $hash
+# }

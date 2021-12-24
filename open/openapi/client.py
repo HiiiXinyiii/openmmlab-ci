@@ -106,11 +106,11 @@ class ApiClient(HttpClient):
         token = self._get_token()
         headers = headers if headers is not None else {
             "Authorization": token,
-            'Content-type': "application/json"
+            "Content-type": "application/json"
         }
         url = constants.INF_SERVICE+constants.API_URI+codeb.value
         # generate the request body for resourceType `ID`
-        if body is None:
+        if body is None or body["requestType"] == "ASYNC":
             cdata = self.upload_file(codebase=codeb, filename=constants.DEFAULT_FILE_ID)["data"]
             if filetype == constants.FILE_TYPE.ID:
                 resource = cdata["fileId"]
@@ -118,7 +118,8 @@ class ApiClient(HttpClient):
                 resource = cdata["fileUrl"]
             body = self.set_body(codeb, {
                 "resourceType": filetype.value,
-                "resource": resource
+                "resource": resource,
+                "requestType": "SYNC" if body is None else body["requestType"]
             })
             logger.error(body)
         logger.error(headers)
@@ -177,13 +178,18 @@ class ApiClient(HttpClient):
         return l
 
     def get_async_result(self, headers=None, task_id=None):
-        url =  constants.INF_SERVICE+constants.ASYNC_RESULT
         token = self._get_token()
         headers = headers if headers is not None else {
-            "Authorization": token
+            "Authorization": token,
+            "Content-type": "application/json"
         }
+        url =  constants.INF_SERVICE+constants.ASYNC_RESULT
+        body = {
+            "taskId": task_id
+        }
+        logger.error(headers)
         try:
-            content = self._http_call(url, post, headers=headers)
+            content = self._http_call(url, post, headers=headers, data=body)
             return content
         except:
             logging.error(traceback.format_exc())

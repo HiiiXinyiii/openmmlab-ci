@@ -1,0 +1,1 @@
+from mmocr.utils.ocr import MMOCR

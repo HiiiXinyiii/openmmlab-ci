@@ -19,6 +19,13 @@ class TestCls:
     def get_invalid_url(self, request):
         yield request.param
 
+    @pytest.fixture(
+        scope="function",
+        params=utils.gen_valid_cls_bads()
+    )
+    def get_valid_cls_bad(self, request):
+        yield request.param
+
     """
         The following cases test the `resource` in body param.
     """
@@ -29,11 +36,23 @@ class TestCls:
         res = ac.request(self.codeb, filetype=constants.FILE_TYPE.URL)
         assert res["data"]["result"]
 
-    def test_cls_resource_file_id(self):
+    def test_cls_resource_file_id(self, ac):
         """Checking response using demo.
         Expected: infer success, code: 
         """
-        res = self.c.request(self.codeb)
+        res = ac.request(self.codeb)
+        assert res["data"]["result"]
+
+    def test_cls_all(self, ac, get_valid_cls_bad):
+        (b, a, d) = get_valid_cls_bad
+        body = ac.set_body(self.codeb, {
+            "backend": b,
+            "algorithm": a,
+            "dataset": d
+        })
+        logger.error(body)
+        res = ac.request(self.codeb, body=body)
+        logger.error(res)
         assert res["data"]["result"]
 
     def test_cls_resource_invalid_url(self, ac, get_invalid_url):
@@ -66,9 +85,14 @@ class TestCls:
         body = ac.set_body(self.codeb, {
             "requestType": "ASYNC"
         })
-        logger.error(body)
-        logger.error(ac.request(self.codeb, body=body))
+        res = ac.request(self.codeb, body=body)
+        task_id = res["data"]["task_id"]
+        res = ac.get_async_result(task_id=task_id)
+        logger.error(res)
+        assert res["data"]["status"] == constants.INFER_STATUS.DONE.value
+        assert res["data"]["result"]
     
+    # TODO: unknown error
     def test_cls_request_type_not_supported(self, ac):
         body = ac.set_body(self.codeb, {
             "requestType": "invalid"
@@ -89,22 +113,18 @@ class TestAsyncCls():
     def setup(self):
         self.codeb = constants.CODEB.CLS
 
+    @pytest.fixture(
+        scope="function",
+        params=utils.gen_invalid_task_ids()
+    )
+    def get_invalid_task_id(self, request):
+        yield request.param
+
     def test_cls_aysnc_invalid_task_id(self, ac, get_invalid_task_id):
         """Checking response using demo.
         Expected: infer failed, code: 
         """
-        body = ac.set_body(self.codeb, {
-            "requestType": "ASYNC",
-        })
-        task_id = ac.request(self.codeb, body=body)
-        ac.get_async_result(task_id)
-
-    def test_cls_aysnc_task_id(self, ac):
-        """Checking response using demo.
-        Expected: infer success, code: 
-        """
-        body = ac.set_body(self.codeb, {
-            "requestType": "ASYNC",
-        })
-        task_id = ac.request(self.codeb, body=body)
-        ac.get_async_result(task_id)
+        task_id = get_invalid_task_id
+        res = ac.get_async_result(task_id=task_id)
+        logger.error(res)
+        assert "data" not in res

@@ -10,13 +10,20 @@ class TestDet:
     def setup(self):
         self.codeb = constants.CODEB.DET
 
-    """Test cases for cls.
+    """Test cases for det.
     """
     @pytest.fixture(
         scope="function",
         params=utils.gen_invalid_urls()
     )
     def get_invalid_url(self, request):
+        yield request.param
+
+    @pytest.fixture(
+        scope="function",
+        params=utils.gen_valid_det_bas()
+    )
+    def get_valid_det_ba(self, request):
         yield request.param
 
     """
@@ -34,6 +41,17 @@ class TestDet:
         Expected: infer success, code: 
         """
         res = self.c.request(self.codeb)
+        assert res["data"]["result"]
+
+    def test_det_all(self, ac, get_valid_det_ba):
+        (b, a) = get_valid_det_ba
+        body = ac.set_body(self.codeb, {
+            "backend": b,
+            "algorithm": a
+        })
+        logger.error(body)
+        res = ac.request(self.codeb, body=body)
+        logger.error(res)
         assert res["data"]["result"]
 
     def test_det_resource_invalid_url(self, ac, get_invalid_url):
@@ -66,8 +84,12 @@ class TestDet:
         body = ac.set_body(self.codeb, {
             "requestType": "ASYNC"
         })
-        logger.error(body)
-        logger.error(ac.request(self.codeb, body=body))
+        res = ac.request(self.codeb, body=body)
+        task_id = res["data"]["task_id"]
+        res = ac.get_async_result(task_id=task_id)
+        logger.error(res)
+        assert res["data"]["status"] == constants.INFER_STATUS.DONE.value
+        assert res["data"]["result"]
     
     def test_det_request_type_not_supported(self, ac):
         body = ac.set_body(self.codeb, {
@@ -87,24 +109,19 @@ class TestDet:
 
 class TestAsyncDet():
     def setup(self):
-        self.codeb = constants.CODEB.CLS
+        self.codeb = constants.CODEB.DET
 
+    @pytest.fixture(
+        scope="function",
+        params=utils.gen_invalid_task_ids()
+    )
+    def get_invalid_task_id(self, request):
+        yield request.param
+
+    # TODO: bug need to fix
     def test_det_aysnc_invalid_task_id(self, ac, get_invalid_task_id):
         """Checking response using demo.
         Expected: infer failed, code: 
         """
-        body = ac.set_body(self.codeb, {
-            "requestType": "ASYNC",
-        })
-        task_id = ac.request(self.codeb, body=body)
-        ac.get_async_result(task_id)
-
-    def test_det_aysnc_task_id(self, ac):
-        """Checking response using demo.
-        Expected: infer success, code: 
-        """
-        body = ac.set_body(self.codeb, {
-            "requestType": "ASYNC",
-        })
-        task_id = ac.request(self.codeb, body=body)
-        ac.get_async_result(task_id)
+        task_id = get_invalid_task_id
+        ac.get_async_result(task_id=task_id)

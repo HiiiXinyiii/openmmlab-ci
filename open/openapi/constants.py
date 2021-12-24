@@ -39,6 +39,99 @@ class FILE_TYPE(Enum):
     ID           = "ID"
     URL          = "URL"
 
+
+class INFER_STATUS(Enum):
+    DONE        = "DONE"
+    RUNNING     = "RUNNING"
+
+
+CLS_AD          = {
+    "ImageNet": [
+        "Swin-Transformer",
+        "VGG",
+        "SEResNet",
+        "ShuffleNet v1",
+        "ShuffleNet v2",
+        "FP16",
+        "MobileNetV2",
+        "ResNet",
+        "ResNeXt"
+    ],
+    "CIFAR-10": ["ResNet"],
+    "CIFAR-100": ["ResNet"]
+}
+
+
+CLS_BACKENDS = [
+    "PyTorch",
+    "TensorRT",
+    "ONNXRuntime",
+    "OpenPPL"
+]
+
+
+DET_A           = [
+    "YOLOX",
+    "Faster R-CNN",
+    "Mask R-CNN",
+    "Cascade R-CNN",
+    "RetinaNet",
+    "GHM",
+    "Mask Scoring R-CNN",
+    "Rethinking Classification and Localization for Object Detection",
+    "ATSS",
+    "AutoAssign",
+    "CenterNet",
+    "CentripetalNet",
+    "CornerNet",
+    "DCN",
+    "Deformable DETR",
+    "DetectoRS",
+    "DETR",
+    "Dynamic R-CNN",
+    "Empirical Attention",
+    "FCOS",
+    "FoveaBox",
+    "FP16",
+    "FreeAnchor",
+    "FSAF",
+    "GCNet",
+    "Generalized Focal Loss",
+    "Group Normalization",
+    "Grid R-CNN",
+    "GRoIE",
+    "Guided Anchoring",
+    "HRNet",
+    "InstaBoost",
+    "Libra R-CNN",
+    "LVIS",
+    "NAS-FCOS",
+    "NAS-FPN",
+    "PAA",
+    "PAFPN",
+    "PISA",
+    "PointRend",
+    "RegNet",
+    "RepPoints",
+    "Res2Net",
+    "ResNeSt",
+    "SABL",
+    "Rethinking ImageNet Pre-training",
+    "seesaw_loss",
+    "selfsup_pretrain",
+    "Sparse R-CNN",
+    "YOLOv3",
+    "YOLACT",
+    "VFNet",
+    "SSD",
+    "YOLOF",
+    "Weight Standardization",
+]
+
+
+DET_BACKENDS = CLS_BACKENDS
+
+
 # default value
 DEFAULT_CLS_BODY  = {
     "backend": "PyTorch",
