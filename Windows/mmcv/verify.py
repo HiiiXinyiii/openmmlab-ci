@@ -1,6 +1,8 @@
 import argparse
 import torch
 import mmcv
+from mmcv.ops import RoIPool
+
 
 if __name__ == "__main__":
     arg_parser = argparse.ArgumentParser(
