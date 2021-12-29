@@ -6,10 +6,10 @@ Import-Module $scriptDir\..\base.psm1
 
 $baseCondaEnv = $benv
 $tmpEnv = "mmcv"+$mmcv+"_"+$baseCondaEnv
-$cudaArchList = GetCudaArchList $cuda
 $prefixCondaPath = GetCondaEnvPath
 $cuda, $python, $torch = ParseCondaEnv $benv
 Write-Host "$cuda, $python, $torch"
+$cudaArchList = GetCudaArchList $cuda
 
 function CondaInstall() {
     TorchPythonMatchCheck $torch, $python
