@@ -2,7 +2,7 @@ ARG MMCV="ubuntu_1804_py_39_cuda_111_cudnn_8_torch_190_release"
 ARG MMCV_VERSION="v1.4.0"
 ARG TENSORRT_VERSION="8.0.3.4"
 
-FROM ${MMCV}:${MMCV_VERSION}
+FROM mmcv_${MMCV}:${MMCV_VERSION}
 ARG HTTP_PROXY="http://proxy.sensetime.com:3128"
 
 ENV HTTP_PROXY="$HTTP_PROXY"
@@ -47,7 +47,7 @@ RUN mkdir build && cd build \
    -DCMAKE_CXX_COMPILER=g++-7 \
    -Dpplcv_DIR=/opt/deps/ppl.cv/install/lib/cmake/ppl \
    -DTENSORRT_DIR=/opt/deps/TensorRT-${TENSORRT_VERSION} \
-   -DCUDNN_DIR=/path/to/cudnn \
+#    -DCUDNN_DIR=/path/to/cudnn \
    -DMMDEPLOY_TARGET_DEVICES="cuda;cpu" \
    -DMMDEPLOY_TARGET_BACKENDS=trt \
    -DMMDEPLOY_CODEBASES=all \
