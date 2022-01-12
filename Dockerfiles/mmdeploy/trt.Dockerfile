@@ -7,17 +7,18 @@ ARG HTTP_PROXY="http://proxy.sensetime.com:3128"
 
 ENV HTTP_PROXY="$HTTP_PROXY"
 ENV HTTPS_PROXY="$HTTP_PROXY"
-ENV LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/opt/deps/TensorRT-${TENSORRT_VERSION}/lib
+ENV LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/opt/deps/TensorRT-${TENSORRT_V}/lib
+ARG TENSORRT_V="8.0.3.4"
 
 WORKDIR /opt/deps
-ADD TensorRT-${TENSORRT_VERSION} .
-RUN cd TensorRT-${TENSORRT_VERSION}/python \
-    python -m pip install tensorrt-${TENSORRT_VERSION}-cp37-none-linux_x86_64.whl && cd .. \
-    cd TensorRT-${TENSORRT_VERSION}/uff \
+COPY TensorRT-${TENSORRT_V} .
+RUN cd TensorRT-${TENSORRT_V}/python \
+    python -m pip install tensorrt-${TENSORRT_V}-cp37-none-linux_x86_64.whl && cd .. \
+    cd TensorRT-${TENSORRT_V}/uff \
     python -m pip install uff-0.6.9-py2.py3-none-any.whl && cd .. \
-    cd TensorRT-${TENSORRT_VERSION}/graphsurgeon \
+    cd TensorRT-${TENSORRT_V}/graphsurgeon \
     python -m pip install graphsurgeon-0.4.5-py2.py3-none-any.whl && cd ..\
-    cd TensorRT-${TENSORRT_VERSION}/onnx_graphsurgeon \
+    cd TensorRT-${TENSORRT_V}/onnx_graphsurgeon \
     python -m pip install onnx_graphsurgeon-0.3.10-py2.py3-none-any.whl
 
 RUN apt-get update && apt-get install -y wget 
