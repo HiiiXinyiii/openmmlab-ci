@@ -10,7 +10,7 @@ ENV HTTPS_PROXY="$HTTP_PROXY"
 ARG TENSORRT_VERSION="8.0.3.4"
 
 WORKDIR /opt/deps
-ADD /mnt/data1/jenkins/deps/TensorRT-${TENSORRT_VERSION}.Linux.x86_64-gnu.cuda-11.3.cudnn8.2.tar.gz .
+ADD TensorRT-${TENSORRT_VERSION}.Linux.x86_64-gnu.cuda-11.3.cudnn8.2.tar.gz .
 RUN tar xzvf TensorRT-${TENSORRT_VERSION}.Linux.x86_64-gnu.cuda-11.3.cudnn8.2.tar.gz \
     export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/opt/deps/TensorRT-${TENSORRT_VERSION}/lib \
     cd TensorRT-${TENSORRT_VERSION}/python \
