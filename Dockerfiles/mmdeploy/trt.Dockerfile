@@ -1,19 +1,17 @@
 ARG MMCV="ubuntu_1804_py_39_cuda_111_cudnn_8_torch_190_release"
 ARG MMCV_VERSION="v1.4.0"
-ARG TENSORRT_VERSION="8.0.3.4"
+ARG TENSORRT_V="8.0.3.4"
 
 FROM mmcv_${MMCV}:${MMCV_VERSION}
 ARG HTTP_PROXY="http://proxy.sensetime.com:3128"
 
 ENV HTTP_PROXY="$HTTP_PROXY"
 ENV HTTPS_PROXY="$HTTP_PROXY"
-ARG TENSORRT_VERSION="8.0.3.4"
+ENV LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/opt/deps/TensorRT-${TENSORRT_VERSION}/lib
 
 WORKDIR /opt/deps
-ADD TensorRT-${TENSORRT_VERSION}.Linux.x86_64-gnu.cuda-11.3.cudnn8.2.tar.gz .
-RUN tar xzvf TensorRT-${TENSORRT_VERSION}.Linux.x86_64-gnu.cuda-11.3.cudnn8.2.tar.gz \
-    export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/opt/deps/TensorRT-${TENSORRT_VERSION}/lib \
-    cd TensorRT-${TENSORRT_VERSION}/python \
+ADD TensorRT-${TENSORRT_VERSION} .
+RUN cd TensorRT-${TENSORRT_VERSION}/python \
     python -m pip install tensorrt-${TENSORRT_VERSION}-cp37-none-linux_x86_64.whl && cd .. \
     cd TensorRT-${TENSORRT_VERSION}/uff \
     python -m pip install uff-0.6.9-py2.py3-none-any.whl && cd .. \
@@ -26,7 +24,7 @@ RUN apt-get update && apt-get install -y wget
 RUN wget https://cmake.org/files/v3.22/cmake-3.22.0-linux-x86_64.tar.gz \
     tar -zxvf cmake-3.22.0-linux-x86_64.tar.gz \
     mv cmake-3.22.0-linux-x86_64 cmake-3.22.0 \
-    ln -sf /cmake-3.12.2/bin/* /usr/bin
+    ln -sf cmake-3.22.0/bin/* /usr/bin
 
 RUN apt-get install -y libssl-dev libopencv-dev libspdlog-dev
 
