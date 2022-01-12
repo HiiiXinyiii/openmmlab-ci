@@ -7,6 +7,7 @@ ARG HTTP_PROXY="http://proxy.sensetime.com:3128"
 
 ENV HTTP_PROXY="$HTTP_PROXY"
 ENV HTTPS_PROXY="$HTTP_PROXY"
+ARG TENSORRT_VERSION="8.0.3.4"
 
 WORKDIR /opt/deps
 ADD /mnt/data1/jenkins/deps/TensorRT-${TENSORRT_VERSION}.Linux.x86_64-gnu.cuda-11.3.cudnn8.2.tar.gz .
