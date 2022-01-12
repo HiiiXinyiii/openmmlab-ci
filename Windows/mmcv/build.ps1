@@ -45,7 +45,9 @@ function CondaInstall() {
     Write-Host "$env:TORCH_CUDA_ARCH_LIST"
     # TODO: move pip install ninja into requirements.txt
     pip install ninja
-    pip install -r requirements.txt
+    pip install -r requirements/build.txt
+    pip install -r requirements/optional.txt
+    pip install -r requirements/runtime.txt
     if ($LASTEXITCODE -ne 0) {
         Write-Host "Pip install requirements.txt failed."
         throw
