@@ -1,12 +1,14 @@
-
-ARG IMAGE="ubuntu_1804_py_39_cuda_111_cudnn_8_torch_190_trt"
-ARG TAG="20220112"
+ARG IMAGE="ubuntu_1804_py_39_cuda_111_cudnn_8_torch_190"
+ARG BACKEND="trt"
+ARG TAG="v1"
 ARG TENSORRT_VERSION="8.0.3.4"
 
-FROM mmdeploy_${IMAGE}:${TAG}
+FROM mmdeploy_${IMAGE}_${BACKEND}:${TAG}
 ARG HTTP_PROXY="http://proxy.sensetime.com:3128"
 ARG DEBIAN_FRONTEND=noninteractive
-ARG TENSORRT_VERSION="8.0.3.4"
+ARG TENSORRT_VERSION
+ARG BACKEND
+ARG TAG
 
 ENV TZ=Asia/Shanghai
 ENV HTTP_PROXY="$HTTP_PROXY"
@@ -26,7 +28,7 @@ RUN mkdir build && cd build \
    -DTENSORRT_DIR=/opt/deps/TensorRT-${TENSORRT_VERSION} \
 #    -DCUDNN_DIR=/path/to/cudnn \
    -DMMDEPLOY_TARGET_DEVICES="cuda;cpu" \
-   -DMMDEPLOY_TARGET_BACKENDS=trt \
+   -DMMDEPLOY_TARGET_BACKENDS=${BACKEND} \
    -DMMDEPLOY_CODEBASES=all \
     && cmake --build . -- -j4 && cmake --install .
 RUN python tools/check_env.py
