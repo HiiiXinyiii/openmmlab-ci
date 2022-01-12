@@ -38,20 +38,3 @@ RUN git clone https://github.com/openppl-public/ppl.cv.git \
 RUN apt-get clean && apt-get remove --purge -y \
     && rm -rf /var/lib/apt/lists/* \
     && rm -rf *.tar.gz
-
-WORKDIR /opt/mmdeploy
-COPY . /opt/mmdeploy
-
-RUN git submodule update --init --recursive
-RUN pip install -r requirements.txt
-RUN mkdir build && cd build \
-    && cmake .. \
-   -DMMDEPLOY_BUILD_SDK=ON \
-   -DCMAKE_CXX_COMPILER=g++-7 \
-   -Dpplcv_DIR=/opt/deps/ppl.cv/cuda-build/install/lib/cmake/ppl \
-   -DTENSORRT_DIR=/opt/deps/TensorRT-${TENSORRT_VERSION} \
-#    -DCUDNN_DIR=/path/to/cudnn \
-   -DMMDEPLOY_TARGET_DEVICES="cuda;cpu" \
-   -DMMDEPLOY_TARGET_BACKENDS=trt \
-   -DMMDEPLOY_CODEBASES=all \
-    && cmake --build . -- -j4 && cmake --install .
