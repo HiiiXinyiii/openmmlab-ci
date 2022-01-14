@@ -8,7 +8,7 @@ ENV HTTP_PROXY="$HTTP_PROXY"
 ENV HTTPS_PROXY="$HTTP_PROXY"
 ENV ONNXRUNTIME_DIR=/opt/onnxruntime-linux-x64-1.8.1
 
-RUN apt-get update && apt-get install -y libssl-dev
+RUN apt-get update && apt-get install -y libssl-dev libpython3.7
 RUN apt-get clean && apt-get remove --purge -y \
     && rm -rf /var/lib/apt/lists/*
 
