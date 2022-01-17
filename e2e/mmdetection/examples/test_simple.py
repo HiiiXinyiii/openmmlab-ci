@@ -1,3 +1,4 @@
+import logging
 import os
 import requests
 import pytest
@@ -18,4 +19,4 @@ class TestExamples():
         # init a detector
         model = init_detector(config_file, checkpoint_file, device=device)
         # inference the demo image
-        print(inference_detector(model, 'demo/demo.jpg'))
+        logging.getLogger().info(inference_detector(model, os.path.join(pytest.CODEB_PATH, 'demo/demo.jpg')))
