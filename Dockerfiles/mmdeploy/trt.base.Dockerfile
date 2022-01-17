@@ -27,7 +27,7 @@ RUN apt-get update && apt-get install -y wget \
     && ln -s /usr/local/share/cmake-3.22/bin/cmake /usr/local/bin \
     && cmake --version
 
-RUN apt-get install -y --no-install-recommends libssl-dev libopencv-dev libspdlog-dev
+RUN apt-get install -y --no-install-recommends libssl-dev libopencv-dev libspdlog-dev libpython3.7
 
 RUN git clone https://github.com/openppl-public/ppl.cv.git \
     && cd ppl.cv \
