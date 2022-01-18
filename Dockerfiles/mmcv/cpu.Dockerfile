@@ -7,7 +7,7 @@ ARG TORCHVISION="0.7.0"
 ARG PYTHON="3.7"
 
 RUN apt-get update && apt-get install -y ffmpeg libturbojpeg ninja-build libprotobuf-dev protobuf-compiler cmake git wget
-RUN if [ "$PYTHON" != "3.9" ] ; then apt-get install -y python${PYTHON}-dev ; else fi
+RUN if [ "$PYTHON" != "3.9" ] ; then apt-get install -y python${PYTHON}-dev ; fi
 RUN apt-get install -y python${PYTHON} python3-pip
 RUN apt-get clean && apt-get remove --purge -y \
     && rm -rf /var/lib/apt/lists/*
