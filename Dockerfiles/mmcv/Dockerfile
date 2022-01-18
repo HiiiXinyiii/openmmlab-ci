@@ -1,7 +1,6 @@
 ARG PYTORCH="1.6.0"
 ARG CUDA="10.1"
 ARG CUDNN="7"
-ARG PYTHON="3.7"
 
 FROM pytorch/pytorch:${PYTORCH}-cuda${CUDA}-cudnn${CUDNN}-devel
 
@@ -13,10 +12,11 @@ ENV FORCE_CUDA="1"
 
 # ARG TORCH="1.6.0+cu101"
 # ARG TORCHVERSION="0.7.0+cu101"
-ARG PYTHON
+ARG PYTHON="3.7"
 
 RUN apt-get update && apt-get install -y ffmpeg libturbojpeg ninja-build libprotobuf-dev protobuf-compiler cmake git wget
 RUN if [ "$PYTHON" != "3.9" ] ; then apt-get install -y python${PYTHON}-dev ; fi
+RUN apt-get install -y python${PYTHON} python3-pip
 
 RUN apt-get clean && apt-get remove --purge -y \
     && rm -rf /var/lib/apt/lists/*
