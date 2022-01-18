@@ -5,7 +5,7 @@ FROM ubuntu:${OS_VERSION}}
 ARG TORCH="1.6.0"
 ARG TORCHVISION="0.7.0"
 ARG PYTHON="3.7"
-ARG MMCV_VERSION="1.4.0"
+# ARG MMCV_VERSION="1.4.0"
 
 RUN apt-get update && apt-get install -y ffmpeg libturbojpeg ninja-build libprotobuf-dev protobuf-compiler cmake git wget
 RUN if [ "$PYTHON" != "3.9" ] ; then apt-get install -y python${PYTHON}-dev ; else fi
