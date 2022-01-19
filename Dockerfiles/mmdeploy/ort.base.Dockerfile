@@ -21,7 +21,7 @@ RUN apt-get update && apt-get install -y libssl-dev libpython${PYTHON} wget \
 RUN apt-get clean && apt-get remove --purge -y \
     && rm -rf /var/lib/apt/lists/*
 
-RUN python -m pip install onnxruntime==${ONNX_VERSION}
+RUN python3 -m pip install onnxruntime==${ONNX_VERSION}
 WORKDIR /opt
 RUN wget https://github.com/microsoft/onnxruntime/releases/download/v${ONNX_VERSION}/onnxruntime-linux-x64-${ONNX_VERSION}.tgz \
     tar -zxvf onnxruntime-linux-x64-${ONNX_VERSION}.tgz \
