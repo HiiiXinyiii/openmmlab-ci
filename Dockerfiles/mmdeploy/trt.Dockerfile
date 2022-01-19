@@ -29,6 +29,7 @@ RUN mkdir build && cd build \
 #    -DCUDNN_DIR=/path/to/cudnn \
    -DMMDEPLOY_TARGET_DEVICES="cuda;cpu" \
    -DMMDEPLOY_TARGET_BACKENDS=${BACKEND} \
+   -DMMDEPLOY_BUILD_SDK_PYTHON_API=ON \
    -DMMDEPLOY_CODEBASES=all \
     && cmake --build . -- -j4 && cmake --install .
 RUN python tools/check_env.py
