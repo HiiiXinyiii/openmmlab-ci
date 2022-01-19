@@ -24,5 +24,5 @@ RUN apt-get clean && apt-get remove --purge -y \
 RUN python3 -m pip install onnxruntime==${ONNX_VERSION}
 WORKDIR /opt
 RUN wget https://github.com/microsoft/onnxruntime/releases/download/v${ONNX_VERSION}/onnxruntime-linux-x64-${ONNX_VERSION}.tgz \
-    tar -zxvf onnxruntime-linux-x64-${ONNX_VERSION}.tgz \
-    rm -rf onnxruntime-linux-x64-${ONNX_VERSION}.tgz
+    && tar -zxvf onnxruntime-linux-x64-${ONNX_VERSION}.tgz \
+    && rm -rf onnxruntime-linux-x64-${ONNX_VERSION}.tgz
