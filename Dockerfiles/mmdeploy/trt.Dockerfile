@@ -8,7 +8,6 @@ ARG HTTP_PROXY="http://proxy.sensetime.com:3128"
 ARG DEBIAN_FRONTEND=noninteractive
 ARG TENSORRT_VERSION
 ARG BACKEND
-ARG TAG
 
 ENV TZ=Asia/Shanghai
 ENV HTTP_PROXY="$HTTP_PROXY"
