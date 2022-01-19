@@ -1,8 +1,7 @@
-ARG PTYHON="3.7"
-ARG PYTORCH="1.6.0"
+ARG MMCV="ubuntu_1804_py_37_torch_160_release"
 ARG MMCV_VERSION="v1.4.0"
 
-FROM ubuntu_1804_py_${PYTHON}torch_${PYTORCH}_release:${MMCV_VERSION}
+FROM ${MMCV}:${MMCV_VERSION}
 ARG HTTP_PROXY="http://proxy.sensetime.com:3128"
 ARG ONNX_VERSION="1.8.1"
 
