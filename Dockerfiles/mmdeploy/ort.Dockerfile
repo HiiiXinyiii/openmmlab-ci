@@ -1,4 +1,4 @@
-ARG MMCV="ubuntu_1804_py_37_torch_160_release"
+ARG IMAGE="ubuntu_1804_py_37_torch_160_release"
 ARG TAG="v1"
 
 FROM mmdeploy_${IMAGE}_${BACKEND}:${TAG}
