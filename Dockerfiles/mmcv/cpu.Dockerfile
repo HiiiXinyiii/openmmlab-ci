@@ -12,7 +12,7 @@ RUN add-apt-repository ppa:deadsnakes/ppa
 RUN if [ "$PYTHON" != "3.9" ] ; then apt-get install -y python${PYTHON}-dev python3-pip ; else apt-get install -y python${PYTHON} python3-pip python${PYTHON}-dev python${PYTHON}-distutils ; fi
 RUN apt-get clean && apt-get remove --purge -y \
     && rm -rf /var/lib/apt/lists/*
-RUN unlink /usr/bin/python3 && python${PYTHON} -m pip install --upgrade pip
+RUN unlink /usr/bin/python3 && python${PYTHON} -m pip install --upgrade pip && rm -f /usr/bin/pip3
 # Register the version in alternatives 
 RUN update-alternatives --install /usr/bin/python python /usr/bin/python${PYTHON} 1 
 # Set python 3 as the default python 
