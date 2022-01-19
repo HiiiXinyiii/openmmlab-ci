@@ -1,7 +1,7 @@
 ARG MMCV="ubuntu_1804_py_39_cuda_111_cudnn_8_torch_190_release"
 ARG MMCV_VERSION="v1.4.0"
 
-FROM mmcv_${MMCV}:${MMCV_VERSION}
+FROM registry.sensetime.com/mmcv/{MMCV}:${MMCV_VERSION}
 ARG HTTP_PROXY="http://proxy.sensetime.com:3128"
 ARG DEBIAN_FRONTEND=noninteractive
 ARG TENSORRT_VERSION="8.0.3.4"
