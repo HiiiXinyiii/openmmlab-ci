@@ -5,6 +5,7 @@ FROM ubuntu:${OS_VERSION}
 ARG PYTORCH="1.6.0"
 ARG TORCHVISION="0.7.0"
 ARG PYTHON="3.7"
+ARG MMCV_VERSION="1.4.0"
 
 RUN apt-get update && apt-get install -y ffmpeg libturbojpeg ninja-build libprotobuf-dev protobuf-compiler cmake git curl wget
 RUN if [ "$PYTHON" != "3.9" ] ; then apt-get install -y python3-pip python${PYTHON}-dev ; else apt-get install -y python${PYTHON} python${PYTHON}-pip python${PYTHON}-dev python${PYTHON}-distutils ; fi
@@ -28,5 +29,6 @@ RUN rm -rf petrel-oss-python-sdk
 # WORKDIR /opt/mmcv
 # COPY . /opt/mmcv
 
-RUN python3 -m pip install --no-cache-dir -e .
-# RUN pip install mmcv-full==${MMCV_VERSION} -f https://download.openmmlab.com/mmcv/dist/cpu/torch${TORCH}/index.html
+# RUN python setup.py develop \
+#     && python3 -m pip install --no-cache-dir -e .
+RUN pip install mmcv-full==${MMCV_VERSION} -f https://download.openmmlab.com/mmcv/dist/cpu/torch${PYTORCH}/index.html
