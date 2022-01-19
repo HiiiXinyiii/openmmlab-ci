@@ -1,9 +1,11 @@
-ARG IMAGE="ubuntu_1804_py_37_torch_160_release"
+ARG IMAGE="ubuntu_1804_py_37_torch_160"
+ARG BACKEND="ort"
 ARG TAG="v1"
 
-FROM mmdeploy_${IMAGE}_${BACKEND}:${TAG}
+FROM registry.sensetime.com/mmdeploy/${IMAGE}_${BACKEND}:${TAG}
 ARG HTTP_PROXY="http://proxy.sensetime.com:3128"
 ARG ONNX_VERSION="1.8.1"
+ARG BACKEND
 
 ENV TZ=Asia/Shanghai
 ENV HTTP_PROXY="$HTTP_PROXY"
