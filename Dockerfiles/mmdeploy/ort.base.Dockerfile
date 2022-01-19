@@ -4,6 +4,7 @@ ARG MMCV_VERSION="v1.4.0"
 FROM registry.sensetime.com/mmcv/${MMCV}:${MMCV_VERSION}
 ARG HTTP_PROXY="http://proxy.sensetime.com:3128"
 ARG ONNX_VERSION="1.8.1"
+ARG PYTHON="3.7"
 
 ENV TZ=Asia/Shanghai
 ENV HTTP_PROXY="$HTTP_PROXY"
