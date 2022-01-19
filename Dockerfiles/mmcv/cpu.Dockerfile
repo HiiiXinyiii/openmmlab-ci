@@ -8,7 +8,8 @@ ARG PYTHON="3.7"
 ARG MMCV_VERSION="1.4.0"
 
 RUN apt-get update && apt-get install -y ffmpeg libturbojpeg ninja-build libprotobuf-dev protobuf-compiler cmake git curl wget
-RUN if [ "$PYTHON" != "3.9" ] ; then apt-get install -y python3-pip python${PYTHON}-dev ; else apt-get install -y python${PYTHON} python${PYTHON}-pip python${PYTHON}-dev python${PYTHON}-distutils ; fi
+RUN apt-get remove --auto-remove -y python3.6 pip3
+RUN if [ "$PYTHON" != "3.9" ] ; then apt-get install -y python${PYTHON}-dev python3-pip ; else apt-get install -y python${PYTHON} python${PYTHON}-pip python${PYTHON}-dev python${PYTHON}-distutils ; fi
 RUN apt-get clean && apt-get remove --purge -y \
     && rm -rf /var/lib/apt/lists/*
 # Register the version in alternatives 
@@ -31,4 +32,4 @@ RUN rm -rf petrel-oss-python-sdk
 
 # RUN python setup.py develop \
 #     && python3 -m pip install --no-cache-dir -e .
-RUN pip install mmcv-full==${MMCV_VERSION} -f https://download.openmmlab.com/mmcv/dist/cpu/torch${PYTORCH}/index.html
+RUN python3 -m pip install install mmcv-full==${MMCV_VERSION} -f https://download.openmmlab.com/mmcv/dist/cpu/torch${PYTORCH}/index.html
