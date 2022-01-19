@@ -10,10 +10,10 @@ RUN apt-get update && apt-get install -y ffmpeg libturbojpeg ninja-build libprot
 RUN if [ "$PYTHON" != "3.9" ] ; then apt-get install -y python3-pip python${PYTHON}-dev ; else apt-get install -y python${PYTHON} python3-pip python${PYTHON}-dev ; fi
 RUN apt-get clean && apt-get remove --purge -y \
     && rm -rf /var/lib/apt/lists/*
-RUN ln -s /usr/bin/python3.8 /usr/local/bin/python
+RUN ln -s /usr/bin/python${PYTHON} /usr/local/bin/python
 RUN pip3 install --upgrade pip
-RUN python3 -m pip install torch==${PYTORCH}+cpu torchvision==${TORCHVISION} -f https://download.pytorch.org/whl/torch_stable.html
-RUN python3 -m pip install psutil protobuf Pillow==6.2.2
+RUN python -m pip install torch==${PYTORCH}+cpu torchvision==${TORCHVISION} -f https://download.pytorch.org/whl/torch_stable.html
+RUN python -m pip install psutil protobuf Pillow==6.2.2
 
 # Install petrel oss sdk and petrel config file, make sure petrel-oss-python-sdk & openmmlab-ci exists
 COPY petrel-oss-python-sdk /tmp
