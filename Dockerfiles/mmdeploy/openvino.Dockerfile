@@ -1,5 +1,5 @@
 ARG IMAGE="ubuntu_1804_py_37_torch_160"
-ARG BACKEND="ort"
+ARG BACKEND="openvino"
 ARG TAG="v1"
 
 FROM registry.sensetime.com/mmdeploy/${IMAGE}_${BACKEND}:${TAG}
@@ -16,7 +16,7 @@ WORKDIR /opt/mmdeploy
 COPY . /opt/mmdeploy
 
 RUN git submodule update --init --recursive
-RUN pip install -r requirements/tests.txt && pip install -r requirements/build.txt && pip install -r requirements/runtime.txt && pip install --upgrade numpy && pip install -e .
+RUN pip install -r requirements/tests.txt && pip install -r requirements/build.txt && pip install -r requirements/runtime.txt && pip install -e .
 RUN mkdir build && cd build \
     && cmake .. \
     -DMMDEPLOY_BUILD_SDK=ON \
