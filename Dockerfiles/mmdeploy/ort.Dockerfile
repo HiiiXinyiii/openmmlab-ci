@@ -27,4 +27,4 @@ RUN mkdir build && cd build \
     -DMMDEPLOY_CODEBASES=all \
     -DMMDEPLOY_BUILD_SDK_PYTHON_API=ON \
     && cmake --build . -- -j4 && cmake --install .
-RUN python3 tools/check_env.py
+RUN python tools/check_env.py
