@@ -16,7 +16,7 @@ WORKDIR /opt/mmdeploy
 COPY . /opt/mmdeploy
 
 RUN git submodule update --init --recursive
-RUN pip install -r requirements/tests.txt && pip install -r requirements/build.txt && pip install -r requirements/runtime.txt && pip install --upgrade numpy && pip install -e .
+RUN pip install -r requirements/tests.txt && pip install -r requirements/build.txt && pip install -r requirements/runtime.txt && pip install -e .
 RUN mkdir build && cd build \
     && cmake .. \
     -DMMDEPLOY_BUILD_SDK=ON \
