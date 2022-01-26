@@ -22,7 +22,7 @@ RUN apt-get clean && apt-get remove --purge -y \
     && rm -rf /var/lib/apt/lists/*
 RUN unlink /usr/bin/python3 && python${PYTHON} -m pip install --upgrade pip && rm -f /usr/bin/pip3
 
-RUN python -c "import torch; print(torch.cuda_isavailale())"
+RUN python -c "import torch; print(torch.cuda.is_availale())"
 # RUN python -m pip install torch==${TORCH} torchvision==${TORCHVERSION} -f https://download.pytorch.org/whl/torch_stable.html
 RUN pip install psutil protobuf Pillow==6.2.2
 
