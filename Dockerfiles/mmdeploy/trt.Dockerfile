@@ -3,7 +3,7 @@ ARG BACKEND="trt"
 ARG TAG="v1"
 ARG TENSORRT_VERSION="8.0.3.4"
 
-FROM mmdeploy_${IMAGE}_${BACKEND}:${TAG}
+FROM registry.sensetime.com/mmdeploy/${IMAGE}_${BACKEND}:${TAG}
 ARG HTTP_PROXY="http://proxy.sensetime.com:3128"
 ARG DEBIAN_FRONTEND=noninteractive
 ARG TENSORRT_VERSION
