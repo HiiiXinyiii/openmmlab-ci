@@ -13,6 +13,7 @@ ENV FORCE_CUDA="1"
 # ARG TORCH="1.6.0+cu101"
 # ARG TORCHVERSION="0.7.0+cu101"
 ARG PYTHON="3.7"
+ARG DEBIAN_FRONTEND=noninteractive
 
 RUN apt-get update && apt-get install -y --no-install-recommends software-properties-common ffmpeg libturbojpeg ninja-build libprotobuf-dev protobuf-compiler cmake git curl wget
 RUN add-apt-repository ppa:deadsnakes/ppa
@@ -21,7 +22,7 @@ RUN apt-get clean && apt-get remove --purge -y \
     && rm -rf /var/lib/apt/lists/*
 RUN unlink /usr/bin/python3 && python${PYTHON} -m pip install --upgrade pip && rm -f /usr/bin/pip3
 
-RUN python -c "import torch; print(torch.cuda_isavailale()"
+RUN python -c "import torch; print(torch.cuda_isavailale())"
 # RUN python -m pip install torch==${TORCH} torchvision==${TORCHVERSION} -f https://download.pytorch.org/whl/torch_stable.html
 RUN pip install psutil protobuf Pillow==6.2.2
 
