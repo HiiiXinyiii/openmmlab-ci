@@ -8,7 +8,7 @@ ENV TORCH_CUDA_ARCH_LIST="6.0 6.1 7.0+PTX"
 ENV TORCH_NVCC_FLAGS="-Xfatbin -compress-all"
 ENV FORCE_CUDA="1"
 # ENV MMCV_CUDA_ARGS="-gencode=arch=compute_61,code=sm_61"
-# ENV MMCV_WITH_OPS=1
+ENV MMCV_WITH_OPS=1
 
 # ARG TORCH="1.6.0+cu101"
 # ARG TORCHVERSION="0.7.0+cu101"
@@ -32,11 +32,13 @@ RUN pip install psutil protobuf Pillow==6.2.2
 # Install petrel oss sdk and petrel config file, make sure petrel-oss-python-sdk & openmmlab-ci exists
 COPY petrel-oss-python-sdk /tmp
 WORKDIR /tmp
-RUN python setup.py develop
+# RUN python setup.py develop
 ADD openmmlab-ci/Dockerfiles/petreloss.conf /root/
 RUN rm -rf petrel-oss-python-sdk
 
 WORKDIR /opt/mmcv
 COPY . /opt/mmcv
 
-RUN MCV_WITH_ORT=1 MMCV_WITH_OPS=1 python -m pip install --no-cache-dir -e . && python .dev_scripts/check_installation.py
+RUN python setup.py check -m -s \
+    && python -m pip install --no-cache-dir -e . \
+    && python .dev_scripts/check_installation.py
