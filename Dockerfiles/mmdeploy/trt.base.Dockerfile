@@ -5,7 +5,7 @@ FROM registry.sensetime.com/mmcv/${MMCV}:${MMCV_VERSION}
 ARG HTTP_PROXY="http://proxy.sensetime.com:3128"
 ARG DEBIAN_FRONTEND=noninteractive
 ARG TENSORRT_VERSION="8.0.3.4"
-
+ARG PPL_VERSION="v0.6.1"
 ENV TZ=Asia/Shanghai
 ENV HTTP_PROXY="$HTTP_PROXY"
 ENV HTTPS_PROXY="$HTTP_PROXY"
@@ -29,7 +29,7 @@ RUN apt-get update && apt-get install -y wget \
 
 RUN apt-get install -y --no-install-recommends libssl-dev libopencv-dev libspdlog-dev libpython3.7
 
-RUN git clone https://github.com/openppl-public/ppl.cv.git \
+RUN git clone --branch ${PPL_VERSION} https://github.com/openppl-public/ppl.cv.git \
     && cd ppl.cv \
     && ./build.sh cuda \
     && ls -l /opt/deps/ppl.cv/cuda-build
