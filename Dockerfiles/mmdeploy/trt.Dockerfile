@@ -17,6 +17,7 @@ ENV LD_LIBRARY_PATH ${LD_LIBRARY_PATH}:/opt/deps/TensorRT-${TENSORRT_VERSION}/li
 WORKDIR /opt/mmdeploy
 COPY . /opt/mmdeploy
 
+RUN echo ${LD_LIBRARY_PATH}
 RUN git submodule update --init --recursive
 RUN pip install -r requirements.txt && pip install -e .
 RUN mkdir build && cd build \
