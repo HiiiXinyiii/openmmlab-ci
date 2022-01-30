@@ -1,6 +1,28 @@
 import os
-import os.path as osp
+import requests
+import pytest
 import mmcv
+
+
+def prepare_balloon_dataset():
+    version = "v2.1"
+    file_name = "balloon_dataset.zip"
+    try:
+        file_url = "https://github.com/matterport/Mask_RCNN/releases/download/%s/%s" % (version, file_name)
+        r = requests.get(file_url)
+        with open(pytest.CODEB_PATH, 'wb') as f:
+            f.write(r.content)
+        os.system("cd %s && unzip %s" % (pytest.CODEB_PATH, file_name))
+        for t in ["train", "val"]:
+            ann_file = pytest.CODEB_PATH+"/balloon/%s/annotation_coco.json" % t
+            out_file = pytest.CODEB_PATH+"/balloon/%s/annotation_coco.json" % t
+            image_prefix = pytest.CODEB_PATH+"/balloon/%s" % t
+            convert_balloon_to_coco(ann_file, out_file, image_prefix)
+        return True
+    except Exception as e:
+        pytest.getLogger().error("Get or convert bolloon dataset failed.")
+        return False
+
 
 def convert_balloon_to_coco(ann_file, out_file, image_prefix):
     data_infos = mmcv.load(ann_file)
@@ -10,7 +32,7 @@ def convert_balloon_to_coco(ann_file, out_file, image_prefix):
     obj_count = 0
     for idx, v in enumerate(mmcv.track_iter_progress(data_infos.values())):
         filename = v['filename']
-        img_path = osp.join(image_prefix, filename)
+        img_path = os.path.join(image_prefix, filename)
         height, width = mmcv.imread(img_path).shape[:2]
 
         images.append(dict(
@@ -48,14 +70,3 @@ def convert_balloon_to_coco(ann_file, out_file, image_prefix):
         annotations=annotations,
         categories=[{'id':0, 'name': 'balloon'}])
     mmcv.dump(coco_format_json, out_file)
-
-
-if __name__ == "__main__":
-    cur_dir = os.getcwd()
-
-    for t in ["train", "val"]:
-        print("generate %s" % t)
-        ann_file = cur_dir+"/balloon/%s/via_region_data.json" % t
-        out_file = cur_dir+"/balloon/%s/coco_via_region_data.json" % t
-        image_prefix = cur_dir+"/balloon/%s" % t
-        convert_balloon_to_coco(ann_file, out_file, image_prefix)                             

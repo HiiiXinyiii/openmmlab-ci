@@ -1,4 +1,4 @@
-ARG MMCV="ubuntu_1804_py_39_cuda_111_cudnn_8_torch_190_release"
+ARG MMCV="ubuntu_1804_py_37_cuda_102_cudnn_7_torch_190_release"
 ARG MMCV_VERSION="v1.4.0"
 
 FROM registry.sensetime.com/mmcv/${MMCV}:${MMCV_VERSION}
@@ -9,7 +9,6 @@ ARG PPL_VERSION="v0.6.1"
 ENV TZ=Asia/Shanghai
 ENV HTTP_PROXY="$HTTP_PROXY"
 ENV HTTPS_PROXY="$HTTP_PROXY"
-ENV LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/opt/deps/TensorRT-${TENSORRT_VERSION}/lib
 
 WORKDIR /opt/deps
 ADD TensorRT-${TENSORRT_VERSION} ./TensorRT-${TENSORRT_VERSION}

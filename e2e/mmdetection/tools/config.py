@@ -1,4 +1,4 @@
-_base_ = 'mask_rcnn_r50_caffe_fpn_mstrain-poly_1x_coco.py'
+_base_ = 'configs/mask_rcnn/mask_rcnn_r50_caffe_fpn_mstrain-poly_1x_coco.py'
 
 model = dict(
     roi_head=dict(
@@ -8,6 +8,7 @@ model = dict(
 dataset_type = 'COCODataset'
 classes = ('balloon',)
 data = dict(
+    # for docker
     workers_per_gpu=0,
     train=dict(
         img_prefix='balloon/train/',
