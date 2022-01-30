@@ -17,7 +17,6 @@ ENV LD_LIBRARY_PATH ${LD_LIBRARY_PATH}:/opt/deps/TensorRT-${TENSORRT_VERSION}/li
 WORKDIR /opt/mmdeploy
 COPY . /opt/mmdeploy
 
-RUN echo ${LD_LIBRARY_PATH}
 RUN git submodule update --init --recursive
 RUN pip install -r requirements.txt && pip install -e .
 RUN mkdir build && cd build \
@@ -33,3 +32,6 @@ RUN mkdir build && cd build \
    -DMMDEPLOY_CODEBASES=all \
     && cmake --build . -- -j4 && cmake --install .
 # RUN python tools/check_env.py
+RUN echo ${LD_LIBRARY_PATH}
+ENV LD_LIBRARY_PATH ${LD_LIBRARY_PATH}:/opt/deps/TensorRT-${TENSORRT_VERSION}/lib
+RUN echo ${LD_LIBRARY_PATH}
