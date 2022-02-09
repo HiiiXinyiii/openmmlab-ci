@@ -2,8 +2,9 @@ ARG IMAGE="ubuntu_1804_py_39_cuda_111_cudnn_8_torch_190"
 ARG BACKEND="trt"
 ARG TAG="v1"
 ARG TENSORRT_VERSION="8.0.3.4"
+ARG MMCV_VERSION="v1.4.4"
 
-FROM registry.sensetime.com/mmdeploy/${IMAGE}_${BACKEND}:${TAG}
+FROM registry.sensetime.com/mmdeploy/${IMAGE}_mmcv${MMCV_VERSION}_${BACKEND}:${TAG}
 ARG HTTP_PROXY="http://proxy.sensetime.com:3128"
 ARG DEBIAN_FRONTEND=noninteractive
 ARG TENSORRT_VERSION
@@ -32,6 +33,3 @@ RUN mkdir build && cd build \
    -DMMDEPLOY_CODEBASES=all \
     && cmake --build . -- -j4 && cmake --install .
 # RUN python tools/check_env.py
-RUN echo ${LD_LIBRARY_PATH}
-ENV LD_LIBRARY_PATH ${LD_LIBRARY_PATH}:/opt/deps/TensorRT-${TENSORRT_VERSION}/lib
-RUN echo ${LD_LIBRARY_PATH}
