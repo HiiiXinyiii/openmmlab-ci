@@ -140,22 +140,26 @@ def prep():
         coco_extract().extract_images(read_json_path=write_val_json_path, read_images_path=read_val_images_path, write_images_path=write_val_images_path)
 
 
-train_command = ['python -m tools.train configs/faster_rcnn/faster_rcnn_r50_fpn_1x_coco.py',
-                 'python -m tools.train configs/mask_rcnn/mask_rcnn_r50_caffe_fpn_mstrain-poly_3x_coco.py',
-                 'python -m tools.train configs/mask_rcnn/mask_rcnn_r50_caffe_fpn_mstrain-poly_3x_coco.py resume_from=faster_rcnn_r50_fpn_1x_coco_20200130-047c8118.pth',
-                 ]
+
+train_param = ['configs/faster_rcnn/faster_rcnn_r50_fpn_1x_coco.py',
+               'configs/mask_rcnn/mask_rcnn_r50_caffe_fpn_mstrain-poly_3x_coco.py',
+               'configs/mask_rcnn/mask_rcnn_r50_caffe_fpn_mstrain-poly_3x_coco.py resume_from=faster_rcnn_r50_fpn_1x_coco_20200130-047c8118.pth'
+            ]
 
 
 class Test_integration:
     @pytest.mark.usefixtures('prep')
-    @pytest.mark.parametrize('cmd', train_command)
-    def test_train(self, cmd):
+    @pytest.mark.parametrize('cmd_param', train_param)
+    def test_train(self, cmd_param):
         """
         Function: test train.py
 
         :param cmd: the command user use to call train.py
         :return:
         """
+        file_path = os.path.join(pytest.CODEB_PATH, 'tools/train.py')
+        cmd = "python " + file_path + ' ' + cmd_param     # the cmd to be executed
+        print("指令  ", cmd)
         os.system(cmd)
         logging.getLogger().info("Finish pytest command: ", cmd)
 
