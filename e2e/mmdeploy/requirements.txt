@@ -1,0 +1,9 @@
+pytest==6.2.2
+pytest-timeout==1.3.3
+pytest-repeat==0.8.0
+allure-pytest==2.7.0
+pytest-print==0.2.1
+pytest-level==0.1.1
+pytest-xdist==2.2.1
+requests
+cup
