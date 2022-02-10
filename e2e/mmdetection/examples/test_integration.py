@@ -6,8 +6,10 @@ import json
 import shutil
 import random
 import time
+import re
 
 
+# extract part of coco dataset
 class coco_extract():
     def extract_json(self, read_json_path, write_json_path, size=200, chosen=None):
         """
@@ -99,12 +101,31 @@ class coco_extract():
                 open(new_filepath, 'wb').write(r.content)
 
 
+# list all the config file path in the project
+def get_all_config_path():
+    """
+    Function: list all the config file path in the project
+
+    :return: the path of the all config files
+    """
+    config_path = []  # save the result
+
+    config_lib_path = os.path.join(os.path.join(os.getcwd(), 'configs'))  # the path of the all config files
+    for parent, dirnames, filenames in os.walk(config_lib_path):
+        # add all the file
+        for i_filename in filenames:
+            # We just use .py file, because in this directory we think all .py files are the same as config files
+            if re.match(pattern=".*\\.py", string=i_filename):
+                path = os.path.join(parent, i_filename)
+                config_path.append(path)
+
+    return config_path
 
 
 @pytest.fixture(scope='module')
 def prep():
     """
-    Function: prepare the json file and the recording images
+    Function: prepare before
 
     :return:
     """
@@ -145,11 +166,11 @@ def prep():
                                       write_images_path=write_val_images_path)
 
 
-train_param = ['configs/faster_rcnn/faster_rcnn_r50_fpn_1x_coco.py',
-               'configs/mask_rcnn/mask_rcnn_r50_caffe_fpn_mstrain-poly_3x_coco.py',
-               'configs/mask_rcnn/mask_rcnn_r50_caffe_fpn_mstrain-poly_3x_coco.py resume_from=faster_rcnn_r50_fpn_1x_coco_20200130-047c8118.pth',
-               'configs/mask_rcnn/'
-               ]
+train_param = get_all_config_path() if pytest.test_all_configs else [
+    'configs/faster_rcnn/faster_rcnn_r50_fpn_1x_coco.py',
+    'configs/mask_rcnn/mask_rcnn_r50_caffe_fpn_mstrain-poly_3x_coco.py',
+    'configs/mask_rcnn/mask_rcnn_r50_caffe_fpn_mstrain-poly_3x_coco.py'
+    ]
 
 
 class Test_integration:
@@ -164,12 +185,9 @@ class Test_integration:
         """
         file_path = os.path.join(pytest.CODEB_PATH, 'tools/train.py')
         cmd = "python " + file_path + ' ' + cmd_param  # the cmd to be executed
-        print("指令  ", cmd)
         os.system(cmd)
         logging.getLogger().info("Finish pytest command: ", cmd)
 
 
 if __name__ == '__main__':
-    coco_extract().extract_images(read_json_path="data/coco/annotations/instances_train2017.json",
-                                  read_images_path="data/coco/_train2017", write_images_path="data/coco/train2017",
-                                  download=True)
+    print(get_all_config_path())
