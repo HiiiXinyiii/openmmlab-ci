@@ -121,14 +121,11 @@ def prep():
         if os.path.exists(write_train_images_path):
             shutil.rmtree(write_train_images_path)
         coco_extract().extract_json(read_json_path=read_train_json_path, write_json_path=write_train_json_path, chosen=None)
-    print("准备好啦train.json")
     # extract part of train images
     if not os.path.exists(write_train_images_path):
         os.makedirs(write_train_images_path)
     if not os.listdir(write_train_images_path):
         coco_extract().extract_images(read_json_path=write_train_json_path, read_images_path=read_train_images_path, write_images_path=write_train_images_path)
-
-    print("准备好了train")
 
     # extract part of val json
     if not os.path.exists(write_val_json_path):
@@ -136,13 +133,11 @@ def prep():
         if os.path.exists(write_val_images_path):
             shutil.rmtree(write_val_images_path)
         coco_extract().extract_json(read_json_path=read_val_json_path, write_json_path=write_val_json_path, chosen=None)
-    print("完成val.json")
     # extract part of val images
     if not os.path.exists(write_val_images_path):       # if there isn't this directory, make a new one
         os.makedirs(write_val_images_path)
     if not os.listdir(write_val_images_path):   # if the directory is empty, it needs new image data
         coco_extract().extract_images(read_json_path=write_val_json_path, read_images_path=read_val_images_path, write_images_path=write_val_images_path)
-    print("完成val image")
 
 
 train_command = ['python -m tools.train configs/faster_rcnn/faster_rcnn_r50_fpn_1x_coco.py',
