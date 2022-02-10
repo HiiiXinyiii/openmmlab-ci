@@ -99,6 +99,8 @@ class coco_extract():
                 open(new_filepath, 'wb').write(r.content)
 
 
+
+
 @pytest.fixture(scope='module')
 def prep():
     """
@@ -120,12 +122,14 @@ def prep():
         # delete the existing images which are extracted before
         if os.path.exists(write_train_images_path):
             shutil.rmtree(write_train_images_path)
-        coco_extract().extract_json(read_json_path=read_train_json_path, write_json_path=write_train_json_path, chosen=None)
+        coco_extract().extract_json(read_json_path=read_train_json_path, write_json_path=write_train_json_path,
+                                    chosen=None)
     # extract part of train images
     if not os.path.exists(write_train_images_path):
         os.makedirs(write_train_images_path)
     if not os.listdir(write_train_images_path):
-        coco_extract().extract_images(read_json_path=write_train_json_path, read_images_path=read_train_images_path, write_images_path=write_train_images_path)
+        coco_extract().extract_images(read_json_path=write_train_json_path, read_images_path=read_train_images_path,
+                                      write_images_path=write_train_images_path)
 
     # extract part of val json
     if not os.path.exists(write_val_json_path):
@@ -134,17 +138,18 @@ def prep():
             shutil.rmtree(write_val_images_path)
         coco_extract().extract_json(read_json_path=read_val_json_path, write_json_path=write_val_json_path, chosen=None)
     # extract part of val images
-    if not os.path.exists(write_val_images_path):       # if there isn't this directory, make a new one
+    if not os.path.exists(write_val_images_path):  # if there isn't this directory, make a new one
         os.makedirs(write_val_images_path)
-    if not os.listdir(write_val_images_path):   # if the directory is empty, it needs new image data
-        coco_extract().extract_images(read_json_path=write_val_json_path, read_images_path=read_val_images_path, write_images_path=write_val_images_path)
-
+    if not os.listdir(write_val_images_path):  # if the directory is empty, it needs new image data
+        coco_extract().extract_images(read_json_path=write_val_json_path, read_images_path=read_val_images_path,
+                                      write_images_path=write_val_images_path)
 
 
 train_param = ['configs/faster_rcnn/faster_rcnn_r50_fpn_1x_coco.py',
                'configs/mask_rcnn/mask_rcnn_r50_caffe_fpn_mstrain-poly_3x_coco.py',
-               'configs/mask_rcnn/mask_rcnn_r50_caffe_fpn_mstrain-poly_3x_coco.py resume_from=faster_rcnn_r50_fpn_1x_coco_20200130-047c8118.pth'
-            ]
+               'configs/mask_rcnn/mask_rcnn_r50_caffe_fpn_mstrain-poly_3x_coco.py resume_from=faster_rcnn_r50_fpn_1x_coco_20200130-047c8118.pth',
+               'configs/mask_rcnn/'
+               ]
 
 
 class Test_integration:
@@ -158,11 +163,13 @@ class Test_integration:
         :return:
         """
         file_path = os.path.join(pytest.CODEB_PATH, 'tools/train.py')
-        cmd = "python " + file_path + ' ' + cmd_param     # the cmd to be executed
+        cmd = "python " + file_path + ' ' + cmd_param  # the cmd to be executed
         print("指令  ", cmd)
         os.system(cmd)
         logging.getLogger().info("Finish pytest command: ", cmd)
 
 
 if __name__ == '__main__':
-    coco_extract().extract_images(read_json_path="data/coco/annotations/instances_train2017.json", read_images_path="data/coco/_train2017", write_images_path="data/coco/train2017", download=True)
+    coco_extract().extract_images(read_json_path="data/coco/annotations/instances_train2017.json",
+                                  read_images_path="data/coco/_train2017", write_images_path="data/coco/train2017",
+                                  download=True)
