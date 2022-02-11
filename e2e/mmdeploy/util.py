@@ -9,6 +9,7 @@ METAFILE   = "model-index.yml"
 
 
 def python_exec(cmd, is_print=True, timeout=None):
+    logging.error(cmd)
     return cup.shell.execshell("python %s" % cmd, b_printcmd=is_print, timeout=timeout)
 
 

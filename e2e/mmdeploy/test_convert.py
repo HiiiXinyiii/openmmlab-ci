@@ -1,3 +1,4 @@
+import logging
 import pytest
 import util
 
@@ -18,8 +19,7 @@ class TestConvertors():
         cmd = "tools/deploy.py %s %s %s %s --work-dir . --show --device %s" % (config_path, cb_config_path, cb_cpt_path, image_path, device_str)
         # execute cmd
         ret = util.python_exec(cmd)
-        pytest.getLogger().debug(ret)
+        logging.error(ret)
         if ret["returncode"] != 0:
             assert False
-        pytest.getLogger().debug(ret["stdout"])
         assert True
