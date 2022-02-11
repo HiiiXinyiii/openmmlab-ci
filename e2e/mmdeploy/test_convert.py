@@ -12,7 +12,7 @@ def config_cpt():
 class TestConvertors():
     def test_det_convert(self, mmdet, config_cpt):
         cb_name, cb_branch = mmdet
-        config_path, cb_config_path = config_cpt
+        (config_path, cb_config_path) = config_cpt
         # get config and checkpoint file
         if not util.get_gitfile(cb_config_path, cb_name, cb_branch):
             pytest.fail("Get git config file failed.")
