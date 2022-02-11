@@ -5,7 +5,7 @@ import util
 
 class TestConvertors():
     @pytest.mark.parametrize("config_cpt", [
-        (pytest.CODE_PATH+'/configs/mmdet/detection/detection_tensorrt_dynamic-320x320-1344x1344.py', 'configs/yolo/yolov3_d53_mstrain-608_273e_coco.py'),
+        ('configs/mmdet/detection/detection_tensorrt_dynamic-320x320-1344x1344.py', 'configs/yolo/yolov3_d53_mstrain-608_273e_coco.py'),
     ])
     def test_det_convert(self, mmdet, config_cpt):
         cb_name, cb_branch = mmdet

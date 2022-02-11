@@ -6,11 +6,11 @@ import requests
 
 GROUP_NAME = "open-mmlab"
 METAFILE   = "model-index.yml"
-
+CODE_PATH  = "/opt/mmdeploy"
 
 def python_exec(cmd, is_print=True, timeout=None):
     logging.error(cmd)
-    return cup.shell.execshell("python %s" % cmd, b_printcmd=is_print, timeout=timeout)
+    return cup.shell.execshell("cd %s && python %s" % (CODE_PATH, cmd), b_printcmd=is_print, timeout=timeout)
 
 
 def get_gitfile(file_path, repo, branch):
