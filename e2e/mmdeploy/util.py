@@ -39,6 +39,7 @@ def get_metafiles(repo, branch):
 
 
 def get_cpt(file_path, repo, branch):
+    cpt_name = None
     metafiles = get_metafiles(repo, branch)
     for mf in metafiles:
         meta_file = get_gitfile(mf, repo, branch)
@@ -46,6 +47,10 @@ def get_cpt(file_path, repo, branch):
             meta = yaml.safe_load(f)
         for model in meta["Models"]:
             if model["Config"] == file_path:
-                logging.error(mf)
-                return get_gitfile(model["Weights"], repo, branch)
-    return None
+                r = requests.get(model["Weights"])
+                cpt_name = model["Weights"].split("/")[-1]
+                logging.error(cpt_name)
+                with open(cpt_name, "wb") as f:
+                    f.write(r.content)
+                return cpt_name
+    return cpt_name
