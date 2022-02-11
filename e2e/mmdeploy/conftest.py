@@ -9,11 +9,13 @@ def pytest_addoption(parser):
     parser.addoption("--mmcls", action="store", default="master", help="mmcls branch option: branch name or tag name")
 
 
-@pytest.fixture
+@pytest.fixture(scope="module")
 def mmdet(request):
-    return ("mmdetection", request.config.getoption("--mmdet"))
+    mmdet_version = request.config.getoption("--mmdet")
+    return ("mmdetection", mmdet_version)
 
 
-@pytest.fixture
+@pytest.fixture(scope="module")
 def mmcls(request):
-    return ("mmclassification", request.config.getoption("--mmcls"))
+    mmcls_version = request.config.getoption("--mmcls")
+    return ("mmclassification", mmcls_version)
