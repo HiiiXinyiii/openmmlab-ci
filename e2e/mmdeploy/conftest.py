@@ -1,4 +1,4 @@
-from argparse import Action
+import os
 import pytest
 from git import Repo
 import util
@@ -24,7 +24,9 @@ def mmcls(request):
 
 
 def pytest_configure(config):
-    if config.getoption("--mmdet"):
-        Repo.clone_from(util.MMDET_URL, util.CODEBASE_PATH+util.MMDET_CB, branch=config.getoption("--mmdet"))
-    if config.getoption("--mmcls"):
-        Repo.clone_from(util.MMCLS_URL, util.CODEBASE_PATH+util.MMCLS_CB, branch=config.getoption("--mmcls"))
+    if not os.path.exists(util.CODEBASE_PATH+util.MMDET_CB):
+        if config.getoption("--mmdet"):
+            Repo.clone_from(util.MMDET_URL, util.CODEBASE_PATH+util.MMDET_CB, branch=config.getoption("--mmdet"))
+    if not os.path.exists(util.CODEBASE_PATH+util.MMCLS_CB):
+        if config.getoption("--mmcls"):
+            Repo.clone_from(util.MMCLS_URL, util.CODEBASE_PATH+util.MMCLS_CB, branch=config.getoption("--mmcls"))

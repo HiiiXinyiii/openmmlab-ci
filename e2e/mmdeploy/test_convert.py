@@ -3,7 +3,7 @@ import logging
 import pytest
 import util
 
-MMDET_PATH = util.CODEBASE_PATH+util.MMDET_CB
+MMDET_PATH = util.CODEBASE_PATH+util.MMDET_CB+"/"
 
 
 class TestConvertors():
@@ -21,7 +21,7 @@ class TestConvertors():
         image_path = MMDET_PATH+"demo/demo.jpg"
         cb_cpt_path = util.get_cpt(cb_config_path, MMDET_PATH, cb_branch)
         device_str = "cuda:0"
-        cmd = "tools/deploy.py %s %s %s %s --work-dir . --show --device %s" % (config_path, os.path.realpath(cb_cpt_path), MMDET_PATH+"/"+cb_config_path, image_path, device_str)
+        cmd = "tools/deploy.py %s %s %s %s --work-dir . --show --device %s" % (config_path, MMDET_PATH+"/"+cb_config_path, os.path.realpath(cb_cpt_path), image_path, device_str)
         # execute cmd
         ret = util.python_exec(cmd)
         logging.error(ret)
