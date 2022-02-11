@@ -1,4 +1,3 @@
-from environs import logging
 import pytest
 import util
 
