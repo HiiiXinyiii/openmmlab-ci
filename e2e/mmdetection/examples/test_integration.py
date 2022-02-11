@@ -112,6 +112,9 @@ def get_all_config_path():
 
     config_lib_path = os.path.join(os.path.join(os.getcwd(), 'configs'))  # the path of the all config files
     for parent, dirnames, filenames in os.walk(config_lib_path):
+        # skip __base__ directory, because we dont directly use it, it's the base of other configs
+        if re.match(pattern=".*__base__.*", string=parent):
+            continue
         # add all the file
         for i_filename in filenames:
             # We just use .py file, because in this directory we think all .py files are the same as config files
@@ -169,7 +172,7 @@ def prep():
 train_param = get_all_config_path() if pytest.test_all_configs else [
     'configs/faster_rcnn/faster_rcnn_r50_fpn_1x_coco.py',
     'configs/mask_rcnn/mask_rcnn_r50_caffe_fpn_mstrain-poly_3x_coco.py',
-    'configs/mask_rcnn/mask_rcnn_r50_caffe_fpn_mstrain-poly_3x_coco.py'
+    'configs/resnest/faster_rcnn_s50_fpn_syncbn-backbone+head_mstrain-range_1x_coco.py'
     ]
 
 
