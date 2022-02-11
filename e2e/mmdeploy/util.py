@@ -19,7 +19,7 @@ def get_gitfile(file_path, repo, branch):
     if r.status_code == 200:
         with open(file_name, "wb") as f:
             r.raw.decode_content = True
-            shutil.copy(r.raw, f)
+            shutil.copyfileobj(r.raw, f)
         return file_name
     else:
         return None
@@ -48,5 +48,4 @@ def get_cpt(file_path, repo, branch):
             if model["Config"] == file_path:
                 logging.error(mf)
                 return get_gitfile(model["Weights"], repo, branch)
-            continue
     return None
