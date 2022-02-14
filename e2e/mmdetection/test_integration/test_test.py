@@ -13,7 +13,7 @@ test_param_config_checkpoint = [('configs/faster_rcnn/faster_rcnn_r50_fpn_1x_coc
               ]
 
 
-class Test_test():
+class TestTest:
     """
     Function: test file test.py by calling
 
