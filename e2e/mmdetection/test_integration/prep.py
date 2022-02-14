@@ -168,7 +168,6 @@ def prep():
                                       write_images_path=write_val_images_path)
 
 
-from test_test import *
 @pytest.fixture(scope='module')
 def prep_checkpoint():
     checkpoint_file = "faster_rcnn_r50_fpn_1x_coco_20200130-047c8118.pth"
