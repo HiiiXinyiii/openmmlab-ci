@@ -26,7 +26,7 @@ class TestTrain:
         :return:
         """
         file_path = os.path.join(pytest.CODEB_PATH, 'tools/train.py')
-        cmd = "python " + file_path + ' ' + cmd_param       # the cmd to be executed
+        cmd = "python " + file_path + ' ' + cmd_param  # the cmd to be executed
         assert subprocess.run(cmd.split(' ')).returncode == 0, \
             'Failed to run train.py with parameter [config] set'
         logging.getLogger().info("Finish pytest command: ", cmd)
