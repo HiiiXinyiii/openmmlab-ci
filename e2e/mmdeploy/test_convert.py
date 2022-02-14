@@ -20,6 +20,7 @@ class TestConvertors():
         # image_path = util.get_gitfile("demo/demo.jpg", cb_name, cb_branch)
         image_path = MMDET_PATH+"demo/demo.jpg"
         cb_cpt_path = util.get_cpt(cb_config_path, MMDET_PATH, cb_branch)
+        logging.getLogger().info(cb_cpt_path)
         device_str = "cuda:0"
         cmd = "tools/deploy.py %s %s %s %s --work-dir %s --show --device %s" % (
             config_path, 
@@ -30,5 +31,5 @@ class TestConvertors():
             device_str)
         # execute cmd
         ret_code, ret_msg = util.python_exec(cmd)
-        logging.info(ret_msg)
+        logging.getLogger().info(ret_msg)
         assert ret_code
