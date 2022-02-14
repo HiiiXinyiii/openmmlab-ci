@@ -73,7 +73,7 @@ class CocoExtract:
 
         return images_id_picked
 
-    def extract_images(self, read_json_path, read_images_path, write_images_path, download=True):
+    def extract_images(self, read_json_path, write_images_path, read_images_path=None, download=True):
         """
         Function: extract images
 
@@ -131,14 +131,14 @@ def prep():
 
     :return:
     """
-    read_train_json_path = "data/coco/_annotations/instances_train2017.json"
-    write_train_json_path = "data/coco/annotations/instances_train2017.json"
-    read_val_json_path = "data/coco/_annotations/instances_val2017.json"
-    write_val_json_path = "data/coco/annotations/instances_val2017.json"
-    read_train_images_path = "data/coco/_train2017"
-    write_train_images_path = "data/coco/train2017"
-    read_val_images_path = "data/coco/_val2017"
-    write_val_images_path = "data/coco/val2017"
+    read_train_json_path = os.path.join(pytest.MMDET_PATH, "data/coco/_annotations/instances_train2017.json")
+    write_train_json_path = os.path.join(pytest.CODEB_PATH, "data/coco/annotations/instances_train2017.json")
+    read_val_json_path = os.path.join(pytest.MMDET_PATH, "data/coco/_annotations/instances_val2017.json")
+    write_val_json_path = os.path.join(pytest.CODEB_PATH, "data/coco/annotations/instances_val2017.json")
+    read_train_images_path = os.path.join(pytest.CODEB_PATH, "data/coco/_train2017")    # use when not download
+    write_train_images_path = os.path.join(pytest.CODEB_PATH, "data/coco/train2017")
+    read_val_images_path = os.path.join(pytest.CODEB_PATH, "data/coco/_val2017")        # use when not download
+    write_val_images_path = os.path.join(pytest.CODEB_PATH, "data/coco/val2017")
 
     # extract part of train json
     if not os.path.exists(write_train_json_path):
@@ -152,7 +152,7 @@ def prep():
         os.makedirs(write_train_images_path)
     if not os.listdir(write_train_images_path):
         CocoExtract().extract_images(read_json_path=write_train_json_path, read_images_path=read_train_images_path,
-                                     write_images_path=write_train_images_path)
+                                     write_images_path=write_train_images_path, download=True)
 
     # extract part of val json
     if not os.path.exists(write_val_json_path):
@@ -165,7 +165,7 @@ def prep():
         os.makedirs(write_val_images_path)
     if not os.listdir(write_val_images_path):  # if the directory is empty, it needs new image data
         CocoExtract().extract_images(read_json_path=write_val_json_path, read_images_path=read_val_images_path,
-                                     write_images_path=write_val_images_path)
+                                     write_images_path=write_val_images_path, download=True)
 
 
 # checkpoint and its corresponding url for downloading
