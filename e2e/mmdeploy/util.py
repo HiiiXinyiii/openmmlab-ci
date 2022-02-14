@@ -15,9 +15,10 @@ MMCLS_URL  = "https://github.com/%s/%s.git" % (GROUP_NAME, MMCLS_CB)
 
 
 def python_exec(cmd, timeout=None):
-    logging.getLogger.debug(cmd)
+    logging.getLogger().debug(cmd)
     shellobj = cup.shell.ShellExec()
     ret = shellobj.run("cd %s && python %s" % (CODE_PATH, cmd), timeout)
+    logging.getLogger().debug(ret)
     if ret['returncode'] == 0:
         return True, ret["stdout"]
     else:
@@ -35,7 +36,7 @@ def get_gitfile(file_path, repo, branch):
             shutil.copyfileobj(r.raw, f)
         return file_name
     else:
-        logging.getLogger.error("Get file from git url: %s failed." % url)
+        logging.getLogger().error("Get file from git url: %s failed." % url)
         return None
 
 
@@ -71,7 +72,7 @@ def get_cpt(file_path, code_path, branch):
             if model["Config"] == file_path:
                 r = requests.get(model["Weights"])
                 cpt_name = model["Weights"].split("/")[-1]
-                logging.getLogger.debug(cpt_name)
+                logging.getLogger().debug(cpt_name)
                 with open(cpt_name, "wb") as f:
                     f.write(r.content)
                 return cpt_name
