@@ -14,10 +14,10 @@ MMDET_URL  = "https://github.com/%s/%s.git" % (GROUP_NAME, MMDET_CB)
 MMCLS_URL  = "https://github.com/%s/%s.git" % (GROUP_NAME, MMCLS_CB)
 
 
-def python_exec(cmd, is_print=True, timeout=None):
+def python_exec(cmd, timeout=None):
     logging.info(cmd)
     shellobj = cup.shell.ShellExec()
-    ret = shellobj.run("cd %s && python %s" % (CODE_PATH, cmd), b_printcmd=is_print, timeout=timeout)
+    ret = shellobj.run("cd %s && python %s" % (CODE_PATH, cmd), timeout)
     if ret['returncode'] == 0:
         return True, ret["stdout"]
     else:
