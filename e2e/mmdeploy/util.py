@@ -15,8 +15,14 @@ MMCLS_URL  = "https://github.com/%s/%s.git" % (GROUP_NAME, MMCLS_CB)
 
 
 def python_exec(cmd, is_print=True, timeout=None):
-    logging.error(cmd)
-    return cup.shell.execshell("cd %s && python %s" % (CODE_PATH, cmd), b_printcmd=is_print, timeout=timeout)
+    logging.info(cmd)
+    shellobj = cup.shell.ShellExec()
+    ret = shellobj.run("cd %s && python %s" % (CODE_PATH, cmd), b_printcmd=is_print, timeout=timeout)
+    if ret['returncode'] == 0:
+        return True, ret["stdout"]
+    else:
+        logging.warning(ret['stderr'])
+        return False, ret['stderr']
 
 
 def get_gitfile(file_path, repo, branch):

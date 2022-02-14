@@ -10,7 +10,7 @@ class TestConvertors():
     @pytest.mark.parametrize("config_cpt", [
         ('configs/mmdet/detection/detection_tensorrt_dynamic-320x320-1344x1344.py', 'configs/yolo/yolov3_d53_mstrain-608_273e_coco.py'),
     ])
-    def test_det_convert(self, mmdet, config_cpt):
+    def test_det_convert(self, mmdet, config_cpt, ):
         cb_name, cb_branch = mmdet
         (config_path, cb_config_path) = config_cpt
         # get config and checkpoint file
@@ -29,6 +29,6 @@ class TestConvertors():
             os.path.basename(os.path.realpath(cb_cpt_path)), 
             device_str)
         # execute cmd
-        ret = util.python_exec(cmd)
-        logging.error(ret)
-        assert ret
+        ret_code, ret_msg = util.python_exec(cmd)
+        logging.info(ret_msg)
+        assert ret_code
