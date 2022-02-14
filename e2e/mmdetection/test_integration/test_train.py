@@ -15,7 +15,7 @@ train_param = get_all_config_path() if pytest.test_all_configs else [
     ]
 
 
-class Test_train:
+class TestTrain:
     @pytest.mark.usefixtures('prep')
     @pytest.mark.parametrize('cmd_param', train_param)
     def test_train_config(self, cmd_param):
