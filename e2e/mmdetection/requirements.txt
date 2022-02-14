@@ -8,12 +8,4 @@ pytest-xdist==2.2.1
 requests
 selenium
 
-logging
-requests
-pytest
-os
 json
-shutil
-random
-time
-re
