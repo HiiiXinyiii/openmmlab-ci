@@ -4,20 +4,29 @@ It's designed to test train.py from the codebase
 """
 
 import logging
-import pytest
 import subprocess
-from prep import *
+import pytest
+from .preparation.prep import *
 
-train_param = get_all_config_path() if pytest.test_all_configs else [
-    'configs/faster_rcnn/faster_rcnn_r50_fpn_1x_coco.py',
-    'configs/mask_rcnn/mask_rcnn_r50_caffe_fpn_mstrain-poly_3x_coco.py',
-    'configs/resnest/faster_rcnn_s50_fpn_syncbn-backbone+head_mstrain-range_1x_coco.py'
-    ]
+
+
+def param_config():
+    """
+    Function: the param that train.py needs
+    """
+    if pytest.test_all_configs:
+        return get_all_config_path()
+    else:
+        return [
+            'configs/faster_rcnn/faster_rcnn_r50_fpn_1x_coco.py',
+            'configs/mask_rcnn/mask_rcnn_r50_caffe_fpn_mstrain-poly_3x_coco.py',
+            'configs/resnest/faster_rcnn_s50_fpn_syncbn-backbone+head_mstrain-range_1x_coco.py'
+        ]
 
 
 class TestTrain:
     @pytest.mark.usefixtures('prep')
-    @pytest.mark.parametrize('cmd_param', train_param)
+    @pytest.mark.parametrize('cmd_param', param_config())
     def test_train_config(self, cmd_param):
         """
         Function: test train.py
