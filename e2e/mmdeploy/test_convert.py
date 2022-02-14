@@ -1,5 +1,6 @@
 import os
 import logging
+from pprint import pformat
 import pytest
 import util
 
@@ -32,7 +33,7 @@ class TestConvertors():
             device_str)
         # execute cmd
         ret_code, ret_msg = util.python_exec(cmd)
-        logging.getLogger().info(ret_msg)
+        logging.getLogger().info(pformat(ret_msg))
         assert ret_code
 
     @pytest.mark.parametrize("config_cpt", [
@@ -54,5 +55,5 @@ class TestConvertors():
             device_str)
         # execute cmd
         ret_code, ret_msg = util.python_exec(cmd)
-        logging.getLogger().info(ret_msg)
+        logging.getLogger().info(pformat(ret_msg))
         assert ret_code
