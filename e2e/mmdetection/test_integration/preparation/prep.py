@@ -9,7 +9,7 @@ import os
 
 
 # extract part of coco dataset
-class coco_extract():
+class CocoExtract:
     def extract_json(self, read_json_path, write_json_path, size=200, chosen=None):
         """
         Function: extract a subset of the coco dataset
@@ -145,39 +145,54 @@ def prep():
         # delete the existing images which are extracted before
         if os.path.exists(write_train_images_path):
             shutil.rmtree(write_train_images_path)
-        coco_extract().extract_json(read_json_path=read_train_json_path, write_json_path=write_train_json_path,
-                                    chosen=None)
+        CocoExtract().extract_json(read_json_path=read_train_json_path, write_json_path=write_train_json_path,
+                                   chosen=None)
     # extract part of train images
     if not os.path.exists(write_train_images_path):
         os.makedirs(write_train_images_path)
     if not os.listdir(write_train_images_path):
-        coco_extract().extract_images(read_json_path=write_train_json_path, read_images_path=read_train_images_path,
-                                      write_images_path=write_train_images_path)
+        CocoExtract().extract_images(read_json_path=write_train_json_path, read_images_path=read_train_images_path,
+                                     write_images_path=write_train_images_path)
 
     # extract part of val json
     if not os.path.exists(write_val_json_path):
         # delete the existing images which are extracted before
         if os.path.exists(write_val_images_path):
             shutil.rmtree(write_val_images_path)
-        coco_extract().extract_json(read_json_path=read_val_json_path, write_json_path=write_val_json_path, chosen=None)
+        CocoExtract().extract_json(read_json_path=read_val_json_path, write_json_path=write_val_json_path, chosen=None)
     # extract part of val images
     if not os.path.exists(write_val_images_path):  # if there isn't this directory, make a new one
         os.makedirs(write_val_images_path)
     if not os.listdir(write_val_images_path):  # if the directory is empty, it needs new image data
-        coco_extract().extract_images(read_json_path=write_val_json_path, read_images_path=read_val_images_path,
-                                      write_images_path=write_val_images_path)
+        CocoExtract().extract_images(read_json_path=write_val_json_path, read_images_path=read_val_images_path,
+                                     write_images_path=write_val_images_path)
 
 
-@pytest.fixture(scope='module')
-def prep_checkpoint():
-    checkpoint_file = "faster_rcnn_r50_fpn_1x_coco_20200130-047c8118.pth"
-    url = "https://download.openmmlab.com/mmdetection/v2.0/faster_rcnn/faster_rcnn_r50_fpn_1x_coco/" + checkpoint_file
+# checkpoint and its corresponding url for downloading
+# It's from the link https://github.com/open-mmlab/mmdetection/blob/master/docs/zh_cn/model_zoo.md
+checkpoint_url = {'faster_rcnn_r50_fpn_1x_coco_20200130-047c8118.pth':
+                      'https://download.openmmlab.com/mmdetection/v2.0/faster_rcnn/faster_rcnn_r50_fpn_1x_coco/faster_rcnn_r50_fpn_1x_coco_20200130-047c8118.pth',
+                  'mask_rcnn_r50_fpn_1x_coco_20200205-d4b0c5d6.pth':
+                      'https://download.openmmlab.com/mmdetection/v2.0/mask_rcnn/mask_rcnn_r50_fpn_1x_coco/mask_rcnn_r50_fpn_1x_coco_20200205-d4b0c5d6.pth'}
+
+
+@pytest.fixture(scope='function')
+def prep_checkpoint(request):
+    """
+    Function: download all the checkpoint needed in one time
+
+    """
+    checkpoint_file = request.param[1].split('/')[1]  # checkpoint is at this place
+    url = checkpoint_url[checkpoint_file]
     path = os.path.join(pytest.CODEB_PATH, 'checkpoints')
     if not os.path.exists(path):
         # make the checkpoints directory which contains all the checkpoints we will download
         os.makedirs(path)
-        path = os.path.join(path, checkpoint_file)
-        if not os.path.exists(path):
-            r = requests.get(url)
-            print("Start downloading checkpoint file")
-            open(path, 'wb').write(r.content)
+    path = os.path.join(path, checkpoint_file)
+    if not os.path.exists(path):
+        r = requests.get(url)
+        print("Start downloading checkpoint file")
+        open(path, 'wb').write(r.content)
+        print("Finish downloading checkpoint file")
+
+    return 0
