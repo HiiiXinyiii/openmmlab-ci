@@ -12,6 +12,7 @@ import shutil
 import random
 import time
 import re
+import colorama
 
 
 # extract part of coco dataset
@@ -174,6 +175,21 @@ def prep():
                                       write_images_path=write_val_images_path)
 
 
+@pytest.fixture(scope='module')
+def prep_checkpoint():
+    checkpoint_file = "faster_rcnn_r50_fpn_1x_coco_20200130-047c8118.pth"
+    url = "https://download.openmmlab.com/mmdetection/v2.0/faster_rcnn/faster_rcnn_r50_fpn_1x_coco/" + checkpoint_file
+    path = os.path.join(pytest.CODEB_PATH, 'checkpoints')
+    if not os.path.exists(path):
+        # make the checkpoints directory which contains all the checkpoints we will download
+        os.makedirs(path)
+        path = os.path.join(path, checkpoint_file)
+        if not os.path.exists(path):
+            r = requests.get(url)
+            print("Start downloading checkpoint file")
+            open(path, 'wb').write(r.content)
+
+
 train_param = get_all_config_path() if pytest.test_all_configs else [
     'configs/faster_rcnn/faster_rcnn_r50_fpn_1x_coco.py',
     'configs/mask_rcnn/mask_rcnn_r50_caffe_fpn_mstrain-poly_3x_coco.py',
@@ -193,7 +209,7 @@ class Test_integration:
         """
         file_path = os.path.join(pytest.CODEB_PATH, 'tools/train.py')
         cmd = "python " + file_path + ' ' + cmd_param       # the cmd to be executed
-        os.system(cmd)
+        assert os.system(cmd) == 0, 'Failed to run train.py with parameter [config] set'
         logging.getLogger().info("Finish pytest command: ", cmd)
 
 
