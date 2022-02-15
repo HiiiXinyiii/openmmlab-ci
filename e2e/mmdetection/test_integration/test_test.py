@@ -14,7 +14,12 @@ temp = [('configs/faster_rcnn/faster_rcnn_r50_fpn_1x_coco.py',
         '--eval proposal')]
 @pytest.mark.parametrize('prep_checkpoint', temp, indirect=True)
 def param_config_checkpoint_mode():  # this is not a case
-    return temp
+    def adapt_path(path):
+        for i_path in path:
+            i_path[0] = os.path.join(pytest.CODEB_PATH, i_path[0])      # modify config
+            i_path[1] = os.path.join(pytest.CODEB_PATH, i_path[1])      # modify checkpoint
+        return path
+    return adapt_path(temp)
 
 
 class TestTest:
