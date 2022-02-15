@@ -3,10 +3,10 @@ import pytest
 import platform
 
 # the codebase directory (decide it by system version, server=18.04[4.15.0-143-generic], local=16.04)
-if platform.version().lower()[platform.version().lower().find('~')+1:platform.version().lower().find('~')+3] == '18':
-    pytest.CODEB_PATH = os.path.abspath(os.path.join(os.getcwd(), "../../../"))
-elif platform.version().lower()[platform.version().lower().find('~')+1:platform.version().lower().find('~')+3] == '16':
+if platform.version().lower()[platform.version().lower().find('~')+1:platform.version().lower().find('~')+3] == '16':
     pytest.CODEB_PATH = os.path.abspath(os.path.join(os.getcwd()))
+else:
+    pytest.CODEB_PATH = os.path.abspath(os.path.join(os.getcwd(), "../../../"))
 
 # the mmdetection directory path for us to find data directory
 pytest.MMDET_PATH = os.getcwd()
