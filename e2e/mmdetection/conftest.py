@@ -6,7 +6,7 @@ import platform
 # if platform.version().lower()[platform.version().lower().find('~')+1:platform.version().lower().find('~')+3] == '16':
 #     pytest.CODEB_PATH = os.path.abspath(os.path.join(os.getcwd()))
 # else:
-pytest.CODEB_PATH = os.path.abspath(os.path.join(os.getcwd(), "../../../"))
+pytest.CODEB_PATH = os.path.join(os.getcwd(), "../../../")
 
 # the mmdetection directory path for us to find data directory
 pytest.MMDET_PATH = os.getcwd()
