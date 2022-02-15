@@ -17,7 +17,7 @@ def param_config_checkpoint_mode():  # this is not a case
     def adapt_path(path):
         res = []
         for i_path in path:
-            tmp = list(os.path.join('aaaa', i) for i in i_path[0:2])    # modify config and checkpoint
+            tmp = list(os.path.join(pytest.CODEB_PATH, i) for i in i_path[0:2])    # modify config and checkpoint
             tmp.append(i_path[2])       # keep mode
             res.append(tuple(tmp))
         return res
