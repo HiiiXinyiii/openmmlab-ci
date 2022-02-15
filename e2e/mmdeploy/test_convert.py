@@ -37,7 +37,7 @@ class TestConvertors():
         assert ret_code
 
     @pytest.mark.parametrize("config_cpt", [
-        ('configs/mmcls/classification_tensorrt-fp16_dynamic-224x224-224x224.py', 'configs/resnet/resnet18_8xb16_cifar10.py'),
+        ('configs/mmcls/classification_tensorrt-fp16_dynamic-224x224-224x224.py', 'configs/resnet/resnet18_b32x8_imagenet.py'),
     ])
     def test_cls_convert(self, mmcls, config_cpt):
         cb_name, cb_branch = mmcls
