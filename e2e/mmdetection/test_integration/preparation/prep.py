@@ -70,7 +70,7 @@ class CocoExtract:
         filedir, filename = os.path.split(write_json_path)
         if not os.path.exists(filedir):
             os.makedirs(filedir)
-        with open(write_json_path, 'w', encoding='utf-8') as json_file:
+        with open(write_json_path, 'w+', encoding='utf-8') as json_file:
             json_str = json.dumps(data_out, indent=4)
             json_file.write(json_str)
 
