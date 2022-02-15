@@ -7,5 +7,3 @@ pytest-level==0.1.1
 pytest-xdist==2.2.1
 requests
 selenium
-
-json
