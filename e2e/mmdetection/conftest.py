@@ -1,12 +1,12 @@
 import os
 import pytest
 import platform
-
+import re
 
 # the codebase directory
-if platform.system().lower() == 'windows':
+if platform.version().lower[platform.version().lower().find('~'):platform.version().lower().find('~')+2] == '18':
     pytest.CODEB_PATH = os.path.abspath(os.path.join(os.getcwd(), "../../../"))
-elif platform.system().lower() == 'linux':
+elif platform.version().lower[platform.version().lower().find('~'):platform.version().lower().find('~')+2] == '16':
     pytest.CODEB_PATH = os.path.abspath(os.path.join(os.getcwd()))
 
 pytest.MMDET_PATH = os.getcwd()
