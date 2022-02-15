@@ -90,16 +90,21 @@ class CocoExtract:
         with open(read_json_path, 'r', encoding='utf-8') as fin:
             data_in = json.load(fin)
 
+        # if the write_images_path doesn't exist, then create one
+        if not os.path.exists(write_images_path):
+            os.makedirs(write_images_path)
+
+        # copy or download the images
         for i_image in data_in['images']:
             # if not download, we copy the corresponding images from local directory
             if not download:
-                filepath = read_images_path + '/' + i_image['file_name']
-                new_filepath = write_images_path + '/' + i_image['file_name']
+                filepath = os.path.join(read_images_path, i_image['file_name'])
+                new_filepath = os.path.join(write_images_path, i_image['file_name'])
                 shutil.copy2(filepath, new_filepath)
             # if download == True, we download it from the internet
             else:
                 r = requests.get(i_image['coco_url'])
-                new_filepath = write_images_path + '/' + i_image['file_name']
+                new_filepath = os.path.join(write_images_path, i_image['file_name'])
                 open(new_filepath, 'wb').write(r.content)
 
 
