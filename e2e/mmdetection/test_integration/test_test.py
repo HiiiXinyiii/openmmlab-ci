@@ -8,10 +8,11 @@ from .preparation.prep import *
 
 # config checkpoint mode
 temp = [('configs/faster_rcnn/faster_rcnn_r50_fpn_1x_coco.py',
-         'checkpoints/faster_rcnn_r50_fpn_1x_coco_20200130-047c8118.pth', '--eval proposal'),
-        (
-        'configs/mask_rcnn/mask_rcnn_r50_fpn_1x_coco.py', 'checkpoints/mask_rcnn_r50_fpn_1x_coco_20200205-d4b0c5d6.pth',
-        '--eval proposal')]
+         'checkpoints/faster_rcnn_r50_fpn_1x_coco_20200130-047c8118.pth',
+         '--eval proposal'),
+        ('configs/mask_rcnn/mask_rcnn_r50_fpn_1x_coco.py',
+         'checkpoints/mask_rcnn_r50_fpn_1x_coco_20200205-d4b0c5d6.pth',
+         '--eval proposal')]
 @pytest.mark.parametrize('prep_checkpoint', temp, indirect=True)
 def param_config_checkpoint_mode():  # this is not a case
     return temp
