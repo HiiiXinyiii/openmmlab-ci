@@ -17,9 +17,10 @@ def param_config():
         return get_all_config_path()
     else:
         def adapt_path(path):
+            res = []
             for i_path in path:
-                i_path = os.path.join(pytest.CODEB_PATH, i_path)
-            return path
+                res.append(os.path.join(pytest.CODEB_PATH, i_path))
+            return res
 
         # we think the work directory is 'mmdetection' in default. We will use the path after modification
         return adapt_path([
