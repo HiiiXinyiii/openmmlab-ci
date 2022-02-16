@@ -9,7 +9,7 @@ import platform
 pytest.CODEB_PATH = os.path.abspath(os.path.join(os.getcwd(), "../../../"))
 
 # the mmdetection directory path for us to find data directory
-pytest.MMDET_PATH = os.getcwd()
+pytest.MMDET_PATH = os.path.abspath(os.getcwd())
 
 # whether to test all configs
 pytest.test_all_configs = False          # if it's set to be True, we will pytest all the config files in the codebase
