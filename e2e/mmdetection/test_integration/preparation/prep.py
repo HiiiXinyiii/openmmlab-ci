@@ -152,15 +152,6 @@ def prep():
     read_val_images_path = os.path.join(pytest.MMDET_PATH, "data/coco/val2017")        # use when not download
     write_val_images_path = os.path.join(pytest.MMDET_PATH, "data/coco/val2017")
 
-    # read_train_json_path = os.path.join(pytest.MMDET_PATH, "data/coco_annotations/instances_train2017.json")
-    # write_train_json_path = "data/coco/annotations/instances_train2017.json"
-    # read_val_json_path = os.path.join(pytest.MMDET_PATH, "data/coco_annotations/instances_val2017.json")
-    # write_val_json_path = "data/coco/annotations/instances_val2017.json"
-    # read_train_images_path = "data/coco/train2017"    # use when not download
-    # write_train_images_path = "data/coco/train2017"
-    # read_val_images_path = "data/coco/val2017"        # use when not download
-    # write_val_images_path = "data/coco/val2017"
-
     # extract part of train json
     if not os.path.exists(write_train_json_path):
         # delete the existing images which are extracted before
