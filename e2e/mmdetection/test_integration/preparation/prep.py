@@ -139,6 +139,10 @@ def prep():
 
     :return:
     """
+    # On server we think the root path is '/opt/mmdetection/openmmlab-ci/e2e/mmdetection/'
+    # In this way, we don't have to modify the original config file
+    # Because in config, they use 'data/coco/annotations/instances_val2017.json' in default
+    # But actually this download path is not what the author wants the users to use
     read_train_json_path = os.path.join(pytest.MMDET_PATH, "data/coco_annotations/instances_train2017.json")
     write_train_json_path = os.path.join(pytest.MMDET_PATH, "data/coco/annotations/instances_train2017.json")
     read_val_json_path = os.path.join(pytest.MMDET_PATH, "data/coco_annotations/instances_val2017.json")
@@ -148,8 +152,6 @@ def prep():
     read_val_images_path = os.path.join(pytest.MMDET_PATH, "data/coco/val2017")        # use when not download
     write_val_images_path = os.path.join(pytest.MMDET_PATH, "data/coco/val2017")
 
-    # On server we think the root path is '/opt/mmdetection/openmmlab-ci/e2e/mmdetection/'
-    # In this way, we don't have to modify the original config file
     # read_train_json_path = os.path.join(pytest.MMDET_PATH, "data/coco_annotations/instances_train2017.json")
     # write_train_json_path = "data/coco/annotations/instances_train2017.json"
     # read_val_json_path = os.path.join(pytest.MMDET_PATH, "data/coco_annotations/instances_val2017.json")
