@@ -139,14 +139,23 @@ def prep():
 
     :return:
     """
+    # read_train_json_path = os.path.join(pytest.MMDET_PATH, "data/coco_annotations/instances_train2017.json")
+    # write_train_json_path = os.path.join(pytest.CODEB_PATH, "data/coco/annotations/instances_train2017.json")
+    # read_val_json_path = os.path.join(pytest.MMDET_PATH, "data/coco_annotations/instances_val2017.json")
+    # write_val_json_path = os.path.join(pytest.CODEB_PATH, "data/coco/annotations/instances_val2017.json")
+    # read_train_images_path = os.path.join(pytest.CODEB_PATH, "data/coco/train2017")    # use when not download
+    # write_train_images_path = os.path.join(pytest.CODEB_PATH, "data/coco/train2017")
+    # read_val_images_path = os.path.join(pytest.CODEB_PATH, "data/coco/val2017")        # use when not download
+    # write_val_images_path = os.path.join(pytest.CODEB_PATH, "data/coco/val2017")
+
     read_train_json_path = os.path.join(pytest.MMDET_PATH, "data/coco_annotations/instances_train2017.json")
-    write_train_json_path = os.path.join(pytest.CODEB_PATH, "data/coco/annotations/instances_train2017.json")
+    write_train_json_path = os.path.join(pytest.MMDET_PATH, "data/coco/annotations/instances_train2017.json")
     read_val_json_path = os.path.join(pytest.MMDET_PATH, "data/coco_annotations/instances_val2017.json")
-    write_val_json_path = os.path.join(pytest.CODEB_PATH, "data/coco/annotations/instances_val2017.json")
-    read_train_images_path = os.path.join(pytest.CODEB_PATH, "data/coco/train2017")    # use when not download
-    write_train_images_path = os.path.join(pytest.CODEB_PATH, "data/coco/train2017")
-    read_val_images_path = os.path.join(pytest.CODEB_PATH, "data/coco/val2017")        # use when not download
-    write_val_images_path = os.path.join(pytest.CODEB_PATH, "data/coco/val2017")
+    write_val_json_path = os.path.join(pytest.MMDET_PATH, "data/coco/annotations/instances_val2017.json")
+    read_train_images_path = os.path.join(pytest.MMDET_PATH, "data/coco/train2017")    # use when not download
+    write_train_images_path = os.path.join(pytest.MMDET_PATH, "data/coco/train2017")
+    read_val_images_path = os.path.join(pytest.MMDET_PATH, "data/coco/val2017")        # use when not download
+    write_val_images_path = os.path.join(pytest.MMDET_PATH, "data/coco/val2017")
 
     # extract part of train json
     if not os.path.exists(write_train_json_path):
