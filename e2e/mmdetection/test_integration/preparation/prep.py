@@ -191,31 +191,32 @@ def prep():
                                      write_images_path=write_val_images_path, download=True)
 
 
-# checkpoint and its corresponding url for downloading
-# It's from the link https://github.com/open-mmlab/mmdetection/blob/master/docs/zh_cn/model_zoo.md
-checkpoint_url = {'faster_rcnn_r50_fpn_1x_coco_20200130-047c8118.pth':
-                      'https://download.openmmlab.com/mmdetection/v2.0/faster_rcnn/faster_rcnn_r50_fpn_1x_coco/faster_rcnn_r50_fpn_1x_coco_20200130-047c8118.pth',
-                  'mask_rcnn_r50_fpn_1x_coco_20200205-d4b0c5d6.pth':
-                      'https://download.openmmlab.com/mmdetection/v2.0/mask_rcnn/mask_rcnn_r50_fpn_1x_coco/mask_rcnn_r50_fpn_1x_coco_20200205-d4b0c5d6.pth'}
-
-
-@pytest.fixture(scope='function')
-def prep_checkpoint(request):
-    """
-    Function: download all the checkpoint needed in one time
-
-    """
-    checkpoint_file = request.param[1].split('/')[1]  # checkpoint is at this place
-    url = checkpoint_url[checkpoint_file]
-    path = os.path.join(pytest.CODEB_PATH, 'checkpoints')
-    if not os.path.exists(path):
-        # make the checkpoints directory which contains all the checkpoints we will download
-        os.makedirs(path)
-    path = os.path.join(path, checkpoint_file)
-    if not os.path.exists(path):
-        r = requests.get(url)
-        print("Start downloading checkpoint file")
-        open(path, 'wb').write(r.content)
-        print("Finish downloading checkpoint file")
-
-    return 0
+# # checkpoint and its corresponding url for downloading
+# # It's from the link https://github.com/open-mmlab/mmdetection/blob/master/docs/zh_cn/model_zoo.md
+# checkpoint_url = {'faster_rcnn_r50_fpn_1x_coco_20200130-047c8118.pth':
+#                       'https://download.openmmlab.com/mmdetection/v2.0/faster_rcnn/faster_rcnn_r50_fpn_1x_coco/faster_rcnn_r50_fpn_1x_coco_20200130-047c8118.pth',
+#                   'mask_rcnn_r50_fpn_1x_coco_20200205-d4b0c5d6.pth':
+#                       'https://download.openmmlab.com/mmdetection/v2.0/mask_rcnn/mask_rcnn_r50_fpn_1x_coco/mask_rcnn_r50_fpn_1x_coco_20200205-d4b0c5d6.pth'}
+#
+#
+# @pytest.fixture(scope='function')
+# def prep_checkpoint(request):
+#     """
+#     Function: download all the checkpoint needed in one time
+#
+#     """
+#
+#     checkpoint_file = request.param[1].split('/')[1]  # checkpoint is at this place
+#     url = checkpoint_url[checkpoint_file]
+#     path = os.path.join(pytest.CODEB_PATH, 'checkpoints')
+#     if not os.path.exists(path):
+#         # make the checkpoints directory which contains all the checkpoints we will download
+#         os.makedirs(path)
+#     path = os.path.join(path, checkpoint_file)
+#     if not os.path.exists(path):
+#         r = requests.get(url)
+#         print("Start downloading checkpoint file")
+#         open(path, 'wb').write(r.content)
+#         print("Finish downloading checkpoint file")
+#
+#     return 0
