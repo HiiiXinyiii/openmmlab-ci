@@ -20,9 +20,11 @@ class CocoExtract:
 
         Note: parameter 'chosen' seems not to work
         """
-
-        with open(read_json_path, 'r', encoding='utf-8') as fin:
-            data_in = json.load(fin)
+        try:
+            with open(read_json_path, 'r', encoding='utf-8') as fin:
+                data_in = json.load(fin)
+        except FileNotFoundError:
+            assert f'Fail to open file {read_json_path} when extracting json from coco dataset'
 
         # initialize the data_out
         data_out = {'info': data_in['info'],
@@ -70,9 +72,12 @@ class CocoExtract:
         filedir, filename = os.path.split(write_json_path)
         if not os.path.exists(filedir):
             os.makedirs(filedir)
-        with open(write_json_path, 'w+', encoding='utf-8') as json_file:
-            json_str = json.dumps(data_out, indent=4)
-            json_file.write(json_str)
+        try:
+            with open(write_json_path, 'w+', encoding='utf-8') as json_file:
+                json_str = json.dumps(data_out, indent=4)
+                json_file.write(json_str)
+        except FileNotFoundError:
+            assert f'Fail to open file {write_json_path}'
 
         return images_id_picked
 
@@ -86,9 +91,11 @@ class CocoExtract:
         :param download:
         :return:
         """
-
-        with open(read_json_path, 'r', encoding='utf-8') as fin:
-            data_in = json.load(fin)
+        try:
+            with open(read_json_path, 'r', encoding='utf-8') as fin:
+                data_in = json.load(fin)
+        except FileNotFoundError:
+            assert f'Fail to open file {read_json_path}'
 
         # if the write_images_path doesn't exist, then create one
         if not os.path.exists(write_images_path):
@@ -105,7 +112,11 @@ class CocoExtract:
             else:
                 r = requests.get(i_image['coco_url'])
                 new_filepath = os.path.join(write_images_path, i_image['file_name'])
-                open(new_filepath, 'wb').write(r.content)
+                try:
+                    with open(new_filepath, 'wb') as f:
+                        f.write(r.content)
+                except FileNotFoundError:
+                    assert f'Fail to write images {new_filepath}'
 
 
 # list all the config file path in the project
@@ -143,14 +154,14 @@ def prep():
     # In this way, we don't have to modify the original config file
     # Because in config, they use 'data/coco/annotations/instances_val2017.json' in default
     # But actually this download path is not what the author wants the users to use
-    read_train_json_path = os.path.join(pytest.MMDET_PATH, "data/coco_annotations/instances_train2017.json")
-    write_train_json_path = os.path.join(pytest.MMDET_PATH, "data/coco/annotations/instances_train2017.json")
-    read_val_json_path = os.path.join(pytest.MMDET_PATH, "data/coco_annotations/instances_val2017.json")
-    write_val_json_path = os.path.join(pytest.MMDET_PATH, "data/coco/annotations/instances_val2017.json")
-    read_train_images_path = os.path.join(pytest.MMDET_PATH, "data/coco/train2017")    # use when not download
-    write_train_images_path = os.path.join(pytest.MMDET_PATH, "data/coco/train2017")
-    read_val_images_path = os.path.join(pytest.MMDET_PATH, "data/coco/val2017")        # use when not download
-    write_val_images_path = os.path.join(pytest.MMDET_PATH, "data/coco/val2017")
+    read_train_json_path = os.path.join(os.getcwd(), "data/coco_annotations/instances_train2017.json")
+    write_train_json_path = os.path.join(os.getcwd(), "data/coco/annotations/instances_train2017.json")
+    read_val_json_path = os.path.join(os.getcwd(), "data/coco_annotations/instances_val2017.json")
+    write_val_json_path = os.path.join(os.getcwd(), "data/coco/annotations/instances_val2017.json")
+    read_train_images_path = os.path.join(os.getcwd(), "data/coco/train2017")    # use when not download
+    write_train_images_path = os.path.join(os.getcwd(), "data/coco/train2017")
+    read_val_images_path = os.path.join(os.getcwd(), "data/coco/val2017")        # use when not download
+    write_val_images_path = os.path.join(os.getcwd(), "data/coco/val2017")
 
     # extract part of train json
     if not os.path.exists(write_train_json_path):
