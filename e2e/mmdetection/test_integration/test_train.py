@@ -16,6 +16,7 @@ def param_config():
     if pytest.test_all_configs:
         return get_all_config_path()
     else:
+        # to make it fit the server directory
         def adapt_path(path):
             res = []
             for i_path in path:
