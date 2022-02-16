@@ -9,6 +9,7 @@ ENV HTTPS_PROXY="$HTTP_PROXY"
 
 RUN apt update -y && apt install -y --no-install-recommends software-properties-common libglib2.0-0 libsm6 libxrender-dev libxext6 \
     && python -m pip install git+https://github.com/votchallenge/toolkit.git \
+    && python -m pip install git+https://github.com/JonathonLuiten/TrackEval.git \
     && python -m pip install attributee==0.1.5
 
 RUN apt-get clean && apt-get remove --purge -y \
