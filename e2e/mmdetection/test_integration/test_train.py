@@ -24,10 +24,11 @@ def param_config():
             return res
 
         # we think the work directory is 'mmdetection' in default. We will use the path after modification
-        return ['configs/faster_rcnn/faster_rcnn_r50_fpn_1x_coco.py'
-                # 'configs/mask_rcnn/mask_rcnn_r50_caffe_fpn_mstrain-poly_3x_coco.py',
-                # 'configs/resnest/faster_rcnn_s50_fpn_syncbn-backbone+head_mstrain-range_1x_coco.py'
-                ]
+        return adapt_path([
+            'configs/faster_rcnn/faster_rcnn_r50_fpn_1x_coco.py'
+            # 'configs/mask_rcnn/mask_rcnn_r50_caffe_fpn_mstrain-poly_3x_coco.py',
+            # 'configs/resnest/faster_rcnn_s50_fpn_syncbn-backbone+head_mstrain-range_1x_coco.py'
+        ])
 
 
 class TestTrain:
@@ -41,7 +42,7 @@ class TestTrain:
         :return:
         """
         file_path = os.path.join(pytest.CODEB_PATH, 'tools/train.py')
-        cmd = "python " + file_path + ' ' + cmd_param  # the cmd to be executed
+        cmd = "python " + file_path + ' ' + cmd_param + ' ' + '--cfg-options data.workers_per_gpu=0' # the cmd to be executed
         assert subprocess.run(cmd.split(' ')).returncode == 0, \
             'Failed to run train.py with parameter [config] set'
         logging.getLogger().info("Finish pytest command: ", cmd)
