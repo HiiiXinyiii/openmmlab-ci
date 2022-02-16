@@ -9,7 +9,6 @@ import pytest
 from .preparation.prep import *
 
 
-
 def param_config():
     """
     Function: the param that train.py needs
@@ -17,11 +16,17 @@ def param_config():
     if pytest.test_all_configs:
         return get_all_config_path()
     else:
-        return [
+        def adapt_path(path):
+            for i_path in path:
+                i_path = os.path.join(pytest.CODEB_PATH, i_path)
+            return path
+
+        # we think the work directory is 'mmdetection' in default. We will use the path after modification
+        return adapt_path([
             'configs/faster_rcnn/faster_rcnn_r50_fpn_1x_coco.py',
             'configs/mask_rcnn/mask_rcnn_r50_caffe_fpn_mstrain-poly_3x_coco.py',
             'configs/resnest/faster_rcnn_s50_fpn_syncbn-backbone+head_mstrain-range_1x_coco.py'
-        ]
+        ])
 
 
 class TestTrain:
