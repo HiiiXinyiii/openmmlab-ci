@@ -73,6 +73,7 @@ class TestTest:
         res = subprocess.run(cmd.split(' '))
         assert res.returncode == 0, \
             f'Failed to run test.py with parameter [config=={config}, checkpoint=={checkpoint}] set '
+        logging.getLogger().info("Finish pytest command: " + cmd)
 
     # @pytest.mark.parametrize('config, checkpoint, mode', param_config_checkpoint_mode())
     # def test_test_acc(self, config, checkpoint, mode):
