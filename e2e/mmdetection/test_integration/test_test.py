@@ -59,6 +59,7 @@ class TestTest:
 
     """
 
+    @pytest.mark.usefixtures('prep')
     @pytest.mark.parametrize('config, checkpoint, mode', param_config_checkpoint_mode())
     def test_test_config_checkpoint(self, config, checkpoint, mode):
         """
