@@ -70,7 +70,8 @@ class TestTest:
         """
         file_path = os.path.join(pytest.CODEB_PATH, 'tools/test.py')
         cmd = "python " + file_path + ' ' + config + ' ' + checkpoint + ' ' + mode  # the cmd to be executed
-        assert subprocess.run(cmd.split(' ')).returncode == 0, \
+        res = subprocess.run(cmd.split(' '))
+        assert res.returncode == 0, \
             f'Failed to run test.py with parameter [config=={config}, checkpoint=={checkpoint}] set '
 
     # @pytest.mark.parametrize('config, checkpoint, mode', param_config_checkpoint_mode())
