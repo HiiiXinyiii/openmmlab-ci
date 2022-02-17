@@ -6,10 +6,20 @@ import time
 import re
 import pytest
 import os
+from multiprocessing import Pool
 
 
 # extract part of coco dataset
 class CocoExtract:
+    def download_image(self, i_image, dir):
+        r = requests.get(i_image['coco_url'], proxies={'http': 'http://proxy.sensetime.com:3128', 'https': None})
+        new_filepath = os.path.join(dir, i_image['file_name'])
+        try:
+            with open(new_filepath, 'wb') as f:
+                f.write(r.content)
+        except FileNotFoundError:
+            assert f'Fail to write images {new_filepath}'
+
     def extract_json(self, read_json_path, write_json_path, size=120, chosen=None):
         """
         Function: extract a subset of the coco dataset
@@ -91,6 +101,7 @@ class CocoExtract:
         :param download:
         :return:
         """
+
         try:
             with open(read_json_path, 'r', encoding='utf-8') as fin:
                 data_in = json.load(fin)
@@ -101,23 +112,19 @@ class CocoExtract:
         if not os.path.exists(write_images_path):
             os.makedirs(write_images_path)
 
-        # copy or download the images
-        for i_image in data_in['images']:
-            # if not download, we copy the corresponding images from local directory
-            if not download:
+        # download the images
+        if download:
+            pool = Pool()
+            for i_image in data_in['images']:
+                result = pool.apply_async(self.download_image, args=(i_image, write_images_path, ))
+            pool.close()
+            pool.join()
+        # if not download, we copy the corresponding images from local directory
+        else:
+            for i_image in data_in['images']:
                 filepath = os.path.join(read_images_path, i_image['file_name'])
                 new_filepath = os.path.join(write_images_path, i_image['file_name'])
                 shutil.copy2(filepath, new_filepath)
-            # if download == True, we download it from the internet
-            else:
-                r = requests.get(i_image['coco_url'])
-                new_filepath = os.path.join(write_images_path, i_image['file_name'])
-                try:
-                    with open(new_filepath, 'wb') as f:
-                        f.write(r.content)
-                except FileNotFoundError:
-                    assert f'Fail to write images {new_filepath}'
-
 
 # list all the config file path in the project
 def get_all_config_path():
