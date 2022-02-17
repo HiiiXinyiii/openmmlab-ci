@@ -13,7 +13,7 @@ ENV ONNXRUNTIME_DIR=/opt/deps/onnxruntime-linux-x64-${ONNX_VERSION}
 ENV TORCH_CUDA_ARCH_LIST="6.0 6.1 7.0+PTX"
 ENV TORCH_NVCC_FLAGS="-Xfatbin -compress-all"
 ENV FORCE_CUDA="1"
-ENV MMCV_CUDA_ARGS="-gencode=arch=compute_61,code=sm_61"
+# ENV MMCV_CUDA_ARGS="-gencode=arch=compute_61,code=sm_61"
 ENV MMCV_WITH_OPS=1
 ENV MMCV_WITH_ORT=1
 ENV LD_LIBRARY_PATH ${LD_LIBRARY_PATH}:${ONNXRUNTIME_DIR}/lib
