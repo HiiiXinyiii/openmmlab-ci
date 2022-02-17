@@ -10,7 +10,7 @@ import os
 
 # extract part of coco dataset
 class CocoExtract:
-    def extract_json(self, read_json_path, write_json_path, size=200, chosen=None):
+    def extract_json(self, read_json_path, write_json_path, size=120, chosen=None):
         """
         Function: extract a subset of the coco dataset
 
