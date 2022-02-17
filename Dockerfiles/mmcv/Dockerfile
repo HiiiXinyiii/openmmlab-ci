@@ -4,17 +4,19 @@ ARG CUDNN="7"
 
 FROM pytorch/pytorch:${PYTORCH}-cuda${CUDA}-cudnn${CUDNN}-devel
 
-ENV TORCH_CUDA_ARCH_LIST="6.0 6.1 7.0+PTX"
-ENV TORCH_NVCC_FLAGS="-Xfatbin -compress-all"
-ENV FORCE_CUDA="1"
-# ENV MMCV_CUDA_ARGS="-gencode=arch=compute_61,code=sm_61"
-ENV MMCV_WITH_OPS=1
-
 # ARG TORCH="1.6.0+cu101"
 # ARG TORCHVERSION="0.7.0+cu101"
 # ARG PYTHON="3.7"
 ARG DEBIAN_FRONTEND=noninteractive
-
+ARG ONNX_VERSION="1.8.1"
+ENV ONNXRUNTIME_DIR=/opt/deps/onnxruntime-linux-x64-${ONNX_VERSION}
+ENV TORCH_CUDA_ARCH_LIST="6.0 6.1 7.0+PTX"
+ENV TORCH_NVCC_FLAGS="-Xfatbin -compress-all"
+ENV FORCE_CUDA="1"
+ENV MMCV_CUDA_ARGS="-gencode=arch=compute_61,code=sm_61"
+ENV MMCV_WITH_OPS=1
+ENV MMCV_WITH_ORT=1
+ENV LD_LIBRARY_PATH ${LD_LIBRARY_PATH}:${ONNXRUNTIME_DIR}/lib
 # Using python3.7 in base image(pytorch)
 # RUN apt-get update && apt-get install -y --no-install-recommends software-properties-common ffmpeg libturbojpeg ninja-build libprotobuf-dev protobuf-compiler cmake git curl wget
 # RUN add-apt-repository ppa:deadsnakes/ppa
@@ -27,8 +29,11 @@ RUN apt-get update && apt-get install -y ffmpeg libturbojpeg ninja-build libprot
 
 # RUN python -c "import torch; print(torch.cuda.is_available())"
 # RUN python -m pip install torch==${TORCH} torchvision==${TORCHVERSION} -f https://download.pytorch.org/whl/torch_stable.html
-RUN pip install psutil protobuf Pillow==6.2.2
-
+RUN pip install psutil protobuf Pillow==6.2.2 onnxruntime==${ONNX_VERSION}
+WORKDIR /opt/deps
+RUN wget https://github.com/microsoft/onnxruntime/releases/download/v${ONNX_VERSION}/onnxruntime-linux-x64-${ONNX_VERSION}.tgz \
+    && tar -zxvf onnxruntime-linux-x64-${ONNX_VERSION}.tgz \
+    && rm -rf onnxruntime-linux-x64-${ONNX_VERSION}.tgz
 # Install petrel oss sdk and petrel config file, make sure petrel-oss-python-sdk & openmmlab-ci exists
 COPY petrel-oss-python-sdk /tmp
 WORKDIR /tmp
