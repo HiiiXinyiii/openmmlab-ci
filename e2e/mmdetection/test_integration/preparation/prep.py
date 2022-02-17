@@ -12,7 +12,7 @@ from multiprocessing import Pool
 # extract part of coco dataset
 class CocoExtract:
     def download_image(self, i_image, dir):
-        r = requests.get(i_image['coco_url'], proxies={'http': 'http://proxy.sensetime.com:3128', 'https': None})
+        r = requests.get(i_image['coco_url'])
         new_filepath = os.path.join(dir, i_image['file_name'])
         try:
             with open(new_filepath, 'wb') as f:
