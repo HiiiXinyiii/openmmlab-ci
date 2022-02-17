@@ -29,7 +29,7 @@ RUN apt-get update && apt-get install -y ffmpeg libturbojpeg ninja-build libprot
 
 # RUN python -c "import torch; print(torch.cuda.is_available())"
 # RUN python -m pip install torch==${TORCH} torchvision==${TORCHVERSION} -f https://download.pytorch.org/whl/torch_stable.html
-RUN pip install psutil protobuf Pillow==6.2.2 onnxruntime==${ONNX_VERSION}
+RUN pip install psutil protobuf Pillow==6.2.2 onnxruntime==${ONNX_VERSION} numpy scipy
 WORKDIR /opt/deps
 RUN wget https://github.com/microsoft/onnxruntime/releases/download/v${ONNX_VERSION}/onnxruntime-linux-x64-${ONNX_VERSION}.tgz \
     && tar -zxvf onnxruntime-linux-x64-${ONNX_VERSION}.tgz \
@@ -46,5 +46,4 @@ COPY . /opt/mmcv
 
 RUN python setup.py check -m -s \
     && python -m pip install --no-cache-dir -e . \
-    && python -m pip install --upgrade onnx \
     && python .dev_scripts/check_installation.py
