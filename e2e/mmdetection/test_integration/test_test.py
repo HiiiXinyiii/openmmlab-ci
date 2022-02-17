@@ -91,4 +91,4 @@ class TestTest:
     #         f'Failed to run test.py with parameter [config=={config}, checkpoint=={checkpoint}] set '
     #
     #     # get the acc information
-    #     logging.getLogger().info("Finish pytest command: ", cmd)
+    #     logging.getLogger().info("Finish pytest command: " + cmd)
