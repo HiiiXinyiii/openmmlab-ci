@@ -25,7 +25,7 @@ ENV LD_LIBRARY_PATH ${LD_LIBRARY_PATH}:${ONNXRUNTIME_DIR}/lib
 #     && rm -rf /var/lib/apt/lists/*
 # RUN unlink /usr/bin/python3 && python${PYTHON} -m pip install --upgrade pip && rm -f /usr/bin/pip3
 
-RUN apt-get update && apt-get install -y ffmpeg libturbojpeg ninja-build libprotobuf-dev protobuf-compiler cmake git wget libpython3.7
+RUN apt-get update && apt-get install -y ffmpeg libturbojpeg ninja-build libprotobuf-dev protobuf-compiler cmake git wget libpython3.7 scipy numpy
 
 # RUN python -c "import torch; print(torch.cuda.is_available())"
 # RUN python -m pip install torch==${TORCH} torchvision==${TORCHVERSION} -f https://download.pytorch.org/whl/torch_stable.html
@@ -46,4 +46,5 @@ COPY . /opt/mmcv
 
 RUN python setup.py check -m -s \
     && python -m pip install --no-cache-dir -e . \
+    && python -m pip install --upgrade onnx \
     && python .dev_scripts/check_installation.py
