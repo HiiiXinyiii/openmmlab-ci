@@ -42,10 +42,8 @@ class TestTrain:
         :return:
         """
         file_path = os.path.join(pytest.CODEB_PATH, 'tools/train.py')
-        # the cmd to be executed
-        cmd = 'python' + ' ' + file_path + ' ' + cmd_param \
-              + ' --cfg-options data.workers_per_gpu=0 data.samples_per_gpu=1 train_pipeline.2.img_scale=(1333,128) runner.max_epochs=1'
-        # The result of the subprocess
+        cmd = "python " + file_path + ' ' + cmd_param \
+              + ' ' + '--cfg-options data.workers_per_gpu=0 data.samples_per_gpu=1 train_pipeline.2.img_scale=(1333,128) runner.max_epochs=1' # the cmd to be executed
         res = subprocess.run(cmd.split(' '))
         assert res.returncode == 0, \
             'Failed to run train.py with parameter [config] set'
