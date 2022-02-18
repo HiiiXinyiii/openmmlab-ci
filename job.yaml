@@ -126,12 +126,12 @@ spec:
           limits:
             cpu: 4000m
             memory: 8192Mi
-            sensetime.com/vcuda-core: "32"
-            sensetime.com/vcuda-memory: "16"
+            sensetime.com/vcuda-core: "100"
+            sensetime.com/vcuda-memory: "32"
           requests:
             cpu: 250m
             memory: 256Mi
-            sensetime.com/vcuda-core: "32"
+            sensetime.com/vcuda-core: "50"
             sensetime.com/vcuda-memory: "16"
         volumeMounts:
           - mountPath: /dev/shm
