@@ -6,11 +6,21 @@ import time
 import re
 import pytest
 import os
+from multiprocessing import Pool
 
 
 # extract part of coco dataset
 class CocoExtract:
-    def extract_json(self, read_json_path, write_json_path, size=200, chosen=None):
+    def download_image(self, i_image, dir):
+        r = requests.get(i_image['coco_url'])
+        new_filepath = os.path.join(dir, i_image['file_name'])
+        try:
+            with open(new_filepath, 'wb') as f:
+                f.write(r.content)
+        except FileNotFoundError:
+            assert f'Fail to write images {new_filepath}'
+
+    def extract_json(self, read_json_path, write_json_path, size=120, chosen=None):
         """
         Function: extract a subset of the coco dataset
 
@@ -20,9 +30,11 @@ class CocoExtract:
 
         Note: parameter 'chosen' seems not to work
         """
-
-        with open(read_json_path, 'r', encoding='utf-8') as fin:
-            data_in = json.load(fin)
+        try:
+            with open(read_json_path, 'r', encoding='utf-8') as fin:
+                data_in = json.load(fin)
+        except FileNotFoundError:
+            assert f'Fail to open file {read_json_path} when extracting json from coco dataset'
 
         # initialize the data_out
         data_out = {'info': data_in['info'],
@@ -67,9 +79,15 @@ class CocoExtract:
         #######################
         # write as a new json file
         #######################
-        with open(write_json_path, 'w', encoding='utf-8') as json_file:
-            json_str = json.dumps(data_out, indent=4)
-            json_file.write(json_str)
+        filedir, filename = os.path.split(write_json_path)
+        if not os.path.exists(filedir):
+            os.makedirs(filedir)
+        try:
+            with open(write_json_path, 'w+', encoding='utf-8') as json_file:
+                json_str = json.dumps(data_out, indent=4)
+                json_file.write(json_str)
+        except FileNotFoundError:
+            assert f'Fail to open file {write_json_path}'
 
         return images_id_picked
 
@@ -84,21 +102,29 @@ class CocoExtract:
         :return:
         """
 
-        with open(read_json_path, 'r', encoding='utf-8') as fin:
-            data_in = json.load(fin)
+        try:
+            with open(read_json_path, 'r', encoding='utf-8') as fin:
+                data_in = json.load(fin)
+        except FileNotFoundError:
+            assert f'Fail to open file {read_json_path}'
 
-        for i_image in data_in['images']:
-            # if not download, we copy the corresponding images from local directory
-            if not download:
-                filepath = read_images_path + '/' + i_image['file_name']
-                new_filepath = write_images_path + '/' + i_image['file_name']
+        # if the write_images_path doesn't exist, then create one
+        if not os.path.exists(write_images_path):
+            os.makedirs(write_images_path)
+
+        # download the images
+        if download:
+            pool = Pool()
+            for i_image in data_in['images']:
+                result = pool.apply_async(self.download_image, args=(i_image, write_images_path, ))
+            pool.close()
+            pool.join()
+        # if not download, we copy the corresponding images from local directory
+        else:
+            for i_image in data_in['images']:
+                filepath = os.path.join(read_images_path, i_image['file_name'])
+                new_filepath = os.path.join(write_images_path, i_image['file_name'])
                 shutil.copy2(filepath, new_filepath)
-            # if download == True, we download it from the internet
-            else:
-                r = requests.get(i_image['coco_url'])
-                new_filepath = write_images_path + '/' + i_image['file_name']
-                open(new_filepath, 'wb').write(r.content)
-
 
 # list all the config file path in the project
 def get_all_config_path():
@@ -131,14 +157,18 @@ def prep():
 
     :return:
     """
-    read_train_json_path = os.path.join(pytest.MMDET_PATH, "data/coco/_annotations/instances_train2017.json")
-    write_train_json_path = os.path.join(pytest.CODEB_PATH, "data/coco/annotations/instances_train2017.json")
-    read_val_json_path = os.path.join(pytest.MMDET_PATH, "data/coco/_annotations/instances_val2017.json")
-    write_val_json_path = os.path.join(pytest.CODEB_PATH, "data/coco/annotations/instances_val2017.json")
-    read_train_images_path = os.path.join(pytest.CODEB_PATH, "data/coco/_train2017")    # use when not download
-    write_train_images_path = os.path.join(pytest.CODEB_PATH, "data/coco/train2017")
-    read_val_images_path = os.path.join(pytest.CODEB_PATH, "data/coco/_val2017")        # use when not download
-    write_val_images_path = os.path.join(pytest.CODEB_PATH, "data/coco/val2017")
+    # On server we think the root path is '/opt/mmdetection/openmmlab-ci/e2e/mmdetection/'
+    # In this way, we don't have to modify the original config file
+    # Because in config, they use 'data/coco/annotations/instances_val2017.json' in default
+    # But actually this download path is not what the author wants the users to use
+    read_train_json_path = os.path.join(os.getcwd(), "data/coco_annotations/instances_train2017.json")
+    write_train_json_path = os.path.join(os.getcwd(), "data/coco/annotations/instances_train2017.json")
+    read_val_json_path = os.path.join(os.getcwd(), "data/coco_annotations/instances_val2017.json")
+    write_val_json_path = os.path.join(os.getcwd(), "data/coco/annotations/instances_val2017.json")
+    read_train_images_path = os.path.join(os.getcwd(), "data/coco/train2017")    # use when not download
+    write_train_images_path = os.path.join(os.getcwd(), "data/coco/train2017")
+    read_val_images_path = os.path.join(os.getcwd(), "data/coco/val2017")        # use when not download
+    write_val_images_path = os.path.join(os.getcwd(), "data/coco/val2017")
 
     # extract part of train json
     if not os.path.exists(write_train_json_path):
@@ -168,31 +198,32 @@ def prep():
                                      write_images_path=write_val_images_path, download=True)
 
 
-# checkpoint and its corresponding url for downloading
-# It's from the link https://github.com/open-mmlab/mmdetection/blob/master/docs/zh_cn/model_zoo.md
-checkpoint_url = {'faster_rcnn_r50_fpn_1x_coco_20200130-047c8118.pth':
-                      'https://download.openmmlab.com/mmdetection/v2.0/faster_rcnn/faster_rcnn_r50_fpn_1x_coco/faster_rcnn_r50_fpn_1x_coco_20200130-047c8118.pth',
-                  'mask_rcnn_r50_fpn_1x_coco_20200205-d4b0c5d6.pth':
-                      'https://download.openmmlab.com/mmdetection/v2.0/mask_rcnn/mask_rcnn_r50_fpn_1x_coco/mask_rcnn_r50_fpn_1x_coco_20200205-d4b0c5d6.pth'}
-
-
-@pytest.fixture(scope='function')
-def prep_checkpoint(request):
-    """
-    Function: download all the checkpoint needed in one time
-
-    """
-    checkpoint_file = request.param[1].split('/')[1]  # checkpoint is at this place
-    url = checkpoint_url[checkpoint_file]
-    path = os.path.join(pytest.CODEB_PATH, 'checkpoints')
-    if not os.path.exists(path):
-        # make the checkpoints directory which contains all the checkpoints we will download
-        os.makedirs(path)
-    path = os.path.join(path, checkpoint_file)
-    if not os.path.exists(path):
-        r = requests.get(url)
-        print("Start downloading checkpoint file")
-        open(path, 'wb').write(r.content)
-        print("Finish downloading checkpoint file")
-
-    return 0
+# # checkpoint and its corresponding url for downloading
+# # It's from the link https://github.com/open-mmlab/mmdetection/blob/master/docs/zh_cn/model_zoo.md
+# checkpoint_url = {'faster_rcnn_r50_fpn_1x_coco_20200130-047c8118.pth':
+#                       'https://download.openmmlab.com/mmdetection/v2.0/faster_rcnn/faster_rcnn_r50_fpn_1x_coco/faster_rcnn_r50_fpn_1x_coco_20200130-047c8118.pth',
+#                   'mask_rcnn_r50_fpn_1x_coco_20200205-d4b0c5d6.pth':
+#                       'https://download.openmmlab.com/mmdetection/v2.0/mask_rcnn/mask_rcnn_r50_fpn_1x_coco/mask_rcnn_r50_fpn_1x_coco_20200205-d4b0c5d6.pth'}
+#
+#
+# @pytest.fixture(scope='function')
+# def prep_checkpoint(request):
+#     """
+#     Function: download all the checkpoint needed in one time
+#
+#     """
+#
+#     checkpoint_file = request.param[1].split('/')[1]  # checkpoint is at this place
+#     url = checkpoint_url[checkpoint_file]
+#     path = os.path.join(pytest.CODEB_PATH, 'checkpoints')
+#     if not os.path.exists(path):
+#         # make the checkpoints directory which contains all the checkpoints we will download
+#         os.makedirs(path)
+#     path = os.path.join(path, checkpoint_file)
+#     if not os.path.exists(path):
+#         r = requests.get(url)
+#         print("Start downloading checkpoint file")
+#         open(path, 'wb').write(r.content)
+#         print("Finish downloading checkpoint file")
+#
+#     return 0
