@@ -260,7 +260,11 @@ function SetCudaHome() {
     )
     $cudaValue = GetCudaValue $cuda
     $cudaHome = "v"+$cudaValue
-    $env:CUDA_HOME = "C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\$cudaHome"
+    $nvccPath = Get-Item (Get-Command nvcc.exe).Path
+    Split-Path $nvccPath -Parent
+    $prePath = (Get-Item $nvccPath).Directory.parent.parent.FullName
+    Write-Host "CUDA_PATH: $prePath"
+    $env:CUDA_HOME = Join-Path $prePath -ChildPath "$cudaHome"
 }
 
 function SetMSVCEnvPath() {

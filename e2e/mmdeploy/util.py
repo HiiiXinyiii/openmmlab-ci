@@ -69,7 +69,7 @@ def get_cpt(file_path, code_path, branch):
         with open(meta_file, "r") as f:
             meta = yaml.safe_load(f)
         for model in meta["Models"]:
-            if model["Config"] == file_path:
+            if "Config" in model and model["Config"] == file_path:
                 r = requests.get(model["Weights"])
                 cpt_name = model["Weights"].split("/")[-1]
                 logging.getLogger().debug(cpt_name)
