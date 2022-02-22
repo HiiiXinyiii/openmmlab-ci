@@ -8,11 +8,11 @@ Openmmlab-ci is a quality assurance project for [OpenMMLab](https://openmmlab.co
 
 ### 2.1 Guideline of Each Directory
 
-- [Dockerfile README.md](Dockerfiles/Dockerfile.md)
+- [Dockerfile README.md](Dockerfiles/README.md)
 
     It's used to create images for different codebase.
 
-- [Windows README.md](Windows/Windows.md)
+- [Windows README.md](Windows/README.md)
   
     + Install the necesssary environments for Windows OS
     + Download some precompiled package for Windows OS
@@ -21,6 +21,6 @@ Openmmlab-ci is a quality assurance project for [OpenMMLab](https://openmmlab.co
 
     Test the automation of http api of [Openmmlab Platform](https://platform.openmmlab.com/home/)
 
-- [e2e READM.md](e2e/e2e.md)
+- [e2e READM.md](e2e/README.md)
   
     It's end-to-end tests for different codebases. 
