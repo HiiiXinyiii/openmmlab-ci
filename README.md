@@ -1,8 +1,8 @@
-# OpenMMlab-ci
+# Openmmlab-ci
 
 ## 1. Introduction
 
-openmmlab-ci is a quality assurance project for [OpenMMLab](https://openmmlab.com/) and [OpenMMlab Platform](https://platform.openmmlab.com/home/) project. It's designed to automatically test the current project codebase on server as DevOps suggests.
+Openmmlab-ci is a quality assurance project for [OpenMMLab](https://openmmlab.com/) and [OpenMMlab Platform](https://platform.openmmlab.com/home/) project. It's designed to automatically test the current project codebase on server as DevOps suggests.
 
 ## 2. Getting Started
 
