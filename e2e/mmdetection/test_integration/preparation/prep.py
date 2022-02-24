@@ -19,10 +19,15 @@ class CocoExtract:
         self.val_size = val_size
 
     def download_image(self, i_image, dir):
+        """
+        Function:
+
+        :return: No exception: 0;  Exception: exception
+        """
         new_filepath = os.path.join(dir, i_image['file_name'])
         # if this image has been downloaded before then quit
         if os.path.exists(new_filepath):
-            return
+            return 0
 
         # download the file
         s = requests.Session()
@@ -31,17 +36,22 @@ class CocoExtract:
         r = None
         try:
             r = s.get(url=i_image['coco_url'], timeout=(3, 10))
-        except requests.exceptions.RequestException as e:
+        except Exception as e:      # except requests.exceptions.RequestException as e:
             logging.getLogger().error(e)
-            assert False, f'Fail to download the image {i_image["file_name"]} from url \"{i_image["coco_url"]}\"'
+            return e
+            # assert False, f'Fail to download the image {i_image["file_name"]} from url \"{i_image["coco_url"]}\"'
+
         # save the file
         r = requests.get(i_image['coco_url'])
         try:
-            with open(new_filepath, 'wb') as f:
-                f.write(r.content)
-        except FileNotFoundError:
+            f = open(new_filepath, 'wb')
+            f.write(r.content)
+            f.close()
+        except Exception as e:
             logging.getLogger().error(f"Fail to save the image {new_filepath}")
-            assert False, f'Fail to save image {new_filepath}'
+            # assert False, f'Fail to save image {new_filepath}'
+            return e
+        return 0
 
     def extract_json(self, read_json_path, write_json_path, size, chosen=None):
         """
@@ -137,11 +147,16 @@ class CocoExtract:
 
         # download the images
         if download:
+            result = []
             pool = Pool()
             for i_image in data_in['images']:
-                result = pool.apply_async(self.download_image, args=(i_image, write_images_path, ))
+                result.append(pool.apply_async(self.download_image, args=(i_image, write_images_path, )))
             pool.close()
             pool.join()
+            for i_res in result:
+                if int(i_res.get()) != 0:
+                    assert False, f'Fail to download images!'
+
         # if not download, we copy the corresponding images from local directory
         else:
             for i_image in data_in['images']:
