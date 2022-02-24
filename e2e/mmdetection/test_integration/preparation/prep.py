@@ -23,6 +23,7 @@ class CocoExtract:
             r = s.get(url=i_image['coco_url'], timeout=(3, 10))
         except requests.exceptions.RequestException as e:
             logging.getLogger().error(e)
+            exit(0)
             assert False, f'Fail to download the image {i_image["file_name"]} from url \"{i_image["coco_url"]}\"'
         # save the file
         r = requests.get(i_image['coco_url'])
@@ -32,6 +33,7 @@ class CocoExtract:
                 f.write(r.content)
         except FileNotFoundError:
             logging.getLogger().error(f"Fail to save the image {new_filepath}")
+            exit(0)
             assert False, f'Fail to save image {new_filepath}'
 
     def extract_json(self, read_json_path, write_json_path, size=120, chosen=None):
