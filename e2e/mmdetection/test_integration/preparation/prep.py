@@ -175,10 +175,10 @@ def prep():
     # In this way, we don't have to modify the original config file
     # Because in config, they use 'data/coco/annotations/instances_val2017_full.json' in default
     # But actually this download path is not what the author wants the users to use
-    read_train_json_path = os.path.join(os.getcwd(), "data/coco_annotations/instances_train2017_full.json")
-    write_train_json_path = os.path.join(os.getcwd(), "data/coco/annotations/instances_train2017_full.json")
-    read_val_json_path = os.path.join(os.getcwd(), "data/coco_annotations/instances_val2017_full.json")
-    write_val_json_path = os.path.join(os.getcwd(), "data/coco/annotations/instances_val2017_full.json")
+    read_train_json_path = os.path.join(os.getcwd(), "data/coco_annotations/instances_train2017.json")
+    write_train_json_path = os.path.join(os.getcwd(), "data/coco/annotations/instances_train2017.json")
+    read_val_json_path = os.path.join(os.getcwd(), "data/coco_annotations/instances_val2017.json")
+    write_val_json_path = os.path.join(os.getcwd(), "data/coco/annotations/instances_val2017.json")
     read_train_images_path = os.path.join(os.getcwd(), "data/coco/train2017")    # use when not download
     write_train_images_path = os.path.join(os.getcwd(), "data/coco/train2017")
     read_val_images_path = os.path.join(os.getcwd(), "data/coco/val2017")        # use when not download
