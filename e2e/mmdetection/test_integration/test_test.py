@@ -4,6 +4,7 @@ Function: It's designed to test file test.py by calling
 
 import logging
 import subprocess
+from requests.adapters import HTTPAdapter
 from .preparation.prep import *
 
 # config checkpoint mode
@@ -26,13 +27,26 @@ def param_config_checkpoint_mode():  # this is not a case
             os.makedirs(path)
         path = os.path.join(path, checkpoint_file)
         if not os.path.exists(path):
-            r = requests.get(url)
+            # Download the file
+            s = requests.Session()
+            s.mount('http://', HTTPAdapter(max_retries=3))
+            s.mount('https://', HTTPAdapter(max_retries=3))
+            r = None        # save the content of the checkpoint
+            try:
+                r = s.get(url, timeout=(10, 20))
+            except requests.exceptions.RequestException as e:
+                logging.getLogger().error(f'Fail to download checkpoint file [{checkpoint_file}]')
+                exit(0)
+                assert False, f'Fail to download checkpoint file [{checkpoint_file}]'
+            # write content
             try:
                 with open(path, 'wb')as f:
                     f.write(r.content)
             except FileNotFoundError:
-                assert f'Fail to download checkpoint file [{checkpoint_file}]'
-            print(f"Finish downloading checkpoint file [{checkpoint_file}]")
+                logging.getLogger().error(f'Fail to save checkpoint file [{checkpoint_file}]')
+                assert False, f'Fail to save checkpoint file [{checkpoint_file}]'
+            print(f"Finish downloading and saving checkpoint file [{checkpoint_file}]")
+        return 0
 
     # to make it fit the server directory
     def adapt_path(path):
@@ -44,11 +58,11 @@ def param_config_checkpoint_mode():  # this is not a case
         return res
 
     # download all checkpoints
-    print("Start downloading checkpoint file")
+    print(f"Start downloading ALL checkpoint files")
     for i_parm in temp:
         checkpoint_file = i_parm[1].split('/')[1]    # checkpoint is at this place
         download_checkpoint(checkpoint_file)
-    print(f"Finish downloading checkpoint file")
+    print(f"Finish downloading ALL checkpoint files")
 
     return adapt_path(temp)
 
