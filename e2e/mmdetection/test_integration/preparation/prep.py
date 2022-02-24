@@ -154,7 +154,8 @@ class CocoExtract:
             pool.close()
             pool.join()
             for i_res in result:
-                if int(i_res.get()) != 0:
+                tmp = i_res.get()
+                if not isinstance(tmp, int) or tmp != 0:
                     assert False, f'Fail to download images!'
 
         # if not download, we copy the corresponding images from local directory
