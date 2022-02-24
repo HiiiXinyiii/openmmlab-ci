@@ -20,7 +20,7 @@ class CocoExtract:
         s.mount('https://', HTTPAdapter(max_retries=3))
         r = None
         try:
-            r = s.get(url=i_image['coco_url'], timeout=(10, 20))
+            r = s.get(url=i_image['coco_url'], timeout=(3, 10))
         except requests.exceptions.RequestException as e:
             logging.getLogger().error(e)
             assert False, f'Fail to download the image {i_image["file_name"]} from url \"{i_image["coco_url"]}\"'
@@ -48,7 +48,7 @@ class CocoExtract:
             with open(read_json_path, 'r', encoding='utf-8') as fin:
                 data_in = json.load(fin)
         except FileNotFoundError:
-            assert f'Fail to open file {read_json_path} when extracting json from coco dataset'
+            assert False, f'Fail to open file {read_json_path} when extracting json from coco dataset'
 
         # initialize the data_out
         data_out = {'info': data_in['info'],
@@ -77,10 +77,10 @@ class CocoExtract:
         # if the subset is not chosen randomly
         else:
             if not isinstance(chosen, list):
-                assert 'Type Error! The chosen images should be listed in List'
-            images_id_picked = chosen
+                assert False, 'Type Error! The chosen images should be listed in List'
             for i_image in chosen:
                 data_out['images'].append(data_in['images'][i_image])
+                images_id_picked.append(data_in['images'][i_image]['id'])
 
         #######################
         # get its annotations attributes
@@ -101,7 +101,7 @@ class CocoExtract:
                 json_str = json.dumps(data_out, indent=4)
                 json_file.write(json_str)
         except FileNotFoundError:
-            assert f'Fail to open file {write_json_path}'
+            assert False, f'Fail to open file {write_json_path}'
 
         return images_id_picked
 
@@ -120,7 +120,7 @@ class CocoExtract:
             with open(read_json_path, 'r', encoding='utf-8') as fin:
                 data_in = json.load(fin)
         except FileNotFoundError:
-            assert f'Fail to open file {read_json_path}'
+            assert False, f'Fail to open file {read_json_path}'
 
         # if the write_images_path doesn't exist, then create one
         if not os.path.exists(write_images_path):
@@ -173,12 +173,12 @@ def prep():
     """
     # On server we think the root path is '/opt/mmdetection/openmmlab-ci/e2e/mmdetection/'
     # In this way, we don't have to modify the original config file
-    # Because in config, they use 'data/coco/annotations/instances_val2017.json' in default
+    # Because in config, they use 'data/coco/annotations/instances_val2017_full.json' in default
     # But actually this download path is not what the author wants the users to use
-    read_train_json_path = os.path.join(os.getcwd(), "data/coco_annotations/instances_train2017.json")
-    write_train_json_path = os.path.join(os.getcwd(), "data/coco/annotations/instances_train2017.json")
-    read_val_json_path = os.path.join(os.getcwd(), "data/coco_annotations/instances_val2017.json")
-    write_val_json_path = os.path.join(os.getcwd(), "data/coco/annotations/instances_val2017.json")
+    read_train_json_path = os.path.join(os.getcwd(), "data/coco_annotations/instances_train2017_full.json")
+    write_train_json_path = os.path.join(os.getcwd(), "data/coco/annotations/instances_train2017_full.json")
+    read_val_json_path = os.path.join(os.getcwd(), "data/coco_annotations/instances_val2017_full.json")
+    write_val_json_path = os.path.join(os.getcwd(), "data/coco/annotations/instances_val2017_full.json")
     read_train_images_path = os.path.join(os.getcwd(), "data/coco/train2017")    # use when not download
     write_train_images_path = os.path.join(os.getcwd(), "data/coco/train2017")
     read_val_images_path = os.path.join(os.getcwd(), "data/coco/val2017")        # use when not download
@@ -189,9 +189,10 @@ def prep():
         # delete the existing images which are extracted before
         if os.path.exists(write_train_images_path):
             shutil.rmtree(write_train_images_path)
-        CocoExtract().extract_json(read_json_path=read_train_json_path, write_json_path=write_train_json_path,
-                                   size=120, chosen=[i for i in range(120)])
-    # extract part of train images
+        CocoExtract().extract_json(read_json_path=read_train_json_path, write_json_path=write_train_json_path, size=120,
+                                   chosen=None
+                                   # chosen=[39411, 10701, 66707, 15063, 14117, 53179, 114068, 69805, 42114, 86833, 18851, 82074, 18225, 47125, 70894, 71836, 37976, 71969, 117910, 114090, 44317, 107307, 79391, 8321, 43548, 104204, 5600, 67872, 66374, 47095, 12021, 92035, 11907, 5970, 7176, 33208, 64018, 11168, 74187, 45999, 100313, 29162, 223, 15571, 110726, 44728, 81787, 112076, 16261, 49089, 32430, 79600, 7220, 18301, 27786, 49930, 86005, 51144, 50825, 32567, 21329, 25763, 80461, 99241, 38833, 34788, 1556, 1862, 61109, 94109, 95886, 44739, 59764, 87232, 104637, 118196, 15301, 3662, 25446, 48663, 112596, 10347, 70617, 56502, 34419, 66569, 54094, 4029, 110720, 38413, 9756, 32424, 100485, 96822, 71260, 8636, 82881, 796, 52184, 80280, 92227, 27837, 74839, 66750, 88572, 83542, 19047, 109659, 99647, 95799, 76980, 36298, 61946, 95641, 100905, 108854, 96951, 16303, 36805, 36032]
+                                   )
     if not os.path.exists(write_train_images_path):
         os.makedirs(write_train_images_path)
     if not os.listdir(write_train_images_path):
@@ -203,8 +204,10 @@ def prep():
         # delete the existing images which are extracted before
         if os.path.exists(write_val_images_path):
             shutil.rmtree(write_val_images_path)
-        CocoExtract().extract_json(read_json_path=read_val_json_path, write_json_path=write_val_json_path,
-                                   size=120, chosen=[i for i in range(120)])
+        CocoExtract().extract_json(read_json_path=read_val_json_path, write_json_path=write_val_json_path, size=120,
+                                   chosen=None
+                                   # chosen=[4764, 820, 4327, 4531, 3952, 3460, 1373, 1513, 2393, 4256, 3773, 455, 2473, 2493, 2781, 1475, 4464, 1631, 2912, 4781, 4896, 4438, 568, 918, 1177, 2109, 2200, 1939, 3545, 3629, 2968, 3641, 4298, 2006, 4520, 4439, 4825, 1842, 4121, 3032, 2203, 3557, 3513, 3925, 3849, 1139, 3530, 3798, 780, 2242, 3120, 1323, 2880, 4433, 2199, 4377, 3097, 891, 1237, 1172, 3066, 23, 3047, 3917, 200, 109, 4315, 2398, 4562, 3456, 4637, 3374, 999, 3140, 4112, 2732, 3172, 4159, 591, 2861, 1970, 2132, 2282, 3793, 1807, 2687, 63, 45, 308, 3938, 605, 4078, 1578, 2733, 2217, 157, 2535, 3163, 4523, 2641, 505, 3563, 2668, 1374, 877, 1660, 920, 2969, 1700, 2310, 1683, 3007, 880, 55, 3258, 4214, 1856, 1414, 1915, 4383]
+                                   )
     # extract part of val images
     if not os.path.exists(write_val_images_path):  # if there isn't this directory, make a new one
         os.makedirs(write_val_images_path)
@@ -245,5 +248,5 @@ def prep():
 
 
 if __name__ == "__main__":
-    CocoExtract().extract_json(read_json_path='./instances_val2017.json', write_json_path='./aaa.json',
-                               size=120, chosen=[i for i in range(120)])
+    CocoExtract().extract_json(read_json_path='../../data/coco_annotations/instances_train2017_full.json', write_json_path='./aaa.json',
+                               size=120, chosen=[i for i in range(100, 300)])
