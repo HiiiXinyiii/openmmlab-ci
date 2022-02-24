@@ -2,7 +2,7 @@
 
 ## 1. Introduction
 
-OpenMMlab-ci is a quality assurance project for [OpenMMLab](https://openmmlab.com/) and [OpenMMlab Platform](https://platform.openmmlab.com/home/) project. It's designed to automatically test the current project codebase on server as DevOps suggests.
+openmmlab-ci is a quality assurance project for [OpenMMLab](https://openmmlab.com/) and [OpenMMlab Platform](https://platform.openmmlab.com/home/) project. It's designed to automatically test the current project codebase on server as DevOps suggests.
 
 ## 2. Getting Started
 
@@ -10,12 +10,12 @@ OpenMMlab-ci is a quality assurance project for [OpenMMLab](https://openmmlab.co
 
 - [Dockerfile README.md](Dockerfiles/README.md)
 
-    It's used to create images for different codebase.
+    It's used to create docker images for different codebases.
 
 - [Windows README.md](Windows/README.md)
   
     + Install the necesssary environments for Windows OS
-    + Download some precompiled package for Windows OS
+    + Generate precompiled package for mmcv on Windows OS
 
 - [open README.md](./open.md)
 
