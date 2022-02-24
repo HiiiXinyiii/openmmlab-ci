@@ -25,6 +25,7 @@ class CocoExtract:
             logging.getLogger().error(e)
             assert False, f'Fail to download the image {i_image["file_name"]} from url \"{i_image["coco_url"]}\"'
         # save the file
+        r = requests.get(i_image['coco_url'])
         new_filepath = os.path.join(dir, i_image['file_name'])
         try:
             with open(new_filepath, 'wb') as f:
