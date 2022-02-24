@@ -7,18 +7,31 @@ import re
 import pytest
 import os
 from multiprocessing import Pool
+from requests.adapters import HTTPAdapter
+import logging
 
 
 # extract part of coco dataset
 class CocoExtract:
     def download_image(self, i_image, dir):
-        r = requests.get(i_image['coco_url'])
+        # download the file
+        s = requests.Session()
+        s.mount('http://', HTTPAdapter(max_retries=3))
+        s.mount('https://', HTTPAdapter(max_retries=3))
+        r = None
+        try:
+            r = s.get(url=i_image['coco_url'], timeout=(3, 10))
+        except requests.exceptions.RequestException as e:
+            logging.getLogger().error(e)
+            assert False, f'Fail to download the image {i_image["file_name"]} from url \"{i_image["coco_url"]}\"'
+        # save the file
         new_filepath = os.path.join(dir, i_image['file_name'])
         try:
             with open(new_filepath, 'wb') as f:
                 f.write(r.content)
         except FileNotFoundError:
-            assert f'Fail to write images {new_filepath}'
+            logging.getLogger().error(f"Fail to save the image {new_filepath}")
+            assert False, f'Fail to save image {new_filepath}'
 
     def extract_json(self, read_json_path, write_json_path, size=120, chosen=None):
         """
@@ -65,8 +78,8 @@ class CocoExtract:
             if not isinstance(chosen, list):
                 assert 'Type Error! The chosen images should be listed in List'
             images_id_picked = chosen
-            for i_image in data_in['images']:
-                data_out['images'].append(i_image)
+            for i_image in chosen:
+                data_out['images'].append(data_in['images'][i_image])
 
         #######################
         # get its annotations attributes
@@ -176,7 +189,7 @@ def prep():
         if os.path.exists(write_train_images_path):
             shutil.rmtree(write_train_images_path)
         CocoExtract().extract_json(read_json_path=read_train_json_path, write_json_path=write_train_json_path,
-                                   chosen=None)
+                                   size=120, chosen=[i for i in range(120)])
     # extract part of train images
     if not os.path.exists(write_train_images_path):
         os.makedirs(write_train_images_path)
@@ -189,7 +202,8 @@ def prep():
         # delete the existing images which are extracted before
         if os.path.exists(write_val_images_path):
             shutil.rmtree(write_val_images_path)
-        CocoExtract().extract_json(read_json_path=read_val_json_path, write_json_path=write_val_json_path, chosen=None)
+        CocoExtract().extract_json(read_json_path=read_val_json_path, write_json_path=write_val_json_path,
+                                   size=120, chosen=[i for i in range(120)])
     # extract part of val images
     if not os.path.exists(write_val_images_path):  # if there isn't this directory, make a new one
         os.makedirs(write_val_images_path)
@@ -227,3 +241,8 @@ def prep():
 #         print("Finish downloading checkpoint file")
 #
 #     return 0
+
+
+if __name__ == "__main__":
+    CocoExtract().extract_json(read_json_path='./instances_val2017.json', write_json_path='./aaa.json',
+                               size=120, chosen=[i for i in range(120)])
