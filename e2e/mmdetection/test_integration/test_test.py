@@ -33,7 +33,7 @@ def param_config_checkpoint_mode():  # this is not a case
             s.mount('https://', HTTPAdapter(max_retries=3))
             r = None        # save the content of the checkpoint
             try:
-                r = s.get(url, timeout=(3, 20))
+                r = s.get(url, timeout=(10, 20))
             except requests.exceptions.RequestException as e:
                 logging.getLogger().error(f'Fail to download checkpoint file [{checkpoint_file}]')
                 assert False, f'Fail to download checkpoint file [{checkpoint_file}]'
