@@ -19,6 +19,11 @@ class CocoExtract:
         self.val_size = val_size
 
     def download_image(self, i_image, dir):
+        new_filepath = os.path.join(dir, i_image['file_name'])
+        # if this image has been downloaded before then quit
+        if os.path.exists(new_filepath):
+            return
+
         # download the file
         s = requests.Session()
         s.mount('http://', HTTPAdapter(max_retries=3))
@@ -31,7 +36,6 @@ class CocoExtract:
             assert False, f'Fail to download the image {i_image["file_name"]} from url \"{i_image["coco_url"]}\"'
         # save the file
         r = requests.get(i_image['coco_url'])
-        new_filepath = os.path.join(dir, i_image['file_name'])
         try:
             with open(new_filepath, 'wb') as f:
                 f.write(r.content)
