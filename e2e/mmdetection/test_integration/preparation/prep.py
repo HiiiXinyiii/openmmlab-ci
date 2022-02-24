@@ -20,7 +20,7 @@ class CocoExtract:
         s.mount('https://', HTTPAdapter(max_retries=3))
         r = None
         try:
-            r = s.get(url=i_image['coco_url'], timeout=(3, 10))
+            r = s.get(url=i_image['coco_url'], timeout=(10, 20))
         except requests.exceptions.RequestException as e:
             logging.getLogger().error(e)
             assert False, f'Fail to download the image {i_image["file_name"]} from url \"{i_image["coco_url"]}\"'
