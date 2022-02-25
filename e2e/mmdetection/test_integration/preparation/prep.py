@@ -42,7 +42,6 @@ class CocoExtract:
             # assert False, f'Fail to download the image {i_image["file_name"]} from url \"{i_image["coco_url"]}\"'
 
         # save the file
-        r = requests.get(i_image['coco_url'])
         try:
             f = open(new_filepath, 'wb')
             f.write(r.content)
