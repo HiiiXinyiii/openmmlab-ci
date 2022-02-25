@@ -53,6 +53,7 @@ class CocoExtract:
             return e
         return 0
 
+
     def extract_json(self, read_json_path, write_json_path, size, chosen=None):
         """
         Function: extract a subset of the coco dataset
