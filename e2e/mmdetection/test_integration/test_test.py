@@ -5,7 +5,11 @@ Function: It's designed to test file test.py by calling
 import logging
 import subprocess
 from requests.adapters import HTTPAdapter
-from .preparation.prep import *
+import os
+from ...preparation.prep import *
+import pytest
+import requests
+
 
 # config checkpoint mode
 temp = [('configs/faster_rcnn/faster_rcnn_r50_fpn_1x_coco.py',
@@ -36,7 +40,6 @@ def param_config_checkpoint_mode():  # this is not a case
                 r = s.get(url, timeout=(10, 20))
             except requests.exceptions.RequestException as e:
                 logging.getLogger().error(f'Fail to download checkpoint file [{checkpoint_file}]')
-                exit(0)
                 assert False, f'Fail to download checkpoint file [{checkpoint_file}]'
             # write content
             try:
@@ -45,6 +48,8 @@ def param_config_checkpoint_mode():  # this is not a case
             except FileNotFoundError:
                 logging.getLogger().error(f'Fail to save checkpoint file [{checkpoint_file}]')
                 assert False, f'Fail to save checkpoint file [{checkpoint_file}]'
+
+            logging.getLogger().info(f"Finish downloading and saving checkpoint file [{checkpoint_file}]")
             print(f"Finish downloading and saving checkpoint file [{checkpoint_file}]")
         return 0
 
@@ -59,10 +64,12 @@ def param_config_checkpoint_mode():  # this is not a case
 
     # download all checkpoints
     print(f"Start downloading ALL checkpoint files")
+    logging.getLogger().info(f"START downloading ALL checkpoint files")
     for i_parm in temp:
         checkpoint_file = i_parm[1].split('/')[1]    # checkpoint is at this place
         download_checkpoint(checkpoint_file)
     print(f"Finish downloading ALL checkpoint files")
+    logging.getLogger().info(f"FINISH downloading ALL checkpoint files")
 
     return adapt_path(temp)
 

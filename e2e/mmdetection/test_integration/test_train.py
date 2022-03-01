@@ -6,7 +6,8 @@ It's designed to test train.py from the codebase
 import logging
 import subprocess
 import pytest
-from .preparation.prep import *
+import os
+from ...preparation.prep import *
 
 
 def param_config():
