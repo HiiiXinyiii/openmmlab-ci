@@ -11,6 +11,12 @@ ENV HTTP_PROXY="$HTTP_PROXY"
 ENV HTTPS_PROXY="$HTTP_PROXY"
 
 WORKDIR /opt/deps
+# Install CUDA Patches
+COPY cuda-repo-ubuntu1804-10-2-local_10.2.1-1_amd64.deb cuda-repo-ubuntu1804-10-2-local_10.2.1-1_amd64.deb
+RUN dpkg -i cuda-repo-ubuntu1804-10-2-local_10.2.1-1_amd64.deb
+COPY cuda-repo-ubuntu1804-10-2-local_10.2.2-1_amd64.deb cuda-repo-ubuntu1804-10-2-local_10.2.2-1_amd64.deb
+RUN dpkg -i cuda-repo-ubuntu1804-10-2-local_10.2.2-1_amd64.deb
+
 ADD TensorRT-${TENSORRT_VERSION} ./TensorRT-${TENSORRT_VERSION}
 RUN cd TensorRT-${TENSORRT_VERSION} \
     && python -m pip install python/tensorrt-${TENSORRT_VERSION}-cp37-none-linux_x86_64.whl \
