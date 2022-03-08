@@ -22,12 +22,13 @@ RUN cd TensorRT-${TENSORRT_VERSION} \
     && python -m pip install python/tensorrt-${TENSORRT_VERSION}-cp37-none-linux_x86_64.whl \
     && python -m pip install uff/uff-0.6.9-py2.py3-none-any.whl \
     && python -m pip install graphsurgeon/graphsurgeon-0.4.5-py2.py3-none-any.whl \
-    && python -m pip install onnx_graphsurgeon/onnx_graphsurgeon-0.3.10-py2.py3-none-any.whl
+    && python -m pip install onnx_graphsurgeon/onnx_graphsurgeon-0.3.10-py2.py3-none-any.whl \
+    && ls -l
 
 RUN apt-get update && apt-get install -y wget \
     && apt-get remove -y cmake cmake-data \
     && wget -O cmake-3.22.0-linux-x86_64.tar.gz https://cmake.org/files/v3.22/cmake-3.22.0-linux-x86_64.tar.gz \
-    && tar zxvf cmake-3.22.0-linux-x86_64.tar.gz \
+    && tar zxf cmake-3.22.0-linux-x86_64.tar.gz \
     && cp -r cmake-3.22.0-linux-x86_64 /usr/local/share/cmake-3.22 \
     && ln -s /usr/local/share/cmake-3.22/bin/cmake /usr/local/bin \
     && cmake --version
