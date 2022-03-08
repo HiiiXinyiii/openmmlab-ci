@@ -28,12 +28,13 @@ def param_config():
 
 
 class TestBenchTrain:
+    @pytest.mark.timeout(1000)
     @pytest.mark.usefixtures('prep')
     @pytest.mark.parametrize('cmd_param', param_config())
     def test_benchmark_train(self, cmd_param):
         file_path = os.path.join(pytest.CODEB_PATH, 'tools/train.py')
-        cmd = file_path + ' ' + cmd_param \
-              + ' --seed=1 --deterministic=True --cfg-options data.workers_per_gpu=0 data.samples_per_gpu=1 runner.max_epochs=5' # the cmd to be executed
+        cmd = 'python ' + file_path + ' ' + cmd_param \
+              + ' --seed=1 --deterministic --cfg-options optimizer.lr=0.002 data.workers_per_gpu=0 data.samples_per_gpu=1 runner.max_epochs=5' # the cmd to be executed
         # execute cmd
         ret_code, ret_msg = util.python_exec(cmd)
         assert ret_code

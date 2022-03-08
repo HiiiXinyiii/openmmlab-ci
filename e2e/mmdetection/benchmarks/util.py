@@ -4,12 +4,12 @@ import pytest
 
 
 def python_exec(cmd, timeout=None):
-    logging.getLogger().debug(cmd)
+    logging.getLogger().info(cmd)
     shellobj = cup.shell.ShellExec()
-    ret = shellobj.run("cd %s && python %s" % (pytest.CODEB_PATH, cmd), timeout)
-    logging.getLogger().debug(ret)
+    ret = shellobj.run(cmd, timeout)
+    logging.getLogger().info(ret)
     if ret['returncode'] == 0:
-        logging.getLogger().debug(ret["stdout"])
+        logging.getLogger().info(ret["stdout"])
         return True, ret["stdout"]
     else:
         logging.warning(ret['stderr'])

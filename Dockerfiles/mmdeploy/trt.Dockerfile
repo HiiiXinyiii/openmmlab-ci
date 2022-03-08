@@ -13,13 +13,13 @@ ARG BACKEND
 ENV TZ=Asia/Shanghai
 ENV HTTP_PROXY="$HTTP_PROXY"
 ENV HTTPS_PROXY="$HTTP_PROXY"
-ENV LD_LIBRARY_PATH ${LD_LIBRARY_PATH}:/opt/deps/TensorRT-${TENSORRT_VERSION}/lib
+ENV LD_LIBRARY_PATH ${LD_LIBRARY_PATH}:/opt/deps/TensorRT-${TENSORRT_VERSION}/lib:/opt/deps/TensorRT-${TENSORRT_VERSION}
 
 WORKDIR /opt/mmdeploy
 COPY . /opt/mmdeploy
 
 RUN git submodule update --init --recursive
-RUN pip install -r requirements.txt
+RUN pip install -r requirements/tests.txt && pip install -r requirements/build.txt && pip install -r requirements/runtime.txt
 RUN mkdir build && cd build \
     && cmake .. \
    -DMMDEPLOY_BUILD_SDK=ON \
