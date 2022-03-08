@@ -6,7 +6,7 @@ import logging
 import subprocess
 from requests.adapters import HTTPAdapter
 import os
-from ...preparation.prep import *
+from .prep import *
 import pytest
 import requests
 
@@ -80,7 +80,7 @@ class TestTest:
 
     """
 
-    @pytest.mark.usefixtures('prep')
+    @pytest.mark.usefixtures('prepare_data_mmdet')
     @pytest.mark.parametrize('config, checkpoint, mode', param_config_checkpoint_mode())
     def test_test_config_checkpoint(self, config, checkpoint, mode):
         """
