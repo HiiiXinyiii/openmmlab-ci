@@ -5,6 +5,7 @@ import os
 import sys
 from time import sleep
 import pdb
+import logging
 import argparse
 import traceback
 
@@ -16,6 +17,10 @@ from kubernetes.watch import Watch
 
 
 NAMESPACE = "openmmlab-test"
+# create formatter
+FMT = "%(asctime)-15s %(levelname)s %(filename)s %(lineno)d %(process)d %(message)s"
+logging.basicConfig(level=logging.DEBUG, format=FMT)
+logger = logging.getLogger(__name__)
 
 
 class Job:
@@ -45,22 +50,22 @@ class Job:
                 api_response = self.batch_v1.create_namespaced_job(
                     body=dep,
                     namespace=self.namespace)
-                print("Job created. status='%s'" % str(api_response.status))
+                logger.info("Job created. status='%s'" % str(api_response.status))
             except Exception as e:
-                print("Create failed with %s" % str(e))
+                logger.error("Create failed with %s" % str(e))
 
     def get_pod(self):
         pod_name = None
         pod_list = self.core_v1.list_namespaced_pod(namespace=self.namespace, label_selector="job-name=%s" % self.job_name)
         if not pod_list.items:
-            print("No pod found")
+            logger.warning("No pod found")
             return None
         if len(pod_list.items) > 1:
-            print("Many pods in job")
+            logger.warning("Many pods in job")
             return None
         pod = pod_list.items[0]
         pod_name = pod.metadata.name
-        print("Pod: %s status: %s" % (pod_name, pod.status.phase))
+        logger.info("Pod: %s status: %s" % (pod_name, pod.status.phase))
         if pod.status.phase.lower() != "running":
             return None
         return pod_name
@@ -73,7 +78,7 @@ class Job:
         if api_response.status.succeeded is not None or \
                 api_response.status.failed is not None:
             job_completed = True
-            print("Job completed")
+            logger.info("Job completed")
         return job_completed, api_response.status.succeeded
 
     def watch_log(self):
@@ -86,7 +91,7 @@ class Job:
                 continue
             try:
                 # tmp = False
-                print("Pod name: %s in watch_log" % (pod_name))
+                logger.debug("Pod name: %s in watch_log" % (pod_name))
                 watcher = Watch()
                 for event in watcher.stream(
                         self.core_v1.read_namespaced_pod_log,
@@ -96,21 +101,21 @@ class Job:
                         # _preload_content=False,
                         container=self.job_name,
                         namespace=self.namespace):
-                    print(event)
+                    logger.info(event)
                     # tmp = True
                 # if tmp:
                 #     break
                 #     # if event["type"] == "DELETED":
                 #     #     watcher.stop()
             except client.rest.ApiException as e:
-                print("Pod starting ...")
+                logger.error("Pod starting ...")
                 sleep(2)
             except urllib3.exceptions.MaxRetryError as e:
-                print(str(e))
+                logger.error(str(e))
                 self.reset_connection()
             except Exception as e:
-                print(str(e))
-                print(traceback.format_exc())
+                logger.error(str(e))
+                logger.error(traceback.format_exc())
                 pass
 
     def delete(self):
@@ -120,7 +125,7 @@ class Job:
             body=client.V1DeleteOptions(
                 propagation_policy='Foreground',
                 grace_period_seconds=5))
-        print("Job deleted. status='%s'" % str(api_response.status))
+        logger.info("Job deleted. status='%s'" % str(api_response.status))
 
 
 if __name__ == '__main__':
@@ -156,10 +161,10 @@ if __name__ == '__main__':
     namespace = args.namespace
     image_name = args.image_name
     cmd = args.cmd
-    print(cmd)
+    logger.info(cmd)
 
     if not image_name or not cmd:
-        print("Params invalid")
+        logger.error("Params invalid")
         sys.exit(-1)
 
     job = Job(namespace, job_name=job_name)
