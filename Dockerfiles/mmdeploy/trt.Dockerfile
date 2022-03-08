@@ -16,7 +16,7 @@ ENV HTTPS_PROXY="$HTTP_PROXY"
 ENV TENSORRT_DIR="/opt/deps/TensorRT-${TENSORRT_VERSION}"
 ENV LD_LIBRARY_PATH $LD_LIBRARY_PATH:$TENSORRT_DIR
 
-RUN echo $LD_LIBRARY_PATH
+RUN echo $LD_LIBRARY_PATH && echo $TENSORRT_DIR
 WORKDIR /opt/mmdeploy
 COPY . /opt/mmdeploy
 
@@ -27,7 +27,7 @@ RUN mkdir build && cd build \
    -DMMDEPLOY_BUILD_SDK=ON \
    -DCMAKE_CXX_COMPILER=g++-7 \
    -Dpplcv_DIR=/opt/deps/ppl.cv/cuda-build/install/lib/cmake/ppl \
-   -DTENSORRT_DIR=/opt/deps/TensorRT-${TENSORRT_VERSION} \
+   -DTENSORRT_DIR=${TENSORRT_DIR} \
 #    -DCUDNN_DIR=/path/to/cudnn \
    -DMMDEPLOY_TARGET_DEVICES="cuda;cpu" \
    -DMMDEPLOY_TARGET_BACKENDS=${BACKEND} \

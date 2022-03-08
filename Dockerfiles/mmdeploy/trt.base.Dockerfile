@@ -41,4 +41,5 @@ RUN git clone --branch ${PPL_VERSION} https://github.com/openppl-public/ppl.cv.g
 
 RUN apt-get clean && apt-get remove --purge -y \
     && rm -rf /var/lib/apt/lists/* \
-    && rm -rf *.tar.gz
+    && rm -rf *.tar.gz \
+    && rm -rf *.deb
