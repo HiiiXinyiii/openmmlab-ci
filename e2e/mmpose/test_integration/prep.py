@@ -4,7 +4,7 @@ import shutil
 from ...preparation.prep import *
 
 
-@pytest.fixtures(scope="module")
+@pytest.fixture(scope="module")
 def prepare_data(scr_path="data", des_dir_path=pytest.CODEB_PATH):
     """
     Function: Copy the data to the root directory of mmpose
@@ -29,17 +29,31 @@ def _extract_data():
     """
     # the extractor
     extractor = DataExtract()
-    read_train_json_path = "../data/animalpose/original/annotations/animalpose_train.json"
+
+    # train
+    read_train_json_path = "../data/original/animalpose_train.json"
     write_train_json_path = "../data/animalpose/annotations/animalpose_train.json"
-    read_train_images_path = "../data/animalpose/original/images"
+    read_train_images_path = "../data/original/TrainVal/VOCdevkit"
     write_train_images_path = "../data/animalpose"
+    # val
+    read_val_json_path = "../data/original/animalpose_val.json"
+    write_val_json_path = "../data/animalpose/annotations/animalpose_val.json"
+    read_val_images_path = "../data/original/TrainVal/VOCdevkit"
+    write_val_images_path = "../data/animalpose"
 
     # extract the json file
-    extractor.extract_json(read_json_path=read_train_json_path, write_json_path=write_train_json_path, size=120)
-
+    extractor.extract_json(read_json_path=read_train_json_path, write_json_path=write_train_json_path, size=120,
+                           chosen=[i for i in range(120)])
     # extract the image
     extractor.extract_images(read_json_path=write_train_json_path,
                              read_images_path=read_train_images_path, write_images_path=write_train_images_path,
+                             download=False)
+    # extract val json
+    extractor.extract_json(read_json_path=read_val_json_path, write_json_path=write_val_json_path, size=120,
+                           chosen=[i for i in range(120)])
+    # extract val images
+    extractor.extract_images(read_json_path=write_val_json_path,
+                             read_images_path=read_val_images_path, write_images_path=write_val_images_path,
                              download=False)
 
 
