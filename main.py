@@ -19,7 +19,7 @@ from kubernetes.watch import Watch
 NAMESPACE = "openmmlab-test"
 # create formatter
 FMT = "%(asctime)-15s %(levelname)s %(filename)s %(lineno)d %(process)d %(message)s"
-logging.basicConfig(level=logging.DEBUG, format=FMT)
+logging.basicConfig(level=logging.INFO, format=FMT)
 logger = logging.getLogger(__name__)
 
 
@@ -91,7 +91,7 @@ class Job:
                 continue
             try:
                 # tmp = False
-                logger.debug("Pod name: %s in watch_log" % (pod_name))
+                logger.info("Pod name: %s in watch_log" % (pod_name))
                 watcher = Watch()
                 for event in watcher.stream(
                         self.core_v1.read_namespaced_pod_log,
