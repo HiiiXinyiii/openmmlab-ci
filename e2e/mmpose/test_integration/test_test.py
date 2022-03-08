@@ -52,7 +52,6 @@ def param_config_checkpoint():
         res = []
         for i_path in path:
             tmp = list(os.path.join(pytest.CODEB_PATH, i) for i in i_path[0:2])    # modify config and checkpoint
-            tmp.append(i_path[2])       # keep mode
             res.append(tuple(tmp))
         return res
 
@@ -69,7 +68,7 @@ def param_config_checkpoint():
 
 
 class TestTest:
-    @pytest.mark.parametrize('config, checkpoint, mode', param_config_checkpoint())
+    @pytest.mark.parametrize('config, checkpoint', param_config_checkpoint())
     def test_test_config_checkpoint(self, config, checkpoint):
         """
         Function: test file test.py with parameters [config and checkpoint]

@@ -9,12 +9,17 @@ def prepare_data(scr_path="data", des_dir_path=pytest.CODEB_PATH):
     """
     Function: Copy the data to the root directory of mmpose
 
+    Note: If you switch the current work directory to somewhere else, then you need to use this function
     """
     # destination file or directory path
     des_dir_path = os.path.join(des_dir_path, scr_path)
 
+    # if there is this file before, delete it
+    if os.path.exists(des_dir_path):
+        shutil.rmtree(des_dir_path)
     # copy the all files (including the directory and the files in it)
     shutil.copytree(scr_path, des_dir_path)
+    pass
 
 
 # prepare the data and save it in the ci remote repo

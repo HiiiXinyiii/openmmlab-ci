@@ -33,7 +33,8 @@ class TestTrain:
     Function: Test train.py
 
     """
-    @pytest.mark.usefixtures('prepare_data')
+    # If you switch the current work directory to somewhere else, then you need to use this fixture function
+    # @pytest.mark.usefixtures('prepare_data')
     @pytest.mark.parametrize('cmd_param', param_config())
     def test_train_config(self, cmd_param):
         """
@@ -45,7 +46,7 @@ class TestTrain:
         file_path = os.path.join(pytest.CODEB_PATH, 'tools/train.py')
         # the cmd to be executed
         cmd = "python" + " " + file_path + ' ' + cmd_param \
-              + "--cfg-options data.workers_per_gpu=0 data.samples_per_gpu=1 total_epochs=1"
+              + " " + "--cfg-options data.workers_per_gpu=0 data.samples_per_gpu=1 total_epochs=1"
         # execute the command
         logging.getLogger().info("START to pytest command: " + cmd)
         res = subprocess.run(cmd.split(' '))

@@ -7,7 +7,7 @@ import logging
 import subprocess
 import pytest
 import os
-from ...preparation.prep import *
+from .prep import *
 
 
 def param_config():
@@ -33,7 +33,7 @@ def param_config():
 
 
 class TestTrain:
-    @pytest.mark.usefixtures('prep')
+    @pytest.mark.usefixtures('prepare_data_mmdet')
     @pytest.mark.parametrize('cmd_param', param_config())
     def test_train_config(self, cmd_param):
         """

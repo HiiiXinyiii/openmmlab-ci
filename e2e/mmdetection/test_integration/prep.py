@@ -4,7 +4,7 @@ from ...preparation.prep import *
 
 
 @pytest.fixture(scope='module')
-def prep():
+def prepare_data_mmdet():
     """
     Function: prepare before
 
