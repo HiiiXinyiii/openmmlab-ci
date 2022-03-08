@@ -42,15 +42,15 @@ def _extract_data():
     write_val_images_path = "../data/animalpose"
 
     # extract the json file
-    extractor.extract_json(read_json_path=read_train_json_path, write_json_path=write_train_json_path, size=120,
-                           chosen=[i for i in range(120)])
+    extractor.extract_json(read_json_path=read_train_json_path, write_json_path=write_train_json_path,
+                           size=extractor.train_size, chosen=[i for i in range(extractor.train_size)])
     # extract the image
     extractor.extract_images(read_json_path=write_train_json_path,
                              read_images_path=read_train_images_path, write_images_path=write_train_images_path,
                              download=False)
     # extract val json
-    extractor.extract_json(read_json_path=read_val_json_path, write_json_path=write_val_json_path, size=120,
-                           chosen=[i for i in range(120)])
+    extractor.extract_json(read_json_path=read_val_json_path, write_json_path=write_val_json_path,
+                           size=extractor.val_size, chosen=[i for i in range(extractor.val_size)])
     # extract val images
     extractor.extract_images(read_json_path=write_val_json_path,
                              read_images_path=read_val_images_path, write_images_path=write_val_images_path,
