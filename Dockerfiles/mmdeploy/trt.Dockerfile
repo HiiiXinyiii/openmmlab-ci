@@ -13,19 +13,21 @@ ARG BACKEND
 ENV TZ=Asia/Shanghai
 ENV HTTP_PROXY="$HTTP_PROXY"
 ENV HTTPS_PROXY="$HTTP_PROXY"
-ENV LD_LIBRARY_PATH ${LD_LIBRARY_PATH}:/opt/deps/TensorRT-${TENSORRT_VERSION}/lib
+ENV TENSORRT_DIR="/opt/deps/TensorRT-${TENSORRT_VERSION}"
+ENV LD_LIBRARY_PATH $LD_LIBRARY_PATH:$TENSORRT_DIR/lib
 
+RUN echo $LD_LIBRARY_PATH && echo $TENSORRT_DIR
 WORKDIR /opt/mmdeploy
 COPY . /opt/mmdeploy
 
 RUN git submodule update --init --recursive
-RUN pip install -r requirements.txt && pip install -e .
+RUN pip install --upgrade pip && pip install -r requirements.txt && pip install -e .
 RUN mkdir build && cd build \
     && cmake .. \
    -DMMDEPLOY_BUILD_SDK=ON \
    -DCMAKE_CXX_COMPILER=g++-7 \
    -Dpplcv_DIR=/opt/deps/ppl.cv/cuda-build/install/lib/cmake/ppl \
-   -DTENSORRT_DIR=/opt/deps/TensorRT-${TENSORRT_VERSION} \
+   -DTENSORRT_DIR=${TENSORRT_DIR} \
 #    -DCUDNN_DIR=/path/to/cudnn \
    -DMMDEPLOY_TARGET_DEVICES="cuda;cpu" \
    -DMMDEPLOY_TARGET_BACKENDS=${BACKEND} \

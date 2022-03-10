@@ -135,13 +135,13 @@ function CudaTorchMatchCheck() {
     $cudaValueTorchTuple = [Tuple]::Create($torch, $cudaValue)
     $matchList = New-Object System.Collections.ArrayList
     # TODO: improve
-    $matchList.Add([Tuple]::Create("1.5.0", "9.2"))
+    # $matchList.Add([Tuple]::Create("1.5.0", "9.2"))
     $matchList.Add([Tuple]::Create("1.5.0", "10.1"))
     $matchList.Add([Tuple]::Create("1.5.0", "10.2"))
-    $matchList.Add([Tuple]::Create("1.6.0", "9.2"))
+    # $matchList.Add([Tuple]::Create("1.6.0", "9.2"))
     $matchList.Add([Tuple]::Create("1.6.0", "10.1"))
     $matchList.Add([Tuple]::Create("1.6.0", "10.2"))
-    $matchList.Add([Tuple]::Create("1.7.0", "9.2"))
+    # $matchList.Add([Tuple]::Create("1.7.0", "9.2"))
     $matchList.Add([Tuple]::Create("1.7.0", "10.1"))
     $matchList.Add([Tuple]::Create("1.7.0", "10.2"))
     $matchList.Add([Tuple]::Create("1.7.0", "11.0"))
@@ -185,7 +185,7 @@ function InstallTorch() {
     )
     if ("" -eq $cudaValue) {
         Write-Host "Installing: conda install -y pytorch==$torch torchvision==$torchVision cpuonly -c pytorch"
-        conda install -y pytorch==$torch torchvision==$torchVision cpuonly -c pytorch
+        conda install -y pytorch==$torch torchvision==$torchVision cpuonly -c pytorch -c conda-forge
     } elseif (("11.1" -eq $cudaValue) -and ("1.10.0" -eq $torch)) {
         Write-Host "Skip installing torch1.10.0+cu111"
         # pip install torch==1.10.0+cu111 torchvision==0.11.1+cu111 -f https://download.pytorch.org/whl/torch_stable.html
