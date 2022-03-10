@@ -21,7 +21,7 @@ class TestConvertors():
         #     pytest.fail("Get git config file failed.")
         # image_path = util.get_gitfile("demo/demo.jpg", cb_name, cb_branch)
         image_path = MMDET_PATH+"demo/demo.jpg"
-        cb_cpt_path = util.get_cpt(cb_config_path, MMDET_PATH, cb_branch)
+        cb_cpt_path = util.get_cpt(cb_config_path, MMDET_PATH)
         logging.getLogger().info(cb_cpt_path)
         device_str = "cuda:0"
         cmd = "tools/deploy.py %s %s %s %s --work-dir %s --show --device %s" % (
@@ -29,7 +29,7 @@ class TestConvertors():
             MMDET_PATH+"/"+cb_config_path, 
             os.path.realpath(cb_cpt_path), 
             image_path, 
-            os.path.basename(os.path.realpath(cb_cpt_path)), 
+            os.path.dirname(os.path.realpath(cb_cpt_path)), 
             device_str)
         # execute cmd
         ret_code, ret_msg = util.python_exec(cmd)
@@ -38,12 +38,15 @@ class TestConvertors():
 
     @pytest.mark.parametrize("config_cpt", [
         ('configs/mmcls/classification_tensorrt-fp16_dynamic-224x224-224x224.py', 'configs/resnet/resnet18_b32x8_imagenet.py'),
+        ('configs/mmcls/classification_tensorrt-fp16_dynamic-224x224-224x224.py', 'configs/resnext/resnext50_32x4d_b32x8_imagenet.py'),
+        ('configs/mmcls/classification_tensorrt-fp16_dynamic-224x224-224x224.py', 'configs/seresnet/seresnet50_8xb32_in1k.py'),
     ])
-    def test_cls_convert(self, mmcls, config_cpt):
+    def _test_cls_convert(self, mmcls, config_cpt):
         cb_name, cb_branch = mmcls
         (config_path, cb_config_path) = config_cpt
         image_path = MMCLS_PATH+"demo/demo.JPEG"
-        cb_cpt_path = util.get_cpt(cb_config_path, MMCLS_PATH, cb_branch)
+        cb_cpt_path = util.get_cpt(cb_config_path, MMCLS_PATH)
+        assert cb_cpt_path is not None
         logging.getLogger().info(cb_cpt_path)
         device_str = "cuda:0"
         cmd = "tools/deploy.py %s %s %s %s --work-dir %s --show --device %s" % (
@@ -51,8 +54,9 @@ class TestConvertors():
             MMCLS_PATH+"/"+cb_config_path, 
             os.path.realpath(cb_cpt_path), 
             image_path, 
-            os.path.basename(os.path.realpath(cb_cpt_path)), 
+            os.path.dirname(os.path.realpath(cb_cpt_path)), 
             device_str)
+        logging.getLogger().info(cmd)
         # execute cmd
         ret_code, ret_msg = util.python_exec(cmd)
         logging.getLogger().info(pformat(ret_msg))

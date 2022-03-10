@@ -1,3 +1,4 @@
+from cmath import log
 import logging
 import yaml
 import cup
@@ -20,6 +21,7 @@ def python_exec(cmd, timeout=None):
     ret = shellobj.run("cd %s && python %s" % (CODE_PATH, cmd), timeout)
     logging.getLogger().debug(ret)
     if ret['returncode'] == 0:
+        logging.getLogger().debug(ret["stdout"])
         return True, ret["stdout"]
     else:
         logging.warning(ret['stderr'])
@@ -53,16 +55,16 @@ def get_git_metafiles(repo, branch):
     return meta["Import"]
 
 
-def get_metafiles(code_path, branch):
+def get_metafiles(code_path):
     metafile = code_path+"/"+METAFILE
     with open(metafile, "r") as f:
         meta = yaml.safe_load(f)
     return meta["Import"]
 
 
-def get_cpt(file_path, code_path, branch):
+def get_cpt(file_path, code_path):
     cpt_name = None
-    metafiles = get_metafiles(code_path, branch)
+    metafiles = get_metafiles(code_path)
     for mf in metafiles:
         # meta_file = get_gitfile(mf, repo, branch)
         meta_file = code_path+mf
@@ -72,8 +74,10 @@ def get_cpt(file_path, code_path, branch):
             if "Config" in model and model["Config"] == file_path:
                 r = requests.get(model["Weights"])
                 cpt_name = model["Weights"].split("/")[-1]
-                logging.getLogger().debug(cpt_name)
+                logging.getLogger().info(cpt_name)
                 with open(cpt_name, "wb") as f:
                     f.write(r.content)
                 return cpt_name
+            else:
+                logging.getLogger().warning("%s Config not in model" % file_path)
     return cpt_name
