@@ -20,7 +20,6 @@ graph LR;
 
 ```mermaid
 graph LR;
-    tools/test.py-->configs
     tools/test.py-->configs+checkpoints
     configs+checkpoints-->case1
     case1-->'configs/animal/2d_kpt_sview_rgb_img/topdown_heatmap/animalpose/res101_animalpose_256x256.py',
