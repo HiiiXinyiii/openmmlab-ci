@@ -6,7 +6,8 @@ It's designed to test train.py from the codebase
 import logging
 import subprocess
 import pytest
-from .preparation.prep import *
+import os
+from .prep import *
 
 
 def param_config():
@@ -32,7 +33,7 @@ def param_config():
 
 
 class TestTrain:
-    @pytest.mark.usefixtures('prep')
+    @pytest.mark.usefixtures('prepare_data_mmdet')
     @pytest.mark.parametrize('cmd_param', param_config())
     def test_train_config(self, cmd_param):
         """

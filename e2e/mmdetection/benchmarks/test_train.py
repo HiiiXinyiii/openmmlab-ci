@@ -2,7 +2,7 @@ import os
 from pprint import pformat
 import pytest
 import util
-from test_integration.preparation.prep import *
+from ...preparation.prep import *
 
 
 def param_config():
