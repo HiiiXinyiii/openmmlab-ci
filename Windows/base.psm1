@@ -41,6 +41,8 @@ function GetTorchVision() {
         $torchVersion = "0.10.0"
     } elseif ('1.10.0' -eq $torch) {
         $torchVersion = "0.11.0"
+    } elseif ('1.11.0' -eq $torch) {
+        $torchVersion = "0.12.0"
     } else {
         Write-Host "Torch not supported"
         throw;
@@ -153,6 +155,7 @@ function CudaTorchMatchCheck() {
     $matchList.Add([Tuple]::Create("1.10.0", "10.2"))
     $matchList.Add([Tuple]::Create("1.10.0", "11.1"))
     $matchList.Add([Tuple]::Create("1.10.0", "11.3"))
+    $matchList.Add([Tuple]::Create("1.11.0", "11.3"))
     if (-Not $matchList.Contains($cudaValueTorchTuple)) {
         Write-Host "torch:$torch, cuda:$cudaValue not matched."
         throw;
