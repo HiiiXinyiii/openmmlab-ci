@@ -57,3 +57,8 @@ graph LR;
 - [ ] Quote your remote repo and its corresponding branch in the pipeline code
 - [ ] Run the job and wait for your result
 
+### 3.4 Test Coverage
+
++ [mmpose](./mmpose/README.md)
++ [mmdetection](./mmdetection/README.md)
++ [mmdeploy](./mmdeploy/README.md)
