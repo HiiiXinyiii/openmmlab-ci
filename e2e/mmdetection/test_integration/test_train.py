@@ -26,7 +26,7 @@ def param_config():
 
         # we think the work directory is 'mmdetection' in default. We will use the path after modification
         return adapt_path([
-            'configs/faster_rcnn/faster_rcnn_r50_fpn_1x_coco.py'
+            'configs/faster_rcnn/faster_rcnn_r50_fpn_1x_coco.py',
             'configs/mask_rcnn/mask_rcnn_r50_caffe_fpn_mstrain-poly_3x_coco.py',
             # 'configs/resnest/faster_rcnn_s50_fpn_syncbn-backbone+head_mstrain-range_1x_coco.py'
         ])
