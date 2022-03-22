@@ -41,6 +41,8 @@ function GetTorchVision() {
         $torchVersion = "0.10.0"
     } elseif ('1.10.0' -eq $torch) {
         $torchVersion = "0.11.0"
+    } elseif ('1.11.0' -eq $torch) {
+        $torchVersion = "0.12.0"
     } else {
         Write-Host "Torch not supported"
         throw;
@@ -67,6 +69,8 @@ function GetCudaValue() {
         $cudaValue = "11.1"
     } elseif ('cuda113' -eq $cuda) {
         $cudaValue = "11.3"
+    } elseif ('cuda115' -eq $cuda) {
+        $cudaValue = "11.5"
     } elseif ('nocuda' -eq $cuda) {
         $cudaValue = ""
     } else {
@@ -119,6 +123,8 @@ function GetPythonValue() {
         $value = "3.8"
     } elseif ("py39" -eq $python) {
         $value = "3.9"
+    } elseif ("py310" -eq $python) {
+        $value = "3.10"
     } else {
         Write-Host "Python not supported."
         throw;
@@ -153,6 +159,8 @@ function CudaTorchMatchCheck() {
     $matchList.Add([Tuple]::Create("1.10.0", "10.2"))
     $matchList.Add([Tuple]::Create("1.10.0", "11.1"))
     $matchList.Add([Tuple]::Create("1.10.0", "11.3"))
+    $matchList.Add([Tuple]::Create("1.11.0", "11.3"))
+    $matchList.Add([Tuple]::Create("1.11.0", "11.5"))
     if (-Not $matchList.Contains($cudaValueTorchTuple)) {
         Write-Host "torch:$torch, cuda:$cudaValue not matched."
         throw;
@@ -170,6 +178,9 @@ function TorchPythonMatchCheck() {
     $notMatchList.Add([Tuple]::Create("1.5.0", "py39"))
     $notMatchList.Add([Tuple]::Create("1.6.0", "py39"))
     $notMatchList.Add([Tuple]::Create("1.7.0", "py39"))
+    $notMatchList.Add([Tuple]::Create("1.5.0", "py310"))
+    $notMatchList.Add([Tuple]::Create("1.6.0", "py310"))
+    $notMatchList.Add([Tuple]::Create("1.7.0", "py310"))
     if ($notMatchList.Contains($torchPythonTuple)) {
         Write-Host "torch:$torch, python:$python not matched."
         throw;
