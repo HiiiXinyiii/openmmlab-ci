@@ -59,6 +59,11 @@ function CondaInstall() {
         }
         # Update files in torch
         UpdateTorchFiles $torch $condaEnv
+        python -c "import torch"
+        if ($LASTEXITCODE -ne 0) {
+            Write-Host "Torch install failed."
+            return $LASTEXITCODE
+        }
         pip install -r "$PSScriptRoot\requirements.txt"
         conda deactivate
     }
