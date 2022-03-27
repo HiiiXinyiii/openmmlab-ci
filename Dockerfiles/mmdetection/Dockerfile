@@ -24,3 +24,4 @@ RUN python -m pip install -r requirements/tests.txt -r requirements/optional.txt
     && python setup.py bdist_wheel
 # archive the wheel package
 COPY /opt/mmdetection/dist/ /mnt/data1/jenkins/dist/mmdetection/
+COPY /opt/mmdetection/dist/ .
