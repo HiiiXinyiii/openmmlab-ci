@@ -1,7 +1,7 @@
 ARG MMCV="ubuntu_1804_py_37_cuda_101_cudnn_7_torch_160"
 ARG MMCV_VERSION="v1.3.15"
 
-FROM ${MMCV}:${MMCV_VERSION}
+FROM ${MMCV}:${MMCV_VERSION} AS build-stage
 ARG HTTP_PROXY="http://proxy.sensetime.com:3128"
 
 ENV TORCH_CUDA_ARCH_LIST="7.0"
@@ -22,7 +22,11 @@ RUN python -m pip install -r requirements/tests.txt -r requirements/optional.txt
     && python setup.py check -m -s \
     && python -m pip install . \
     && python setup.py bdist_wheel
-RUN ls -l /opt/mmdetection/
+
+FROM scratch AS export-stage
+COPY --from=build-stage /opt/mmdetection/dist/ .
+
+# RUN ls -l /opt/mmdetection/
 # archive the wheel package
-COPY /opt/mmdetection/dist/ /mnt/data1/jenkins/dist/mmdetection/
-COPY /opt/mmdetection/dist/ .
+# COPY /opt/mmdetection/dist/ /mnt/data1/jenkins/dist/mmdetection/
+# COPY /opt/mmdetection/dist/ .
