@@ -22,6 +22,7 @@ RUN python -m pip install -r requirements/tests.txt -r requirements/optional.txt
     && python setup.py check -m -s \
     && python -m pip install . \
     && python setup.py bdist_wheel
+RUN ls -l /opt/mmdetection/
 # archive the wheel package
 COPY /opt/mmdetection/dist/ /mnt/data1/jenkins/dist/mmdetection/
 COPY /opt/mmdetection/dist/ .
