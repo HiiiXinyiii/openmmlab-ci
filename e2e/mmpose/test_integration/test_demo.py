@@ -27,13 +27,13 @@ def get_command_level_2():
         + str(resources['test_demo']['2d_hand_demo']['checkpoints'][0]['url']) + " "
         + "--img-root " + os.path.join(pytest.CODEB_PATH, "tests/data/onehand10k/") + " "
         + "--json-file " + os.path.join(pytest.CODEB_PATH, "tests/data/onehand10k/test_onehand10k.json") + " "
-        + "--out-img-root " + os.path.join(pytest.CODEB_PATH, "vis_results"),
+        + "--out-img-root " + os.path.join(pytest.CODEB_PATH, "vis_results")
     ]
 
     return command
 
 
-def get_command_level_1():
+def get_command_level_0():
     """
     Function: get the command for demo
 
@@ -198,7 +198,7 @@ def get_command_level_1():
 
 
 def get_command_all():
-    return get_command_level_1() + get_command_level_2()
+    return get_command_level_0() + get_command_level_2()
 
 
 class TestDemo:
@@ -207,8 +207,8 @@ class TestDemo:
     """
 
     # test the cases which are the most important
-    @pytest.mark.usefixtures('prep_env_for_level_1')
-    @pytest.mark.parametrize('cmd', get_command_level_1())
+    @pytest.mark.usefixtures('prep_env_for_level_0')
+    @pytest.mark.parametrize('cmd', get_command_level_0())
     def test_demo_level_1(self, cmd):
         logging.getLogger().info(f"START pytest command: {cmd}")
 
@@ -218,15 +218,15 @@ class TestDemo:
 
         logging.getLogger().info(f"FINISH pytest command: {cmd}")
 
-    # test the cases which are at level 2
-    @pytest.mark.level(2)
-    @pytest.mark.usefixtures('prep_env_for_level_2')
-    @pytest.mark.parametrize('cmd', get_command_level_2())
-    def test_demo_level_1(self, cmd):
-        logging.getLogger().info(f"START pytest command: {cmd}")
-
-        res = subprocess.run(cmd.split(' '))
-        assert res.returncode == 0, \
-            f'FAILED to run demo with command like {cmd}'
-
-        logging.getLogger().info(f"FINISH pytest command: {cmd}")
+    # # test the cases which are at level 2
+    # @pytest.mark.usefixtures('prep_env_for_level_2')
+    # @pytest.mark.parametrize('cmd', get_command_level_2())
+    # # @pytest.mark.level(2)
+    # def test_demo_level_1(self, cmd):
+    #     logging.getLogger().info(f"START pytest command: {cmd}")
+    #
+    #     res = subprocess.run(cmd.split(' '))
+    #     assert res.returncode == 0, \
+    #         f'FAILED to run demo with command like {cmd}'
+    #
+    #     logging.getLogger().info(f"FINISH pytest command: {cmd}")
