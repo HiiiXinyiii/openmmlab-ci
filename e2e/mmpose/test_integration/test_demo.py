@@ -128,7 +128,7 @@ def get_command():
         + os.path.join(pytest.CODEB_PATH, "configs/wholebody/2d_kpt_sview_rgb_img/topdown_heatmap/coco-wholebody/hrnet_w48_coco_wholebody_384x288_dark_plus.py") + " "
         + str(resources['test_demo']['2d_wholebody_pose_demo']['checkpoints'][0]['url']) + " "
         + "--img-root " + os.path.join(pytest.CODEB_PATH, "tests/data/coco/") + " "
-        + "--img " + os.path.join(pytest.CODEB_PATH, "tests/data/coco/000000196141.jpg") + " "
+        + "--img " + "000000196141.jpg" + " "
         + "--out-img-root " + os.path.join(pytest.CODEB_PATH, "vis_results"),
         # 2D Human Whole-Body Pose Top-Down Video Demo
         "python " + os.path.join(pytest.CODEB_PATH, "demo/top_down_video_demo_with_mmdet.py") + " "
