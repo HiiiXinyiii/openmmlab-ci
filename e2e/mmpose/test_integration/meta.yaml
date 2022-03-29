@@ -29,7 +29,7 @@ test_demo:
 
   # 2d_pose_tracking_demo.md
   2d_pose_tracking_demo:
-    checkpoints；
+    checkpoints:
       - url: https://download.openmmlab.com/mmpose/top_down/resnet/res50_coco_256x192-ec54d7f3_20200709.pth   # mmpose
       - url: https://download.openmmlab.com/mmdetection/v2.0/faster_rcnn/faster_rcnn_r50_fpn_1x_coco/faster_rcnn_r50_fpn_1x_coco_20200130-047c8118.pth  # mmdet
       - url: https://download.openmmlab.com/mmpose/bottom_up/hrnet_w32_coco_512x512-bcb8c247_20200816.pth
