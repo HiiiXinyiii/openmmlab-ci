@@ -206,8 +206,7 @@ class TestDemo:
     Function: test the demos in the MMPose
     """
 
-    # test the cases which are the most important, like on level 1
-    @pytest.mark.level(1)
+    # test the cases which are the most important
     @pytest.mark.usefixtures('prep_env_for_level_1')
     @pytest.mark.parametrize('cmd', get_command_level_1())
     def test_demo_level_1(self, cmd):
