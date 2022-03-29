@@ -206,8 +206,9 @@ class TestDemo:
     Function: test the demos in the MMPose
     """
 
+    # test the cases which are the most important, like on level 1
     @pytest.mark.level(1)
-    @pytest.usefixtures('prep_env_for_level_1')
+    @pytest.mark.usefixtures('prep_env_for_level_1')
     @pytest.mark.parametrize('cmd', get_command_level_1())
     def test_demo_level_1(self, cmd):
         logging.getLogger().info(f"START pytest command: {cmd}")
@@ -218,8 +219,9 @@ class TestDemo:
 
         logging.getLogger().info(f"FINISH pytest command: {cmd}")
 
+    # test the cases which are at level 2
     @pytest.mark.level(2)
-    @pytest.usefixtures('prep_env_for_level_2')
+    @pytest.mark.usefixtures('prep_env_for_level_2')
     @pytest.mark.parametrize('cmd', get_command_level_2())
     def test_demo_level_1(self, cmd):
         logging.getLogger().info(f"START pytest command: {cmd}")
