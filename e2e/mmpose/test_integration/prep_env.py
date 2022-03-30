@@ -1,5 +1,6 @@
 import subprocess
 import pytest
+import logging
 
 cmd_envs_level_0 = ["pip install -i https://pypi.douban.com/simple/ mmcv-full",
                     "pip install -i https://pypi.douban.com/simple/ mmtrack",
@@ -12,6 +13,7 @@ cmd_envs_level_0 = ["pip install -i https://pypi.douban.com/simple/ mmcv-full",
 def prep_env_for_level_0(cmd):
     res = subprocess.run(cmd.split(' '))
     assert res.returncode == 0, f'FAILED to prepare env of {cmd}'
+    logging.getLogger().info("Finish Install the Environment: " + cmd)
 
 
 cmd_envs_level_2 = ["pip install -i https://pypi.douban.com/simple/ face_recognition",
@@ -23,3 +25,4 @@ cmd_envs_level_2 = ["pip install -i https://pypi.douban.com/simple/ face_recogni
 def prep_env_for_level_2(cmd):
     res = subprocess.run(cmd.split(' '))
     assert res.returncode == 0, f'FAILED to prepare env of {cmd}'
+    logging.getLogger().info("Finish Install the Environment: " + cmd)
