@@ -33,7 +33,6 @@ def get_command_level_2():
     return command
 
 
-@pytest.mark.usefixtures('prep_env_for_level_0')
 def get_command_level_0():
     """
     Function: get the command for demo
@@ -210,8 +209,9 @@ class TestDemo:
     """
 
     # test the cases which are the most important
+    @pytest.mark.usefixtures('prep_env_for_level_0')
     @pytest.mark.parametrize('cmd', get_command_level_0())
-    def test_demo_level_1(self, cmd):
+    def test_demo_level_0(self, cmd):
         logging.getLogger().info(f"START pytest command: {cmd}")
 
         res = subprocess.run(cmd.split(' '))
