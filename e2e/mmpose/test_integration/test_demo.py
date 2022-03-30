@@ -155,13 +155,13 @@ def get_command_level_0():
         + "--out-video-root " + os.path.join(pytest.CODEB_PATH, "vis_results"),
 
         # *********************************** 3d_body_mesh_demo.md ***********************************
+        # Here, we need to copy the model file "smpl_mean_params.npz" to the path set by config to test
         "python " + os.path.join(pytest.CODEB_PATH, "demo/mesh_img_demo.py") + " "
         + os.path.join(pytest.CODEB_PATH, "configs/body/3d_mesh_sview_rgb_img/hmr/mixed/res50_mixed_224x224.py") + " "
         + str(resources['test_demo']['3d_body_mesh_demo']['checkpoints'][0]['url']) + " "
         + "--json-file " + os.path.join(pytest.CODEB_PATH, "tests/data/h36m/h36m_coco.json") + " "
         + "--img-root " + os.path.join(pytest.CODEB_PATH, "tests/data/h36m") + " "
-        + "--out-img-root " + os.path.join(pytest.CODEB_PATH, "vis_results") + " "
-        + "--cfg-options model.mesh_head.smpl_mean_params=" + os.path.join(pytest.CODEB_PATH, 'tests/data/smpl/smpl_mean_params.npz'),
+        + "--out-img-root " + os.path.join(pytest.CODEB_PATH, "vis_results"),
 
         # *********************************** 3d_hand_demo.md ***********************************
         "python " + os.path.join(pytest.CODEB_PATH, "demo/interhand3d_img_demo.py") + " "
@@ -210,7 +210,7 @@ class TestDemo:
     """
 
     # test the cases which are the most important
-    @pytest.mark.usefixtures('prep_env_for_level_0')
+    @pytest.mark.usefixtures('prep_env_for_level_0', 'prep_others')
     @pytest.mark.parametrize('cmd', get_command_level_0())
     def test_demo_level_0(self, cmd):
         logging.getLogger().info(f"START pytest command: {cmd}")

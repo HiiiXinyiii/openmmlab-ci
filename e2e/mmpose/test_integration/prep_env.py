@@ -1,6 +1,15 @@
 import subprocess
 import pytest
 import logging
+import shutil
+import os
+
+
+@pytest.fixture(scope="session")
+def prep_others():
+    # for 3d_body_mesh_demo.md
+    shutil.copy2(os.path.join(pytest.CODEB_PATH, "tests/data/smpl/smpl_mean_params.npz"),
+                 "models/smpl/smpl_mean_params.npz")
 
 
 @pytest.fixture(scope="session")
