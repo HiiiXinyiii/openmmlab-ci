@@ -160,7 +160,7 @@ def get_command_level_0():
         + str(resources['test_demo']['3d_body_mesh_demo']['checkpoints'][0]['url']) + " "
         + "--json-file " + os.path.join(pytest.CODEB_PATH, "tests/data/h36m/h36m_coco.json") + " "
         + "--img-root " + os.path.join(pytest.CODEB_PATH, "tests/data/h36m") + " "
-        + "-out-img-root " + os.path.join(pytest.CODEB_PATH, "vis_results"),
+        + "--out-img-root " + os.path.join(pytest.CODEB_PATH, "vis_results"),
 
         # *********************************** 3d_hand_demo.md ***********************************
         "python " + os.path.join(pytest.CODEB_PATH, "demo/interhand3d_img_demo.py") + " "
