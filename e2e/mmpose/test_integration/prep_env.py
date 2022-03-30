@@ -8,6 +8,8 @@ import os
 @pytest.fixture(scope="session")
 def prep_others():
     # for 3d_body_mesh_demo.md
+    # We can't modify the config by cmd so we have to copy the file according to its path in config
+    os.makedirs("models/smpl/")
     shutil.copy2(os.path.join(pytest.CODEB_PATH, "tests/data/smpl/smpl_mean_params.npz"),
                  "models/smpl/smpl_mean_params.npz")
 
