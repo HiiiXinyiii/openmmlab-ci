@@ -65,13 +65,13 @@ def get_command_1():
     return command
 
 
-@pytest.mark.level(1)
-@pytest.mark.parametrize('cmd', get_command_1())
-def test_2d_face_demo_1(cmd):
-    logging.getLogger().info(f"START pytest command: {cmd}")
-
-    res = subprocess.run(cmd.split(' '))
-    assert res.returncode == 0, \
-        f'FAILED to run demo with command like {cmd}'
-
-    logging.getLogger().info(f"FINISH pytest command: {cmd}")
+# @pytest.mark.level(1)
+# @pytest.mark.parametrize('cmd', get_command_1())
+# def test_2d_face_demo_1(cmd):
+#     logging.getLogger().info(f"START pytest command: {cmd}")
+#
+#     res = subprocess.run(cmd.split(' '))
+#     assert res.returncode == 0, \
+#         f'FAILED to run demo with command like {cmd}'
+#
+#     logging.getLogger().info(f"FINISH pytest command: {cmd}")
