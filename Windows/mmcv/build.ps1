@@ -41,6 +41,11 @@ function CondaInstall() {
     }
     Write-Host "Conda env list"
     conda env list
+    python -c "import torch"
+    if ($LASTEXITCODE -ne 0) {
+        Write-Host "Torch not installed."
+        throw
+    }
     # TODO: remove debug
     Write-Host "$env:TORCH_CUDA_ARCH_LIST"
     # TODO: move pip install ninja into requirements.txt
