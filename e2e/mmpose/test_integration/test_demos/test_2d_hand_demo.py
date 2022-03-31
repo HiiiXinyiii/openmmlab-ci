@@ -3,7 +3,6 @@ import pytest
 import subprocess
 import logging
 import yaml
-from ..prep_env import *
 from ....utils import utils
 
 
