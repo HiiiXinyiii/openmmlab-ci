@@ -18,5 +18,9 @@ wait
 echo "START to run the test cases"
 
 pytest .
+ret=$?
 
 echo "FINISH running the test cases"
+
+exit $ret
+
