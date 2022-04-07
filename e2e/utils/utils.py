@@ -1,4 +1,5 @@
 from cmath import log
+import os
 import logging
 import yaml
 import cup
@@ -83,7 +84,7 @@ def get_cpt(file_path, code_path):
     metafiles = get_metafiles(code_path)
     for mf in metafiles:
         # meta_file = get_gitfile(mf, repo, branch)
-        meta_file = code_path + mf
+        meta_file = os.path.join(code_path, mf)
         with open(meta_file, "r") as f:
             meta = yaml.safe_load(f)
         for model in meta["Models"]:

@@ -7,8 +7,8 @@ from ....utils import utils
 
 
 def get_command():
-    # get meta.yaml which includes the checkpoints resources
-    with open("./test_integration/meta.yaml", 'r') as f:
+    # get meta.yaml which includes the checkpoints and videos resources
+    with open("test_integration/meta.yaml", 'r') as f:
         resources = yaml.safe_load(f)
 
     command = [
@@ -21,7 +21,7 @@ def get_command():
                        "configs/hand/2d_kpt_sview_rgb_img/topdown_heatmap/onehand10k/res50_onehand10k_256x256.py") + " "
         + str(utils.get_cpt(
             file_path="configs/hand/2d_kpt_sview_rgb_img/topdown_heatmap/onehand10k/res50_onehand10k_256x256.py",
-            code_path=utils.MMPOSE_CB)) + " "
+            code_path=pytest.CODEB_PATH)) + " "  # code_path=utils.MMPOSE_CB
         + "--video-path " + str(resources['test_demo']['2d_hand_demo']['videos'][0]['url']) + " "
         + "--out-video-root " + os.path.join(pytest.CODEB_PATH, "vis_results"),
     ]

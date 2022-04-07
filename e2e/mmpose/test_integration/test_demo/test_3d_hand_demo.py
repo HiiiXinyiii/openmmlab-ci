@@ -8,7 +8,7 @@ from ....utils import utils
 
 def get_command():
     # get meta.yaml which includes the checkpoints resources
-    with open("./test_integration/meta.yaml", 'r') as f:
+    with open("test_integration/meta.yaml", 'r') as f:
         resources = yaml.safe_load(f)
 
     command = [
@@ -18,7 +18,7 @@ def get_command():
                        "configs/hand/3d_kpt_sview_rgb_img/internet/interhand3d/res50_interhand3d_all_256x256.py") + " "
         + str(utils.get_cpt(
             file_path="configs/hand/3d_kpt_sview_rgb_img/internet/interhand3d/res50_interhand3d_all_256x256.py",
-            code_path=utils.MMPOSE_CB)) + " "
+            code_path=pytest.CODEB_PATH)) + " "        # code_path=utils.MMPOSE_CB
         + "--json-file " + os.path.join(pytest.CODEB_PATH,
                                         "tests/data/interhand2.6m/test_interhand2.6m_data.json") + " "
         + "--img-root " + os.path.join(pytest.CODEB_PATH, "tests/data/interhand2.6m") + " "

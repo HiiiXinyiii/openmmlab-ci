@@ -8,7 +8,7 @@ from ....utils import utils
 
 def get_command():
     # get meta.yaml which includes the checkpoints resources
-    with open("./test_integration/meta.yaml", 'r') as f:
+    with open("test_integration/meta.yaml", 'r') as f:
         resources = yaml.safe_load(f)
 
     command = [
@@ -21,7 +21,7 @@ def get_command():
                        "configs/body/2d_kpt_sview_rgb_img/topdown_heatmap/coco/res50_coco_256x192.py") + " "
         + str(utils.get_cpt(
             file_path="configs/body/2d_kpt_sview_rgb_img/topdown_heatmap/coco/res50_coco_256x192.py",
-            code_path=utils.MMPOSE_CB)) + " "
+            code_path=pytest.CODEB_PATH)) + " "        # code_path=utils.MMPOSE_CB
         + "--video-path " + os.path.join(pytest.CODEB_PATH, "demo/resources/demo.mp4") + " "
         + "--out-video-root " + os.path.join(pytest.CODEB_PATH, "vis_results"),
         # 2D Top-Down Video Human Pose Tracking Demo with MMTracking
@@ -31,7 +31,7 @@ def get_command():
                        "configs/body/2d_kpt_sview_rgb_img/topdown_heatmap/coco/res50_coco_256x192.py") + " "
         + str(utils.get_cpt(
             file_path="configs/body/2d_kpt_sview_rgb_img/topdown_heatmap/coco/res50_coco_256x192.py",
-            code_path=utils.MMPOSE_CB)) + " "
+            code_path=pytest.CODEB_PATH)) + " "        # code_path=utils.MMPOSE_CB
         + "--video-path " + os.path.join(pytest.CODEB_PATH, "demo/resources/demo.mp4") + " "
         + "--out-video-root " + os.path.join(pytest.CODEB_PATH, "vis_results"),
         # 2D Bottom-Up Video Human Pose Tracking Demo
@@ -40,7 +40,7 @@ def get_command():
                        "configs/body/2d_kpt_sview_rgb_img/associative_embedding/coco/hrnet_w32_coco_512x512.py") + " "
         + str(utils.get_cpt(
             file_path="configs/body/2d_kpt_sview_rgb_img/associative_embedding/coco/hrnet_w32_coco_512x512.py",
-            code_path=utils.MMPOSE_CB)) + " "
+            code_path=pytest.CODEB_PATH)) + " "        # code_path=utils.MMPOSE_CB
         + "--video-path " + os.path.join(pytest.CODEB_PATH, "demo/resources/demo.mp4") + " "
         + "--out-video-root " + os.path.join(pytest.CODEB_PATH, "vis_results"),
     ]
