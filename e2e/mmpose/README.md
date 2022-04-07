@@ -87,3 +87,6 @@ graph LR;
 
 The unit tests from MMPose Codebase are not included in this repo. But it will be automatically tested in CI.
 
+## __4. Usage__
+
+use the command "bash run.h" to run e2e test
