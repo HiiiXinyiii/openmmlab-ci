@@ -2,6 +2,11 @@ ARG PARROTS_VERSION="pat_latest"
 
 FROM registry.sensetime.com/parrots/parrots:${PARROTS_VERSION}
 ARG DEBIAN_FRONTEND=noninteractive
+ARG HTTP_PROXY="http://proxy.sensetime.com:3128"
+
+ENV TZ=Asia/Shanghai
+ENV HTTP_PROXY="$HTTP_PROXY"
+ENV HTTPS_PROXY="$HTTP_PROXY"
 # ARG PYTORCH="1.6.0"
 # ARG TORCHVISION="0.7.0"
 # ARG PYTHON="3.7"
