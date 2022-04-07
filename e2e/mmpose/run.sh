@@ -9,10 +9,10 @@ pip install cup -i https://pypi.douban.com/simple/ &
 pip install mmdet &
 pip install mmtrack &
 
-echo "Finish installing the necessary packages!"
-
 # wait until the preparation is done
 wait
+
+echo "Finish installing the necessary packages!"
 
 # run the tests
 echo "START to run the test cases"
