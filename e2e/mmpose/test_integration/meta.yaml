@@ -1,0 +1,62 @@
+test_demo:
+  # 2d_animal_demo.md
+  2d_animal_demo:
+    checkpoints:
+      - url: https://download.openmmlab.com/mmpose/animal/resnet/res50_macaque_256x192-98f1dd3a_20210407.pth
+      - url: https://download.openmmlab.com/mmpose/animal/resnet/res152_fly_192x192-fcafbd5a_20210407.pth
+      - url: https://download.openmmlab.com/mmdetection/v2.0/faster_rcnn/faster_rcnn_r50_fpn_2x_coco/faster_rcnn_r50_fpn_2x_coco_bbox_mAP-0.384_20200504_210434-a5d8aa15.pth
+      - url: https://download.openmmlab.com/mmpose/animal/resnet/res50_horse10_256x256_split1-3a3dc37e_20210405.pth
+
+  # 2d_face_demo.md
+  2d_face_demo:
+    checkpoints:
+      - url: https://download.openmmlab.com/mmpose/face/hrnetv2/hrnetv2_w18_aflw_256x256-f2bbc62b_20210125.pth
+    videos:
+      - url: https://user-images.githubusercontent.com/87690686/137441355-ec4da09c-3a8f-421b-bee9-b8b26f8c2dd0.mp4
+
+  # 2d_hand_demo.md
+  2d_hand_demo:
+    checkpoints:
+      - url: https://download.openmmlab.com/mmpose/top_down/resnet/res50_onehand10k_256x256-e67998f6_20200813.pth   # mmpose
+      - url: https://download.openmmlab.com/mmpose/mmdet_pretrained/cascade_rcnn_x101_64x4d_fpn_20e_onehand10k-dac19597_20201030.pth    # mmdet
+    videos:
+      - url: https://user-images.githubusercontent.com/87690686/137441388-3ea93d26-5445-4184-829e-bf7011def9e4.mp4
+
+  # 2d_human_pose_demo.md
+  2d_human_pose_demo:
+    checkpoints:
+      - url: https://download.openmmlab.com/mmpose/top_down/hrnet/hrnet_w48_coco_256x192-b9e0b3ab_20200708.pth
+
+  # 2d_pose_tracking_demo.md
+  2d_pose_tracking_demo:
+    checkpoints:
+      - url: https://download.openmmlab.com/mmpose/top_down/resnet/res50_coco_256x192-ec54d7f3_20200709.pth   # mmpose
+      - url: https://download.openmmlab.com/mmdetection/v2.0/faster_rcnn/faster_rcnn_r50_fpn_1x_coco/faster_rcnn_r50_fpn_1x_coco_20200130-047c8118.pth  # mmdet
+      - url: https://download.openmmlab.com/mmpose/bottom_up/hrnet_w32_coco_512x512-bcb8c247_20200816.pth
+
+  # 2d_wholebody_pose_demo.md
+  2d_wholebody_pose_demo:
+    checkpoints:
+      - url: https://download.openmmlab.com/mmpose/top_down/hrnet/hrnet_w48_coco_wholebody_384x288_dark-f5726563_20200918.pth
+      - url: https://download.openmmlab.com/mmdetection/v2.0/faster_rcnn/faster_rcnn_r50_fpn_1x_coco/faster_rcnn_r50_fpn_1x_coco_20200130-047c8118.pth  # mmdet
+    videos:
+      - url: https://user-images.githubusercontent.com/87690686/137440639-fb08603d-9a35-474e-b65f-46b5c06b68d6.mp4
+
+  # 3d_body_mesh_demo.md
+  3d_body_mesh_demo:
+    checkpoints:
+      - url: https://download.openmmlab.com/mmpose/mesh/hmr/hmr_mesh_224x224-c21e8229_20201015.pth
+
+  # 3d_hand_demo.md
+  3d_hand_demo:
+    checkpoints:
+      - url: https://download.openmmlab.com/mmpose/hand3d/internet/res50_intehand3d_all_256x256-b9c1cf4c_20210506.pth
+
+  # 3d_human_pose_demo.md
+  3d_human_pose_demo:
+    checkpoints:
+      - url: https://download.openmmlab.com/mmpose/body3d/simple_baseline/simple3Dbaseline_h36m-f0ad73a4_20210419.pth
+      - url: https://download.openmmlab.com/mmdetection/v2.0/faster_rcnn/faster_rcnn_r50_fpn_1x_coco/faster_rcnn_r50_fpn_1x_coco_20200130-047c8118.pth
+      - url: https://download.openmmlab.com/mmpose/top_down/hrnet/hrnet_w48_coco_256x192-b9e0b3ab_20200708.pth
+      - url: https://download.openmmlab.com/mmpose/body3d/videopose/videopose_h36m_243frames_fullconv_supervised_cpn_ft-88f5abbb_20210527.pth
+
