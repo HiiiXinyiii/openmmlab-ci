@@ -41,7 +41,8 @@ def test_image_demo(cfg_cpt):
 
     file_path = os.path.join(pytest.CODEB_PATH, 'demo/image_demo.py')
     # the cmd to be executed
-    cmd = "python" + " " + file_path + " " + "bird.JPEG" + " " + cfg_cpt
+    cmd = "python" + " " + file_path + " " + \
+          os.path.join(pytest.CODEB_PATH, "bird.JPEG") + " " + cfg_cpt
     # execute the command
     logging.getLogger().info("START to pytest command: " + cmd)
 
