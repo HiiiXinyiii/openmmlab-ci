@@ -26,7 +26,7 @@ def get_dataset():
         s.mount('https://', HTTPAdapter(max_retries=3))
         r = None
         try:
-            r = s.get(url=url, timeout=(3, 10))
+            r = s.get(url=url, timeout=(3, 50))
         except Exception as e:      # except requests.exceptions.RequestException as e:
             logging.getLogger().error(e)
             return e
@@ -84,7 +84,8 @@ def param_cfg_cpt():
         tmp = ""
         for j_part in i_param:
             tmp = tmp + str(j_part) + " "
-        res.append(tmp)
+
+        res.append(tmp.strip())
 
     return res
 
@@ -107,13 +108,14 @@ class TestTest:
         file_path = os.path.join(pytest.CODEB_PATH, 'tools/test.py')
         # the cmd to be executed
         cmd = "python" + " " + file_path + ' ' + cmd_param \
-              + " " + "--cfg-options runner.max_epochs=1 data.workers_per_gpu=1 data.samples_per_gpu=64"
+              + " " + "--out result.json" + " " + "--metrics accuracy" + " " \
+              + "--cfg-options data.workers_per_gpu=1 data.samples_per_gpu=64"
 
         # execute the command
         logging.getLogger().info("START to pytest command: " + cmd)
 
-        res = subprocess.run(cmd.split(' '))
+        res = subprocess.run(cmd.split())
         assert res.returncode == 0, \
-            'Failed to run train.py with parameter [config] set'
+            f'Failed to run train.py with {cmd}'
 
         logging.getLogger().info("FINISH pytest command: " + cmd)
