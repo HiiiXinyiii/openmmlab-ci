@@ -43,7 +43,7 @@ class TestTrain:
         file_path = os.path.join(pytest.CODEB_PATH, 'tools/train.py')
         # the cmd to be executed
         cmd = "python" + " " + file_path + ' ' + cmd_param \
-              + " " + "--cfg-options runner.max_epoch=1 data.workers_per_gpu=0 data.samples_per_gpu=1"
+              + " " + "--cfg-options runner.max_epochs=1 data.workers_per_gpu=0 data.samples_per_gpu=1"
 
         # execute the command
         logging.getLogger().info("START to pytest command: " + cmd)
