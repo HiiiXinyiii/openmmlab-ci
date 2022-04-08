@@ -3,7 +3,7 @@ ARG PARROTS_VERSION="pat_latest"
 FROM registry.sensetime.com/parrots/parrots:${PARROTS_VERSION}
 ARG DEBIAN_FRONTEND=noninteractive
 ARG HTTP_PROXY="http://proxy.sensetime.com:3128"
-
+ARG CONDA_ENV="pat20220303"
 ENV TZ=Asia/Shanghai
 ENV HTTP_PROXY="$HTTP_PROXY"
 ENV HTTPS_PROXY="$HTTP_PROXY"
@@ -40,7 +40,10 @@ COPY . /opt/mmcv
 #     && python -m pip install --no-cache-dir -e .
 # RUN python -m pip install install mmcv-full==${MMCV_VERSION} -f https://download.openmmlab.com/mmcv/dist/cpu/torch${PYTORCH}/index.html
 
-RUN python setup.py build_ext -i
+RUN source ${CONDA_ENV} \
+    && python setup.py build_ext -i \
+    && pip install -r requirements/test.txt \
+    && python .dev_scripts/check_installation.py
 
 # RUN python setup.py check -m -s \
 #     && python -m pip install --no-cache-dir -e . \
