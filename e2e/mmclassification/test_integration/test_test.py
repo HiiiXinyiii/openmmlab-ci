@@ -76,6 +76,9 @@ def param_cfg_cpt():
     # (config and checkpoint)
     params = [(os.path.join(pytest.CODEB_PATH, "configs/resnet/resnet18_8xb16_cifar10.py"),
                utils.get_cpt(file_path="configs/resnet/resnet18_8xb16_cifar10.py",
+                             code_path=pytest.CODEB_PATH)),
+              (os.path.join(pytest.CODEB_PATH, "configs/resnet/resnet50_8xb32_in1k.py"),
+               utils.get_cpt(file_path="configs/resnet/resnet50_8xb32_in1k.py",
                              code_path=pytest.CODEB_PATH))
               ]
 
