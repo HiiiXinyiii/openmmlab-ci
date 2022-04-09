@@ -29,7 +29,7 @@ def test_image_demo_without_displaying(cfg_cpt):
     config = cfg_cpt[0]
     checkpoint = cfg_cpt[1]
     device = "cuda:0"
-    img = os.path.join(pytest.CODEB_PATH, 'demo/image_demo.py')
+    img = os.path.join(pytest.CODEB_PATH, 'demo/demo.JPEG')
     # build the model from a config file and a checkpoint file
     model = init_model(config, checkpoint, device)
     # test a single image
