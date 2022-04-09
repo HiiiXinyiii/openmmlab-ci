@@ -21,15 +21,7 @@ def param_cfg_cpt():
                              code_path=pytest.CODEB_PATH))
               ]
 
-    res = []
-    for i_param in params:
-        tmp = ""
-        for j_part in i_param:
-            tmp = tmp + str(j_part) + " "
-
-        res.append(tmp.strip())
-
-    return res
+    return params
 
 
 @pytest.mark.parametrize('cfg_cpt', param_cfg_cpt())
