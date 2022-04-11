@@ -13,7 +13,7 @@ ENV HTTPS_PROXY="$HTTP_PROXY"
 # ARG MMCV_VERSION="1.4.0"
 ENV MMCV_WITH_OPS=1
 
-RUN yum update && yum install turbojpeg
+RUN yum update -y && yum install -y turbojpeg
 # RUN apt-get update && apt-get install -y --no-install-recommends software-properties-common ffmpeg libturbojpeg ninja-build libprotobuf-dev protobuf-compiler cmake git curl wget
 # RUN add-apt-repository ppa:deadsnakes/ppa
 # # RUN if [ "$PYTHON" != "3.9" ] ; then apt-get install -y python${PYTHON}-dev python3-pip ; else apt-get install -y python${PYTHON} python3-pip python${PYTHON}-dev python${PYTHON}-distutils ; fi
