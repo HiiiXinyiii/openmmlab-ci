@@ -65,7 +65,7 @@ def get_metafiles(code_path):
     """
     Function: get the metafile of all configs from model-index.yml
     """
-    metafile = code_path + "/" + METAFILE
+    metafile = os.path.join(code_path, METAFILE)
     with open(metafile, "r") as f:
         meta = yaml.safe_load(f)
     return meta["Import"]
@@ -78,6 +78,8 @@ def get_cpt(file_path, code_path):
 
     :param file_path: the config file directory
     :param code_path: the code root path
+
+    Note: file_path we have to use '/' rather than '\\', we simply compare string with metayaml which uses '/'
     """
 
     cpt_name = None
