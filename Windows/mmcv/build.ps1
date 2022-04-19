@@ -53,6 +53,7 @@ function CondaInstall() {
     pip install -r requirements/build.txt
     pip install -r requirements/optional.txt
     pip install -r requirements/runtime.txt
+    pip uninstall -y opencv-python
     if ($LASTEXITCODE -ne 0) {
         Write-Host "Pip install requirements.txt failed."
         throw
