@@ -100,6 +100,7 @@ class TestTest:
     """
     Function: Test test.py
 
+
     """
 
     @pytest.mark.parametrize('cmd_param', param_cfg_cpt())
@@ -123,5 +124,6 @@ class TestTest:
         res = subprocess.run(cmd.split())
         assert res.returncode == 0, \
             f'Failed to run test.py with {cmd}'
+
 
         logging.getLogger().info("FINISH pytest command: " + cmd)
