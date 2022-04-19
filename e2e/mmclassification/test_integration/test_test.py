@@ -98,7 +98,7 @@ def param_cfg_cpt():
 
 class TestTest:
     """
-    Function: Test train.py
+    Function: Test test.py
 
     """
 
@@ -122,6 +122,6 @@ class TestTest:
 
         res = subprocess.run(cmd.split())
         assert res.returncode == 0, \
-            f'Failed to run train.py with {cmd}'
+            f'Failed to run test.py with {cmd}'
 
         logging.getLogger().info("FINISH pytest command: " + cmd)
