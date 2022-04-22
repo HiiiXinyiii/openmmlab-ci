@@ -26,7 +26,7 @@ def get_command():
         # Using mmdet for human bounding box detection
         "python " + os.path.join(pytest.CODEB_PATH, "demo/top_down_img_demo_with_mmdet.py") + " "
         + os.path.join(pytest.CODEB_PATH, "demo/mmdetection_cfg/faster_rcnn_r50_fpn_coco.py") + " "
-        + str(resources['test_demo']['2d_wholebody_pose_demo']['checkpoints'][1]['url']) + " "
+        + str(resources['test_demo']['2d_wholebody_pose_demo']['checkpoints'][0]['url']) + " "
         + os.path.join(pytest.CODEB_PATH,
                        "configs/wholebody/2d_kpt_sview_rgb_img/topdown_heatmap/coco-wholebody/hrnet_w48_coco_wholebody_384x288_dark_plus.py") + " "
         + str(utils.get_cpt(
@@ -38,7 +38,7 @@ def get_command():
         # 2D Human Whole-Body Pose Top-Down Video Demo
         "python " + os.path.join(pytest.CODEB_PATH, "demo/top_down_video_demo_with_mmdet.py") + " "
         + os.path.join(pytest.CODEB_PATH, "demo/mmdetection_cfg/faster_rcnn_r50_fpn_coco.py") + " "
-        + str(resources['test_demo']['2d_wholebody_pose_demo']['checkpoints'][1]['url']) + " "
+        + str(resources['test_demo']['2d_wholebody_pose_demo']['checkpoints'][0]['url']) + " "
         + os.path.join(pytest.CODEB_PATH,
                        "configs/wholebody/2d_kpt_sview_rgb_img/topdown_heatmap/coco-wholebody/hrnet_w48_coco_wholebody_384x288_dark_plus.py") + " "
         + str(utils.get_cpt(

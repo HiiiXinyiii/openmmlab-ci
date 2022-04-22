@@ -7,10 +7,6 @@ from ....utils import utils
 
 
 def get_command():
-    # get meta.yaml which includes the checkpoints resources
-    with open("test_integration/meta.yaml", 'r') as f:
-        resources = yaml.safe_load(f)
-
     command = [
         # *********************************** 3d_hand_demo.md ***********************************
         "python " + os.path.join(pytest.CODEB_PATH, "demo/interhand3d_img_demo.py") + " "

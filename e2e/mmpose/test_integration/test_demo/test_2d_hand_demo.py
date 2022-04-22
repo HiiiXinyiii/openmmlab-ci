@@ -16,7 +16,7 @@ def get_command():
         # 2D Hand Video Demo
         "python " + os.path.join(pytest.CODEB_PATH, "demo/top_down_video_demo_with_mmdet.py") + " "
         + os.path.join(pytest.CODEB_PATH, "demo/mmdetection_cfg/cascade_rcnn_x101_64x4d_fpn_1class.py") + " "
-        + str(resources['test_demo']['2d_hand_demo']['checkpoints'][1]['url']) + " "
+        + str(resources['test_demo']['2d_hand_demo']['checkpoints'][0]['url']) + " "
         + os.path.join(pytest.CODEB_PATH,
                        "configs/hand/2d_kpt_sview_rgb_img/topdown_heatmap/onehand10k/res50_onehand10k_256x256.py") + " "
         + str(utils.get_cpt(

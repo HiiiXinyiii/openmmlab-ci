@@ -30,7 +30,7 @@ def get_command():
         # 3D Human Pose Two-stage Estimation Video Demo
         "python " + os.path.join(pytest.CODEB_PATH, "demo/body3d_two_stage_video_demo.py") + " "
         + os.path.join(pytest.CODEB_PATH, "demo/mmdetection_cfg/faster_rcnn_r50_fpn_coco.py") + " "
-        + str(resources['test_demo']['3d_human_pose_demo']['checkpoints'][1]['url']) + " "
+        + str(resources['test_demo']['3d_human_pose_demo']['checkpoints'][0]['url']) + " "
         + os.path.join(pytest.CODEB_PATH,
                        "configs/body/2d_kpt_sview_rgb_img/topdown_heatmap/coco/hrnet_w48_coco_256x192.py") + " "
         + str(utils.get_cpt(
