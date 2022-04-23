@@ -6,8 +6,11 @@
     + COCO
         - Prepare data
             + extract some image items (default 120 images) out of the complete coco JSON files including train, validation and test, to form our own smaller dataset. 
-            + download the images according to the JSON file
-
+                - Copy the "info", "License" field
+                - Choose randomly or according to the specified index the items in the field of "images" 
+                - Copy the items in the annotation field who annotates the images of the chosen ones
+                - Save the above field into the new json file
+                - Download the images of the new json file with multiprocess (There is a url in the "images" field respectively)
 
 - Testing Methods
     + We test the file "***.py" by calling the module with certain pairs of parameters.
