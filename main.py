@@ -128,7 +128,7 @@ class Job:
             name=self.job_name,
             namespace=self.namespace,
             body=client.V1DeleteOptions(
-                propagation_policy='Background',  # 'Foreground' means Block waiting for the delete of related resourse
+                propagation_policy='Background',  # 'Foreground': Block waiting for the deletion of related resourse
                 grace_period_seconds=5))
         logger.info("Job deleted. status='%s'" % str(api_response.status))
 
