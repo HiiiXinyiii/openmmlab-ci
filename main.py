@@ -122,17 +122,13 @@ class Job:
                 logger.error(traceback.format_exc())
                 pass
 
+    # delete the resources when the job is done
     def delete(self):
-        logger.info("***************************************************")
-        logger.info("***************************************************")
-        logger.info("***************************************************")
-        logger.info("***************************************************")
-        logger.info("***************************************************")
         api_response = self.batch_v1.delete_namespaced_job(
             name=self.job_name,
             namespace=self.namespace,
             body=client.V1DeleteOptions(
-                propagation_policy='Foreground',
+                propagation_policy='Background',  # 'Foreground' means Block waiting for the delete of related resourse
                 grace_period_seconds=5))
         logger.info("Job deleted. status='%s'" % str(api_response.status))
 
@@ -189,5 +185,5 @@ if __name__ == '__main__':
         sys.exit(0)
     # The job fails
     else:
-        job.delete()
+        job.delete()    # release the pod resources when the job is done
         sys.exit(1)
