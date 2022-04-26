@@ -123,6 +123,11 @@ class Job:
                 pass
 
     def delete(self):
+        logger.info("***************************************************")
+        logger.info("***************************************************")
+        logger.info("***************************************************")
+        logger.info("***************************************************")
+        logger.info("***************************************************")
         api_response = self.batch_v1.delete_namespaced_job(
             name=self.job_name,
             namespace=self.namespace,
@@ -182,6 +187,7 @@ if __name__ == '__main__':
     if status[1]:
         job.delete()     # release the pod resources when the job is done
         sys.exit(0)
+    # The job fails
     else:
         job.delete()
         sys.exit(1)
