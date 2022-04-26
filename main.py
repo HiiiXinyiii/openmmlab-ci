@@ -70,7 +70,11 @@ class Job:
             return None
         return pod_name
 
+    # get the status of the job
     def get_status(self):
+        """
+        Function: get the status of the job
+        """
         job_completed = False
         api_response = self.batch_v1.read_namespaced_job_status(
             name=self.job_name,
@@ -174,7 +178,10 @@ if __name__ == '__main__':
     while job.get_status()[0] is False:
         sleep(1)
     status = job.get_status()
+    # The job is done successfully (status[1] = api_response.status.succeeded)
     if status[1]:
+        job.delete()     # release the pod resources when the job is done
         sys.exit(0)
     else:
+        job.delete()
         sys.exit(1)
